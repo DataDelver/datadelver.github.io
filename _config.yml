@@ -45,7 +45,7 @@ remote_theme: "jeffreytse/jekyll-theme-yat"
 copyright: "Copyright (c) 2023-{currentYear} {author}"
 
 description: >- # this means to ignore newlines until "baseurl:"
-  Exploring the labyrinth of Data Science, Machine Learing, and MLOps one delve at a time.
+  Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://www.datadelver.com" # the base hostname & protocol for your site, e.g. https://example.com
@@ -119,7 +119,7 @@ sitemap: true
 # greatgold: #f2cb05
 # greenblue: #389092
 #
-# brand_color: orangered
+brand_color: greenblue
 #
 # Custom color as below:
 # brand_color: "#1a8e42"
@@ -163,7 +163,7 @@ night_mode: "manual"
 defaults:
   home:
     heading: "DataDelver"
-    subheading: "Exploring the labyrinth of Data Science, Machine Learing, and MLOps one delve at a time."
+    subheading: "Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time."
     # banner: "assets/images/banners/home.jpeg"
 
 # Banner default settings
