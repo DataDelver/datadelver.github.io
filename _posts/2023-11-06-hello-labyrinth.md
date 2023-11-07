@@ -6,7 +6,6 @@ categories: Meta
 top: 1
 banner: 
     image: "/assets/images/banners/delve0.png"
-    height: 1024px
 ---
 
 > It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic agaist this!", "All of this data is bad!".
