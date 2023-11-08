@@ -169,7 +169,7 @@ night_mode: "manual"
 # Banner default settings
 # These banner settings are for global banner default, but you can also
 # config it by the front matter for one specific post
-banner:
+# banner:
 #   video: null             # Video banner source
 #   loop: true              # Video loop
 #   volume: 0               # Video volume (100% is 1.0)
@@ -230,12 +230,12 @@ banner:
 # See https://utteranc.es/
 # set follow_site_theme true to make utterances' theme follow the site's
 
-# utterances:
-#   repo: "owner/repo"
-#   issue_term: "title"
-#   label: "utterances comment"
+utterances:
+  repo: "DataDelver/datadelver.github.io"
+  issue_term: "title"
+  label: "utterances comment"
 #   theme: "github-light"
-#   follow_site_theme: true
+  follow_site_theme: true
 
 # Build settings
 # highlighter: none
