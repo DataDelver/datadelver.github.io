@@ -8,7 +8,7 @@ banner:
     image: "/assets/images/banners/delve0.png"
 ---
 
-> It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic agaist this!", "All of this data is bad!".
+> It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
 
 ## Entering the Labyrinth
 
@@ -16,11 +16,11 @@ Welcome to my blog data delver! I'm so glad you found your way here!  If you're 
 
 ### Purpose of this Blog
 
-The purpose of this blog is to document my own "delves" into this labyrinth and any resulting knowldege I have unearthed. I plan to focus on a range of topcis, from general software engineering to data science, machine learning engineering, and MLOps, pulling from a range of experiences across my own career as a machine learning engineer and data scientist with a focus on practical, grounded application in industry following best practice.
+The purpose of this blog is to document my own "delves" into this labyrinth and any resulting knowledge I have unearthed. I plan to focus on a range of topics, from general software engineering to data science, machine learning engineering, and MLOps, pulling from a range of experiences across my own career as a machine learning engineer and data scientist with a focus on practical, grounded application in industry following best practice.
 
 ### Who am I?
 
-My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experince. I love exploring all things machine learning with a particular emphasis on practical application and "making things real". When I'm not writing code, I enjoy swing dancing, reading, and playing video games.
+My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience. I love exploring all things machine learning with a particular emphasis on practical application and "making things real". When I'm not writing code, I enjoy swing dancing, reading, and playing video games.
 
 ## Delve Data
 * Welcome to my blog!
