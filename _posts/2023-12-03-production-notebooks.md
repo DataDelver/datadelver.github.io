@@ -37,6 +37,14 @@ That's it. Note: I have seen models used for a one-time report, or even *ad-hoc*
 
 ## Why Notebooks in Production are so Appealing
 
+The initial idea of using a notebook directly in production seems very appealing at first. The data scientist has already spent a considerable about of effort getting their code working, why can't we just use that? Wouldn't that create a much faster path for our data scientists to test new ideas and iterate faster?
+
+This argument has become so compelling that whole ecosystems of tools have sprung up around the idea of serving models directly from notebooks. Notably [Databricks](https://www.databricks.com/blog/2022/06/25/software-engineering-best-practices-with-databricks-notebooks.html) will espouse running notebooks within their platform as software engineering best practice and a preferred mechanism for deploying ML pipelines.
+
+However, time and again throughout my career I have seen engineering organizations adopt this paradigm of productionizing notebooks only to regret it and go through expensive refactors later. Why is this the case?
+
+The answer is that fundamentally notebooks are an *exploratory* and *prototyping* tool. This is what they were originally designed for, and no amount of tooling, or a surrounding platform, can substitute them for the principles of good software engineering.
+
 ## Dangers, Explicit and Covert
 
 ## The Path Forward
