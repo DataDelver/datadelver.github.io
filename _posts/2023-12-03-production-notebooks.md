@@ -47,6 +47,8 @@ The answer is that fundamentally notebooks are an *exploratory* and *prototyping
 
 ## Dangers, Explicit and Covert
 
+Notebooks, from their inception, were designed as a tool to enable the exploration and visualization of code in a highly collaborative way. At this objective they excel! There is a reason why notebooks are the preferred mechanism for sharing ideas on portals such as [Kaggle](https://www.kaggle.com/). They are much more readable that a verbose script, and are excellent for producing demos of a concept and visualizing results in real time. I often rely on notebooks when producing reports or giving a presentation of model outputs to stakeholders. The dangers on notebooks are manifested not when they are used in this context for which they were envisioned, arguable no other tool does it better, but when the are used in an environment for which they were never intended, production engineering.
+
 ## The Path Forward
 
 ## Additional Reading
