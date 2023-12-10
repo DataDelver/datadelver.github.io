@@ -5,7 +5,7 @@ author: Chase
 categories: [ML Engineering]
 tags: Opinion
 banner: 
-    image: "/assets/images/banners/delve0.png"
+    image: "/assets/images/banners/delve1.png"
 ---
 
 > "Coming together is a beginning. Keeping together is progress. Working together is success." - Henry Ford
@@ -114,7 +114,9 @@ At a leader within an organization you are hopefully thinking "That sounds terri
 
 As mentioned previously, the solution to stamping out this unhealthy dynamic is more awareness of job roles between data scientists and machine learning engineers. So scientists and engineers should talk to each other more, problem solved! Right? Well to some extent yes, certainly having more discussions between scientists and engineers is a good start, but if just talking to each other more would solve the problem, why does this seems to be such a pervasive issue when you do a cursory search online. The answer, perhaps unsurprisingly after reading this delve is simple: Notebooks.
 
+In order for scientists and engineers to truly collaborate during the model development and deployment process they must speak a common language and work with a common tool set. If they do not there will always be the metaphorical "fence". This means **data scientists should strive to work in the same codebases as engineers** and **engineers should do everything they can to empower the data scientists to operate in their engineering codebases**. While the idea of giving a data scientist access to your code may at first make an engineer's skin crawl, the benefits over the long term will be numerous. Once data scientists exit the exploratory phase of their projects (notebooks) they can work hand and hand with machine learning engineers to productionize their models. This gives the scientists a sense of empowerment and control "I'm not just waiting for the engineers to hurry up and finish" and also gives them visibility into the engineering process, which should naturally lead to them producing code that is more easily productionizable. The engineering teams feel less pressure to deliver code, because now they are receiving help from the scientist who originally wrote it, and ultimately higher quality code is produced and released faster, driving the innovation cycle.
 
+To conclude, the goal was never about putting notebooks in production, that's a distraction, it's to empower data scientist and include them in the responsibility of delivering functional software that delivers value to the business. Shifting away from notebooks for anything but exploration and experimentation is the most efficient mechanism to achieve this in my opinion.
 
 ## Additional Reading
 * [Don't put data science notebooks into production](https://martinfowler.com/articles/productize-data-sci-notebooks.html) - David Johnston provides an excellent perspective on why notebooks in production create several hurdles for engineering teams to solve
@@ -122,5 +124,7 @@ As mentioned previously, the solution to stamping out this unhealthy dynamic is 
 * [Jupyter Notebooks in production......NO! JUST NO!](https://www.reddit.com/r/datascience/comments/ezh50g/jupyter_notebooks_in_productionno_just_no/) - Reddit thread on `r/datascience` where several individuals offer their opinions both for and against using notebooks in production
 
 ## Delve Data
-* Welcome to my blog!
-* Stay tuned for more posts on data science, machine learning, and MLOps!
+* Notebooks are an excellent tool for data exploration and model experimentation
+* Notebooks have several engineering drawbacks when used as a mechanism for deploying models to production
+* Using notebooks in production can lead to distrust and resentment between data science and engineering teams
+* Having data scientists shift away from notebooks once experimentation has concluded and into the same codebases and tooling as the engineering teams is the best way to reduce friction and increase delivery frequency of model pipelines 
