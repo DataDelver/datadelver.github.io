@@ -8,7 +8,7 @@ banner:
     image: "/assets/images/banners/delve0.png"
 ---
 
-> ""
+> "Coming together is a beginning. Keeping together is progress. Working together is success." - Henry Ford
 
 ## When Good Intentions go Awry 
 
@@ -102,7 +102,19 @@ In the above scenario, one data scientist had trouble reproducing the work of an
 
 ### The Hidden Cost of Notebooks
 
+While from an engineering perspective the issues described above may seem self apparent, and are often brought up in various engineering blogs. There is another hidden cost to using notebooks in production that I think is far more nefarious and severe, but is much less discussed: It creates friction and even a level of resentment between engineers and data scientists.
+
+Fundamentally the issue is that **engineers need to better understand the day to day work of data scientists, and data scientists need to better understand the day to day work of engineers**. They must work together to productionize a model after all. So often I see an "over the wall" dynamic develop at companies between data scientists and machine learning engineers. The data scientists produce some highly experimental code and toss it "over the wall" for the engineers to deploy. The engineers look at the code and realize that in order to deploy it they must completely re-write it from scratch in order for it to be maintainable. The data scientists become frustrated and dis-trustful of engineers because it takes so long to deploy their models. The engineers become frustrated and resentful of data scientists because they feel pressure to deliver as fast as possible and feel stymied by the code they receive from the data scientists.
+
+This dynamic can lead to a very non-functional organization with an "us vs them" mentality between scientists and engineers, which ultimately stifles innovation and affects the bottom line and causes talent attrition as individuals look for greener pastures!
+
+At a leader within an organization you are hopefully thinking "That sounds terrible! How do I prevent that from happening? What is the path forward?". Harmonious collaboration between scientists and engineers is possible, and when it is done well, I have seen it lead to tremendous unlocking of value. However, it requires re-thinking the relationship between data scientists and machine learning engineers.
+
 ## The Path Forward
+
+As mentioned previously, the solution to stamping out this unhealthy dynamic is more awareness of job roles between data scientists and machine learning engineers. So scientists and engineers should talk to each other more, problem solved! Right? Well to some extent yes, certainly having more discussions between scientists and engineers is a good start, but if just talking to each other more would solve the problem, why does this seems to be such a pervasive issue when you do a cursory search online. The answer, perhaps unsurprisingly after reading this delve is simple: Notebooks.
+
+
 
 ## Additional Reading
 * [Don't put data science notebooks into production](https://martinfowler.com/articles/productize-data-sci-notebooks.html) - David Johnston provides an excellent perspective on why notebooks in production create several hurdles for engineering teams to solve
