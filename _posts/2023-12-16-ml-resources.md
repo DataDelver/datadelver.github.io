@@ -1,11 +1,14 @@
 ---
 layout: post
-title:  "Delve 1: My Recommended Resources!"
+title:  "Delve 2: My Recommended ML Resources!"
 author: Chase
-categories: [ML Engineering] [Data Science] [Software Engineering]
+categories: 
+    - ML Engineering 
+    - Data Science
+    - Software Engineering
 tags: Resource
-banner: 
-    image: "/assets/images/banners/delve1.png"
+# banner: 
+#     image: "/assets/images/banners/delve2.png"
 ---
 
 > "If I have seen further than others, it is by standing upon the shoulders of giants." - Isaac Newton
