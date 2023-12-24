@@ -1,11 +1,10 @@
 ---
 layout: post
-title:  "Delve 2: My Recommended Resources!"
+title:  "Delve 2: My Recommended Machine Learning & Data Science Resources!"
 author: Chase
 categories: 
     - ML Engineering 
     - Data Science
-    - Software Engineering
 tags: Resource
 banner: 
     image: "/assets/images/banners/delve2.png"
@@ -13,7 +12,7 @@ banner:
 
 > "If I have seen further than others, it is by standing upon the shoulders of giants." - Isaac Newton
 
-## My Go To List of Machine Learning Resources
+## My Go To List of Machine Learning & Data Science Resources
 
 I have often been asked what resources I recommend for those looking to get into machine learning, whether you want to be a data scientist or ml engineer. In this delve I'll cover my go to list of resources I continue to rely on whenever I need to refresh my own knowledge or delve deeper into a specific subject matter.
 
@@ -68,6 +67,6 @@ Finally here are some of the subreddits I follow to stay up to date:
 That's my list of resources, I hope some of them are useful to you all on your own delves! Thank you to all of the people that contribute to them, I know they've certainly made my own journey much easier! With this delve I close out 2023, I look forward to many more delves in 2024!
 
 ## Delve Data
-* There are lots of great resources out there for learning about machine learning and MLOps, may of which are free.
+* There are lots of great resources out there for learning about machine learning, data science, and MLOps, many of which are free.
 * I hope this blog becomes such a resource for you!
 * Stay tuned for more delves in 2024!
