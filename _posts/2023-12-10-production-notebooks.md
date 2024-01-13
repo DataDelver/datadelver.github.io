@@ -2,7 +2,8 @@
 layout: post
 title:  "Delve 1: The (Hidden) Danger of Notebooks in Production"
 author: Chase
-categories: [ML Engineering]
+categories: 
+    - ML Engineering
 tags: Opinion
 banner: 
     image: "/assets/images/banners/delve1.png"
