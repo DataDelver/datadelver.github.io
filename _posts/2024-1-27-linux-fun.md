@@ -13,11 +13,11 @@ banner:
 
 ## *nix the Workhorse of MLOps
 
-Welcome to 2024 data delvers! I hope you had a wonderful holiday season! As we enter into the new year I'd like wanted to take some time to talk about things that make my day to day as a developer fun! As I hope to get into in future delves, for many reasons I prefer a *nix (Unix or Linux) based environment for doing development. My preferred method of achieving this in recent years has been the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about). It is super easy to set up on any modern windows machine, integrates very nicely with my IDE of choice, [Visual Studio Code](https://code.visualstudio.com/docs/remote/wsl), and avoids many of the dangers associated with partitioning your hard drive to dual-boot your machine with multiple operating systems. As a bonus, when working with cloud providers you are almost always deploying your model on a Linux server, so mirroring that same environment on your dev machine makes everything that much smoother.
+Welcome to 2024 data delvers! I hope you had a wonderful holiday season! As we enter into the new year I'd like wanted to take some time to talk about things that make my day to day as a developer fun! As I hope to get into in future delves, for many reasons I prefer a *nix (Unix or Linux) based environment for doing development. Many people use MacOS as their *nix environment of choice, however my preferred method of achieving this in recent years has been the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about). It is super easy to set up on any modern windows machine, integrates very nicely with my IDE of choice, [Visual Studio Code](https://code.visualstudio.com/docs/remote/wsl), and avoids many of the dangers associated with partitioning your hard drive to dual-boot your machine with multiple operating systems. As a bonus, when working with cloud providers you are almost always deploying your model on a Linux server, so mirroring that same environment on your dev machine makes everything that much smoother.
 
 Importantly for our delve today, WSL provides a full bash shell to interact with the OS. Over the years many a Linux developer has created fun and useful utilities to use within a shell, some of which I'd like to share with you today!
 
-# Text-Based Utilities
+## Text-Based Utilities
 
 The following utilities work by printing text out to your terminal.
 
@@ -121,11 +121,9 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.133.1-microsoft-standard-WSL2 x86_
  * Support:        https://ubuntu.com/advantage
 ```
 
-## Audio Visualizers
+## Audio Visualizer Utilities
 
 Another fun category of shell utilities are audio visualizers. I find these really fun to use when playing a music playlist and wanted to have some kind of display for the music. The two utilities I use for this are:
-
-**Note:** These won't work within WSL when playing audio on Windows, but works great if you install a browser like [Chrome](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#install-google-chrome-for-linux) into WSL and play audio through that.
 
 * [cava](https://github.com/karlstav/cava) - Very easy to install and set up, runs on pretty much anything, and does exactly what it says it does, providing a configurable audio spectrum visualizer.
     
@@ -134,3 +132,33 @@ Another fun category of shell utilities are audio visualizers. I find these real
 * [cli-visualizer](https://github.com/dpayne/cli-visualizer) - This one takes a bit more effort to set up but provides many fancy audio visualizations such as lorenz visualizations.
 
     ![lorenz](https://camo.githubusercontent.com/29cab0caad4d26157feab6e5910d360125c4a5f382bece4140346c8b84054a81/68747470733a2f2f692e696d6775722e636f6d2f39514a6a6e44492e676966)
+
+**Note:** These won't work within WSL when playing audio on Windows, but work great if you install a browser like [Chrome](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#install-google-chrome-for-linux) into WSL and play audio through that.
+
+## System Information Utilities
+
+Finally, there's a few utilities I like to use to print info about by system. These are:
+
+* [neofetch](https://github.com/dylanaraps/neofetch) - Prints out basic system information in a nice format.
+
+    ![neofetch](https://camo.githubusercontent.com/4a677ea31b3a1cbd57216c302e8e29c2a6a6a512ebed8a25491eaf8200065ad9/68747470733a2f2f692e696d6775722e636f6d2f6c55726b51424e2e706e67)
+
+* [hwinfo](https://github.com/openSUSE/hwinfo) - Allows you to query for very specific system information.
+
+    ```
+    $ hwinfo --short --disk --cdrom
+    disk:
+        /dev/sda             WDC WD10EARS-00Y
+        /dev/sdb             ST2000DM001-1CH1
+    cdrom:
+        /dev/sr0             PLDS DVD+-RW DS-8ABSH
+    ```
+
+## Conclusion
+
+Hopefully you find some of these utilities fun and make working in your *nix environment of choice that much better! As we enter the new year stay tuned for more delves into more practical utilities for MLOps workflows!
+
+## Delve Data
+* A *nix (MacOS or Linux) environment is the preferred development environment for MLOps.
+* Windows Subsystem for Linux (WSL) is a good option for getting this type of environment set up on a Windows machine.
+* There are a number of fun shell utilities that you can install in these environments!
