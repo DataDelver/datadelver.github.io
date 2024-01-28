@@ -122,3 +122,15 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.133.1-microsoft-standard-WSL2 x86_
 ```
 
 ## Audio Visualizers
+
+Another fun category of shell utilities are audio visualizers. I find these really fun to use when playing a music playlist and wanted to have some kind of display for the music. The two utilities I use for this are:
+
+**Note:** These won't work within WSL when playing audio on Windows, but works great if you install a browser like [Chrome](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#install-google-chrome-for-linux) into WSL and play audio through that.
+
+* [cava](https://github.com/karlstav/cava) - Very easy to install and set up, runs on pretty much anything, and does exactly what it says it does, providing a configurable audio spectrum visualizer.
+    
+    ![spectrum](https://github.com/karlstav/cava/raw/master/example_files/cava.gif)
+
+* [cli-visualizer](https://github.com/dpayne/cli-visualizer) - This one takes a bit more effort to set up but provides many fancy audio visualizations such as lorenz visualizations.
+
+    ![lorenz](https://camo.githubusercontent.com/29cab0caad4d26157feab6e5910d360125c4a5f382bece4140346c8b84054a81/68747470733a2f2f692e696d6775722e636f6d2f39514a6a6e44492e676966)
