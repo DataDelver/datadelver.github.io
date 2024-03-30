@@ -79,7 +79,7 @@ While notebooks do support running cells individually and inspecting their outpu
 
 The standard iPython notebook file format is JSON with source code, markdown, images, and cell outputs all stored in a single file. This makes it incredibly hard to handle merge conflicts or even viewing diffs of notebooks in git. For example, has this notebook file changed simply because it's been run and its cell outputs are now visible or has their been a functional change to the code? In order to solve this an engineer must dive through a pile of nested JSON to try and find out, yuck!
 
-This is such an issue that whole suites of tools have been developed such as [Jupyterlabl-Git](https://github.com/jupyterlab/jupyterlab-git) to try and solve it, but they all required stepping outside the bounds of plain old git in favor of adding additional complexity and tooling to your version control stack.
+This is such an issue that whole suites of tools have been developed such as [Jupyterlab-Git](https://github.com/jupyterlab/jupyterlab-git) to try and solve it, but they all required stepping outside the bounds of plain old git in favor of adding additional complexity and tooling to your version control stack.
 
 This speaks to the nature of what notebooks where intended to be used for, they were never meant to hold production code, otherwise their file format would have been designed differently to work with industry standard version control tools such as git. As is a recurring them, if we want to use notebooks in this manner for which they were not intended we must introduce additional complexity to make notebooks "fit" within best practices.
 
