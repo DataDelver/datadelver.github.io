@@ -66,3 +66,14 @@ Data engineers spend much of their time communicating with other engineering tea
 Tools and technologies in this specialization include many of the same technologies data scientists use, python and spark, but the emphasis is on moving and transforming data rather than building ML models. In addition, job schedulers such as [Airflow](https://airflow.apache.org/) are leverage to manage ETL jobs. 
 
 The data engineer's biggest strength is a deep technical understanding of how to process very large quantities of data at scale quickly and efficiently. 
+
+## Traditional Enterprise Big Data Role Organization
+
+Taking these roles, Enterprises in my experience typically arrange them in the follow way:
+
+*Figure 1: A Typical Enterprise Big Data Role Organization*
+![Traditional Enterprise Role Organization](/assets/images/posts/devle4/TraditionalRoleOrganization.png)
+
+The centralized component is the data lake. Data engineers focus on hydrating the lake with the data required by the data scientists and analysts. The scientists and analysts in turn leverage the data to produce their work artifacts. This setup is extremely effective at producing models and reports that can be used to inform business decisions and deliver business value however there is a catch: What if instead of a data scientist or analyst communicating their results to a business stakeholder, we want the stakeholder to interact with the output of their work product directly, or even have an external customer interact with it? 
+
+It is at this point this organization breaks down
