@@ -63,7 +63,7 @@ If you noticed, the last two roles depend on having all of the data available in
 
 Data engineers spend much of their time communicating with other engineering teams setting up ingestion processes for their data. Their primary function is to create ETL (Extract Transform Load) jobs to move and cleanse data between different systems. Often these jobs are run on a recurring cadence and take the form of python scripts, either within notebooks or plain files. 
 
-Tools and technologies in this specialization include many of the same technologies data scientists use, python and spark, but the emphasis is on moving and transforming data rather than building ML models. In addition, job schedulers such as [Airflow](https://airflow.apache.org/) are leverage to manage ETL jobs. 
+Tools and technologies in this specialization include many of the same technologies data scientists use, python and spark, but the emphasis is on moving and transforming data rather than building ML models. In addition, job schedulers such as [Airflow](https://airflow.apache.org/) are leveraged to manage ETL jobs. 
 
 The data engineer's biggest strength is a deep technical understanding of how to process very large quantities of data at scale quickly and efficiently. 
 
@@ -72,8 +72,41 @@ The data engineer's biggest strength is a deep technical understanding of how to
 Taking these roles, Enterprises in my experience typically arrange them in the follow way:
 
 *Figure 1: A Typical Enterprise Big Data Role Organization*
-![Traditional Enterprise Role Organization](/assets/images/posts/devle4/TraditionalRoleOrganization.png)
+![Traditional Enterprise Role Organization](/assets/images/figures/delve4/TraditionalRoleArchitecture.png)
 
 The centralized component is the data lake. Data engineers focus on hydrating the lake with the data required by the data scientists and analysts. The scientists and analysts in turn leverage the data to produce their work artifacts. This setup is extremely effective at producing models and reports that can be used to inform business decisions and deliver business value however there is a catch: What if instead of a data scientist or analyst communicating their results to a business stakeholder, we want the stakeholder to interact with the output of their work product directly, or even have an external customer interact with it? 
 
-It is at this point this organization breaks down
+It is at this point this organization breaks down. How do we take an ML model and turn it into something that our front end applications can consume? What happens if we need the data in real time rather than in a batch ETL job that runs every 30 mins? How can we scale to have every one of our customers interacting with this model at the same time?
+
+For those of you that have read some of my previous delves, this is what I call the "Production Problem". Suddenly an ad-hoc report is no longer enough, the model needs the support of engineers to deliver business value.
+
+## The Production Challenge
+
+The challenge at this point is that none of the roles in the traditional big data setup have the skills or experience to solve this dilemma. Where I've seen organization struggle is when they ask the data engineers, scientists, and analysts to solve this problem themselves. What ends up happening is that the individuals in these roles fall back on the technologies they are familiar with. Data engineers try to make ETL jobs run faster, data scientists string together notebooks in "pipelines" to generate the features the models need, analysts aren't really sure where they fit into a production system at all.
+
+As a consequence, the resultant system usually turns out to be very expensive and inefficient to run if it works at all, the individuals that built it are frustrated being asked to deliver functionality they are not equipped to maintain, and the business value delivered suffers greatly as a result.
+
+What is needed is a new type of engineer, one which specializes in the "last mile" of getting ML models into a production environment.
+
+## Enter the Machine Learning Engineer
+
+The machine learning engineer, sometimes called an MLOps engineer, is the missing piece of this puzzle. Unlike data engineers, they are more familiar with conventional software engineering, and capable of turning analytic insights and models into services that can be consumed by the larger enterprise as well as having the ML knowledge and experience to interface with data scientists and understand the inference requirements of their models.
+
+In one of my favorite articles on this subject, [Data engineers vs. data scientists](https://www.oreilly.com/radar/data-engineers-vs-data-scientists/), author Jesse Anderson presents a juxtaposition between the skill sets of data scientists and engineers in the following graphic:
+
+*Figure 2: Diagram showing the core competencies of data scientists and data engineers and their overlapping skills. Image Credit: Jessie Anderson*
+![Traditional Enterprise Role Organization](/assets/images/figures/delve4/BDIFigure1.png)
+
+He then presents the machine learning engineer as the middle ground between these two extremes:
+
+*Figure 3: Diagram showing where a machine learning engineer fits with a data scientist and data engineer.  Image Credit: Jessie Anderson*
+![Traditional Enterprise Role Organization](/assets/images/figures/delve4/BDIFigure2.png)
+
+While I adore this visualization and agree with many of the points raised in the article, particularly about how to correctly staff resources surrounding ML (Business leaders: Don't hire a bunch of data scientists and expect "magic" to happen without engineering support!), when I think about my own career as someone who calls themselves a machine learning engineer this narrative of the data engineer who cross trains on data science side to end up as a hybrid between the two roles doesn't particularly resonate with me. While it is tantalizingly elegant to place the machine learning engineer between a data scientist and data engineer I have found that the types of problems I tend to work on and solve day to day have much more in common with conventional software engineering, than those I typically see data engineers work on, with some additional data science complexity added on top.
+
+If I adopt the same overlapping skill diagram I find the following to be a much better representation of the type of work I do:
+
+*Figure 3: Diagram showing where a machine learning engineer fits with a data scientist and software engineer.*
+![Traditional Enterprise Role Organization](/assets/images/figures/delve4/MLEngineerSkills.png)
+
+## A Software Engineer with Data Science Know-How
