@@ -6,7 +6,7 @@ categories:
     - ML Engineering
 tags: Opinion
 banner: 
-    image: "/assets/images/banners/delve3.png"
+    image: "/assets/images/banners/delve4.png"
 ---
 
 > "Life is like riding a bicycle. To keep your balance, you must keep moving." -Albert Einstein
