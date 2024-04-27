@@ -25,7 +25,7 @@ Hello data delvers! I hope your year is off to a good start! For this delve I wa
 
 Ok, the conversations aren't usually that contrived and with the explosion in popularity of ChatGPT more and more people have heard the term machine learning than ever before but you understand the point. Those of you that have read the [about section](/about.html) of this blog will notice that (at the time of this writing) I call myself a *machine learning engineer*, but what does that profession actually entail? How does it differ from other professions in the data science and machine learning space such as *data engineer* or *data scientist*? Is it any different from a *software engineer*?  
 
-In this delve, I intend to answer these questions and more by first providing a brief overview of the traditional roles in the "Big Data" space, introducing the emerging role of the machine learning engineer, and finally providing some commentary on how I think professions of this specialization can most effectively be utilized within an enterprise.
+In this delve, I intend to answer these questions and more by first providing a brief overview of the traditional roles in the "Big Data" space, introducing the emerging role of the machine learning engineer, and finally providing some commentary on how I think this specialization can most effectively be utilized within an enterprise.
 
 ## Traditional Roles in Big Data
 
@@ -53,13 +53,13 @@ Deemed the "Sexist Job of the 21st Century" by the Harvard Business Review, *dat
 
 Data scientists often spend much of their time in the same environments as data analysts, the data lake/warehouse. However, where the analysts focus on producing visualizations of the data, data scientists often focus on cleaning and organizing data to feed into their models. There's an often quoted statistic that "80% of a data scientists time is spent cleaning data". Due to the sensitivity of many modeling techniques to poor quality data, I can attest that this is indeed unfortunately often true. Once a cleaned collection of data has been produced, often called a *training set*, the data scientist will then use various machine learning techniques to attempt to build a model on that data which can be used to solve the business problem. Importantly, once a model has been trained, the data scientist will then evaluate that model with various statistical methods to ensure it is reasonably robust.
 
-Tools and technologies data scientists use are programming languages such as R and Python along with the machine learning packages contained within them, big data processing frameworks such as Spark, and computation environments such as Jupyter Notebooks (although if you've read my [previous delve](/ml%20engineering/2023/12/10/production-notebooks.html), you may understand why this isn't the best idea).
+Tools and technologies data scientists use are programming languages such as R and Python along with the machine learning packages contained within them, big data processing frameworks such as Spark, and computation environments such as Jupyter notebooks (although if you've read my [previous delve](/ml%20engineering/2023/12/10/production-notebooks.html), you may understand why this isn't the best idea).
 
-The biggest strength of the data scientist is their advance knowledge of machine learning that enables them to solve complex problems.
+The biggest strength of the data scientist is their advanced knowledge of machine learning that enables them to solve complex problems.
 
 ### Data Engineer
 
-If you noticed, the last two roles depend on having all of the data available in a centralized location, often referred to as a data lake or warehouse. (Technically a lake and warehouse are not the same things but the distinction is unimportant for this discussion.) It is the job of the *data engineer* to set up the pipelines to feed data into this centralized location.
+If you noticed, the last two roles depend on having all of the data available in a centralized location, often referred to as a data lake or warehouse. (Technically a lake and warehouse are not the same thing but the distinction is unimportant for this discussion.) It is the job of the *data engineer* to set up the pipelines to feed data into this centralized location.
 
 Data engineers spend much of their time communicating with other engineering teams setting up ingestion processes for their data. Their primary function is to create ETL (Extract Transform Load) jobs to move and cleanse data between different systems. Often these jobs are run on a recurring cadence and take the form of python scripts, either within notebooks or plain files. 
 
@@ -131,7 +131,7 @@ If you think to yourself, "Hey that sounds like something a typical microservice
 
 The Machine Learning Engineer is the specialist in this sphere. They have the software engineering chops to build scalable and sustainable microservice architectures to deploy ML models as capabilities other engineering teams can leverage. They also have the Data Science know-how to interface with the data scientists, understand their requirements, and help develop the model training code into an engineering artifact. 
 
-Another way to look at the difference between the an ML Engineer and a Data Engineer is what their work product is and who consumes it:
+Another way to look at the difference between an ML Engineer and a Data Engineer is what their work product is and who consumes it:
 
  * A *Data Engineer* produces *ETL Pipelines* the output of which is consumed by *Data Scientists and Data Analysts*
  * A *ML Engineer* produces *Models as a Service* the output of which is consumed by *Other Engineering Teams*
@@ -140,7 +140,7 @@ Another way to look at the difference between the an ML Engineer and a Data Engi
 
 ![Traditional Enterprise Role Organization](/assets/images/figures/delve4/RoleOutputs.png)
 
-As you can see illustrated above, based on the who the end consumer of their work product is, it makes sense that data engineers and ml engineers would have different skill sets and strengths. The real value-add of the engineer is the ability to take the output of the data scientist (models) and turn it into a *product*, that is a service that *other* engineering teams can consume. Many ML engineers also have the data science know-how to build ML models themselves, which presents an opportunity for a shift within the industry.
+As you can see illustrated above, based on the who the end consumer of their work product is, it makes sense that data engineers and ml engineers would have different skill sets and strengths. The real value-add of the ML engineer is the ability to take the output of the data scientist (models) and turn it into a *product*, that is a service that *other* engineering teams can consume. Many ML engineers also have the data science know-how to build ML models themselves, which presents an opportunity for a shift within the industry.
 
 ## The Future of ML Engineers and "MLOps"
 
