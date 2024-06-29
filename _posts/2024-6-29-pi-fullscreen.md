@@ -9,7 +9,7 @@ banner:
     image: "/assets/images/banners/delve5.png"
 ---
 
-> "Life is like riding a bicycle. To keep your balance, you must keep moving." -Albert Einstein
+> "All life is problem solving." -Karl Popper
 
 ## Full Screen Applications on the Raspberry Pi, Why so Hard?
 
@@ -31,7 +31,7 @@ toggle_fullscreen = <super> <shift> KEY_F
 ```
 Excitedly, I modified my configuration file to add the shortcuts for the above actions and rebooted my Pi. Upon rebooting, I opened a terminal and executed the shortcut and "Tada!", my application was now full screen again!
 
-Why this functionality was removed in the new distribution by default I can't say, it also seems to be conspicuously undocumented in the official sources, but I'm glad to have it back. It's my hope that this delve will help other stuck with the same issue overcome it faster than I did!
+Why this functionality was removed in the new distribution by default I can't say, it also seems to be conspicuously undocumented in the official sources, but I'm glad to have it back. It's my hope that this delve will help others stuck with the same issue overcome it faster than I did!
 
 That's all I have for now, expect some more ML engineering delves soon!
 
