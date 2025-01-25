@@ -50,6 +50,20 @@ Open up a new Terminal in VSCode a do a quick Python Hello World to verify every
 
 One thing to note here, there are plenty of good resources out there to learn Python, https://www.learnpython.org/ is unironically a good one, so for this series I'm going to assume you have some basic Python knowledge already but I'll point out specifics that I find valuable. 
 
+## Moving in the Digging Equipment
+
+If you've ever worked with Python one thing you probably know already is that managing dependencies is hard! Trying to make sure you have all the right versions of your dependencies installed and they don't conflict with each other has been a recurring challenge in the Python ecosystem. Up until recently, there hasn't be a good tool that manages all of this well. Previously I used a amalgamation of [pyenv](https://github.com/pyenv/pyenv), [pipenv](https://pipenv.pypa.io/en/latest/), and some custom setup scripts to manage it all. While this worked it was finicky and brittle. Some other tools like [poetry](https://python-poetry.org/) came along but I never really found it compelling enough to switch. That all changed with [uv](https://docs.astral.sh/uv/). Simply put, this is the best tool out there, and it does it all: managing different versions of Python on your machine, blazing fast dependency resolution, and distribution packaging to boot. It has easily replaced 5-6 tools in my workflow. Needless to say, I will be using uv for all my projects going forward.
+
+While we are on the same topic of Python tools, the same company that maintains uv also has another tool [Ruff](https://docs.astral.sh/ruff/) which is great for auto-formatting your python code so that it meets your stylistic standards. This again replaced several tools in my existing workflow and available as a [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff). Not a hard requirement but I highly encourage using it as well. Not having to argue with other engineers on the correct way to style code and just having a tool do it for you has saved me countless hours.
+
+Finally, you should hopefully already have [git](https://git-scm.com/) installed on your machine. You are version controlling your code aren't you?
+
+## Start Digging
+
+Ok! That should be enough setup for now, let's get coding! Open up a shell and type `uv init modern-ml-microservices` this will create a new starter project directory for us to work with. You can then open up this directory in VSCode by typing `code modern-ml-microservices` and we're up and running!
+
+![Python Hello World](/assets/images/figures/delve6/InitialProjectSetup.png)
+
 ## Delve Data
 
 * The Alt+F11 full screen shortcut was removed in the Debian 12 "Bookworm" distribution of the Raspberry Pi OS
