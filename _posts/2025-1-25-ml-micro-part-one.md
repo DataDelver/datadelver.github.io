@@ -36,7 +36,7 @@ Hopefully by now I have piqued your interest in this approach, which means we no
 
 As you are probably already aware [Python](https://www.python.org/) has become the lingua franca of the Data Science and Machine Learning world. According to the [2024 Stack Overflow Developer Survey](https://survey.stackoverflow.co/2024/technology#most-popular-technologies), a whopping 51% of respondents stated they work with Python. Compare this to [R](https://www.r-project.org/) the other main language used for modeling at only 4.3% and it should be clear Python is currently enjoying a resounding popularity.
 
-While it is possible to develop Python natively on a Windows operating system, it has not been in my experience very pleasant, with most developers preferring either a macOS or Linux environment to develop in. However, if you are on a Windows machine before you go dual-booting your hard drive to install Linux you should definitely consider the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install), which allows to run a full Linux kernel on your Windows machine. This is actually my preferred development setup and the one I will be using for this series.
+While it is possible to develop Python natively on a Windows operating system, it has not been in my experience very pleasant, with most developers preferring either a macOS or Linux environment to develop in. However, if you are on a Windows machine before you go dual-booting your hard drive to install Linux you should definitely consider the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install), which allows you to run a full Linux kernel on your Windows machine. This is actually my preferred development setup and the one I will be using for this series.
 
 With the operating system out of the way, the next major choice to make is which Integrated Development Environment (IDE) to choose. For a long time my answer here would have been [PyCharm](https://www.jetbrains.com/pycharm/) as it was the most feature rich and complete. However, in recent years [Visual Studio Code](https://code.visualstudio.com/) (VSCode) has taken the development world by storm, rising to 73.6% of respondents using it in the same [2024 Stack Overflow Developer Survey](https://survey.stackoverflow.co/2024/technology#1-integrated-development-environment). It also has the added benefit of being completely free to use. Given this, I will be using VSCode as my IDE, though most of what we cover should be IDE agnostic.
 
@@ -54,7 +54,7 @@ One thing to note here, there are plenty of good resources out there to learn Py
 
 If you've ever worked with Python one thing you probably know already is that managing dependencies is hard! Trying to make sure you have all the right versions of your dependencies installed and they don't conflict with each other has been a recurring challenge in the Python ecosystem. Up until recently, there hasn't be a good tool that manages all of this well. Previously I used a amalgamation of [pyenv](https://github.com/pyenv/pyenv), [pipenv](https://pipenv.pypa.io/en/latest/), and some custom setup scripts to manage it all. While this worked it was finicky and brittle. Some other tools like [poetry](https://python-poetry.org/) came along but I never really found it compelling enough to switch. That all changed with [uv](https://docs.astral.sh/uv/). Simply put, this is the best tool out there, and it does it all: managing different versions of Python on your machine, blazing fast dependency resolution, and distribution packaging to boot. It has easily replaced 5-6 tools in my workflow. Needless to say, I will be using uv for all my projects going forward.
 
-While we are on the same topic of Python tools, the same company that maintains uv also has another tool [Ruff](https://docs.astral.sh/ruff/) which is great for auto-formatting your python code so that it meets your stylistic standards. This again replaced several tools in my existing workflow and available as a [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff). Not a hard requirement but I highly encourage using it as well. Not having to argue with other engineers on the correct way to style code and just having a tool do it for you has saved me countless hours.
+While we are on the same topic of Python tools, the same company that maintains uv also has another tool [Ruff](https://docs.astral.sh/ruff/) which is great for auto-formatting your python code so that it meets your stylistic standards. This again replaced several tools in my existing workflow and it is available as a [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff). Not a hard requirement but I highly encourage using it as well. Not having to argue with other engineers on the correct way to style code and just having a tool do it for you has saved me countless headaches.
 
 Finally, you should hopefully already have [git](https://git-scm.com/) installed on your machine. You are version controlling your code aren't you?
 
@@ -64,7 +64,7 @@ Ok! That should be enough setup for now, let's get coding! Open up a shell and t
 
 ![Python Hello World](/assets/images/figures/delve6/InitialProjectSetup.png)
 
-To start let's take a look at the `pyproject.toml` file. As defined by [PEP 621](https://peps.python.org/pep-0621/), this file is the modern standard for storing our project configuration. It includes things like what version of python our project is compatible with and what its dependencies are. When starting out there's a few things I like to change like adding your own project description and configuring any tool options:
+To start let's take a look at the `pyproject.toml` file. As defined by [PEP 621](https://peps.python.org/pep-0621/), this file is the modern standard for storing our project configuration. It includes things like what version of python our project is compatible with and what its dependencies are. When starting out there are a few things I like to change like adding your own project description and configuring any tool options:
 
 ```toml
 [project]
@@ -113,7 +113,7 @@ uv has just simplified a great number of steps for us it has:
 
 1. Created a virtual environment for our project with the project's specified version of Python (3.13 in our case) so that all the dependencies of your project stay separate from your system's Python dependencies
 2. Installed the specified dependency into the newly created virtual environment
-3. Added the dependency to the projects `pyproject.toml` file
+3. Added the dependency to the project's `pyproject.toml` file
 4. Created a `uv.lock` file to hold all of that dependency's dependencies.
 
 All that to say, uv is great and that used to take several different commands with several different tools to pull off.
@@ -170,6 +170,50 @@ def search(title: str) -> str:
 ```
 
 Unfortunately, there is no official format for docstrings, with several competing styles out there. I myself prefer the style defined in the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#381-docstrings), though there are other styles you can use if you wish. The important thing is to pick one and be consistent about it. VSCode conveniently has an [extension](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring) that will autogenerate this format of docstring for you, as well as several other popular formats.
+
+You'll also want to update your `pyproject.toml` to let Ruff know which format you are using:
+
+```toml
+[project]
+name = "modern-ml-microservices"
+version = "0.1.0"
+description = "Example repository of how to build a modern microservice architecture to support machine learning applications."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1"
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+```
+
+We can put this function in our `main.py` file and load up the python REPL to try it out:
+
+If we search for an artwork that is not currently in the collection we should get our "No results found." message.
+
+```
+>>> from main import search
+>>> search('Mona Lisa')
+'No results found.'
+```
+
+And if we search for a work that is currently in the collection we should get the url to that work back:
+
+```
+>>> search('The Death of Socrates')
+'https://images.metmuseum.org/CRDImages/cl/original/DP102929.jpg'
+```
+
+Success!
+
+Our code works but how can we expose it so that other parts of our application (services) can use it?
 
 ## Delve Data
 
