@@ -215,6 +215,56 @@ Success!
 
 Our code works but how can we expose it so that other parts of our application (services) can use it?
 
+## Digging Deeper
+
+The answer is something we've already discussed: Microservices! We can turn our code into a simple API that other services can call to use this functionality. So how do we create an API from our code?
+
+There are a few different libraries we could use [Flask](https://flask.palletsprojects.com/en/stable/) is the tried and true library that is still widely used today. However, (you may be picking up on a theme at this point), [FastAPI](https://fastapi.tiangolo.com/) is a newer, and well *faster*, library that comes with some quality of life features that I quite like so I'll be using it with this project. Turing our function into an API is as simple as adding 3 lines of code to our `main.py` file:
+
+```python
+from typing import Optional
+from fastapi import FastAPI
+import httpx
+
+app = FastAPI()
+
+
+@app.get('/api/search')
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+    search_request: httpx.Response = httpx.get(
+        'https://collectionapi.metmuseum.org/public/collection/v1/search',
+        params={'q': title, 'title': True, 'hasImages': True},
+    )
+
+    object_ids: Optional[list[int]] = search_request.json().get('objectIDs')
+
+    if object_ids:
+        object_request = httpx.get(f'https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_ids[0]}')
+        primary_image_url = object_request.json().get('primaryImage')
+        return primary_image_url
+    else:
+        return 'No results found.'
+
+```
+
+What we've done here is told FastAPI that our function will take in a GET request on the route `/api/search`.
+
+We can test this out ourselves, run your application and then head to http://127.0.0.1:8000/docs in your web browser, you should see something like the below screen:
+
+![FastAPI Home](/assets/images/figures/delve6/FastAPIHome.png)
+
+This is an application known as [Swagger](https://swagger.io/) and comes pre-installed with FastAPI and provides a nice interface for testing your API. Go head and hit the "Try it out!" button and execute some searches and view the results.
+
+You now have an API. Notice a few other things here as well. Remember those type hints we discussed before? FastAPI is using them to do validation on your requests. It's correctly marking that the title should be a `string` and the response of a successful request should also be a `string`. It also creates a 422 response if something other than a `string` is passed as input. That a lot of benefit for a few type hints!
+
 ## Delve Data
 
 * The Alt+F11 full screen shortcut was removed in the Debian 12 "Bookworm" distribution of the Raspberry Pi OS
