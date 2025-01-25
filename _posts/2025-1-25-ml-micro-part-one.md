@@ -64,6 +64,113 @@ Ok! That should be enough setup for now, let's get coding! Open up a shell and t
 
 ![Python Hello World](/assets/images/figures/delve6/InitialProjectSetup.png)
 
+To start let's take a look at the `pyproject.toml` file. As defined by [PEP 621](https://peps.python.org/pep-0621/), this file is the modern standard for storing our project configuration. It includes things like what version of python our project is compatible with and what its dependencies are. When starting out there's a few things I like to change like adding your own project description and configuring any tool options:
+
+```toml
+[project]
+name = "modern-ml-microservices"
+version = "0.1.0"
+description = "Example repository of how to build a modern microservice architecture to support machine learning applications."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+```
+
+One of the things I like about Ruff is it has several [configuration options](https://docs.astral.sh/ruff/configuration/) that you can adjust to suit your preferences. For example, I like to use single quotes `'` for denoting strings in Python and have a max line length of 120 characters. You can tweak these settings to your desire but they should be consistent across your projects and teams. 
+
+Next we can work with our Python code directly. We can start by deleting `hello.py`, we won't be using it. We it comes to managing your source code there are a few different philosophies, however I subscribe to the idea that source code should be kept in a separate directory for project files. This becomes important as the project base grows and the complexity of the code increases. To that end create a directory called `src` and a file called `main.py` within it. This we become the main script for our application, but what will our application do?
+
+## APIs and Microservices, the Core Tools in your Belt
+
+It used to be in years past, all the features of a application were created in one code base and the application was deployed as a single unit (the so called Monolith architecture). As applications began to grow and their complexities increased the [Microservice Architecture Pattern](https://microservices.io/patterns/microservices.html) developed to support these more complex applications. The core concept of the architecture are small, independently deployable services each with ownership of a single business capability. The services communicate with each other over the network using APIs and together form the whole application. As we'll come to see, this architecture pattern lends itself very well to the complexities of an ML powered application.
+
+## Start Building
+
+For this initial application we are going to be using the free public API provided by the [Metropolitan Museum of Art](https://metmuseum.github.io/). For the initial task we'd like to search the museum's collection for an artwork and if found, get a link to an image of the artwork.
+
+We can see that this should be possible in the API, we can search the collection using the `/public/collection/v1/search` route. We can also get the details of a specific object in the collection, including it's primary image, using the `/public/collection/v1/objects/[objectID]` route. However, we can't get all the information we need from a single call. Therefore the business logic we need to create is:
+
+```
+GIVEN: The name of an artwork
+
+WHEN: That artwork is found in the collection
+
+THEN: Get the url to the primary image of the artwork and return it
+```
+**Side Note:** This Given, When, Then formulation comes from [Behavior Driven Development](https://en.wikipedia.org/wiki/Behavior-driven_development) something we'll be touching on in the future.
+
+Sounds simple enough, so then the question becomes how do we make these API calls in our Python code? Again, if you had asked me this question previously I would have said the [Requests](https://docs.python-requests.org/en/latest/index.html) library was your go to standard for doing this. However recently, the [HTTPX](https://www.python-httpx.org/) library has been gaining steam as a faster, more efficient replacement and is the one I will be using.
+
+Firstly, we need to add this library as a dependency of our project. Fortunately uv makes this easy for use, simply run `uv add httpx` in your console and make sure to accept the pop up from VSCode to use the created virtual environment for the project.
+
+uv has just simplified a great number of steps for us it has:
+
+1. Created a virtual environment for our project with the project's specified version of Python (3.13 in our case) so that all the dependencies of your project stay separate from your system's Python dependencies
+2. Installed the specified dependency into the newly created virtual environment
+3. Added the dependency to the projects `pyproject.toml` file
+4. Created a `uv.lock` file to hold all of that dependency's dependencies.
+
+All that to say, uv is great and that used to take several different commands with several different tools to pull off.
+
+Now that we have HTTPX installed is pretty easy to write a quick function to handle the desired business logic:
+
+```python
+from typing import Optional
+import httpx
+
+def search(title: str) -> str:
+    search_request: httpx.Response = httpx.get(
+        'https://collectionapi.metmuseum.org/public/collection/v1/search',
+        params={'q': title, 'title': True, 'hasImages': True},
+    )
+
+    object_ids: Optional[list[int]] = search_request.json().get('objectIDs')
+
+    if object_ids:
+        object_request = httpx.get(f'https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_ids[0]}')
+        primary_image_url = object_request.json().get('primaryImage')
+        return primary_image_url
+    else:
+        return 'No results found.'
+```
+
+Some things to note about this code, [PEP 484](https://peps.python.org/pep-0484/) defined type hints for Python, use them! They make your code much more readable and easier to understand. In 2025 there is no excuse not to type hint your Python code! Understanding that this function should take in a string and return one is good to know!
+
+On the subject of documentation for your code, there is one other thing that this function is missing and that is a docstring. Defined by [PEP 257] docstrings are Python's way of documenting functions for the developers that come after you (and yourself!). Again, use them! Adding a docstring to this function would look something like this:
+
+```python
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+    search_request: httpx.Response = httpx.get(
+        'https://collectionapi.metmuseum.org/public/collection/v1/search',
+        params={'q': title, 'title': True, 'hasImages': True},
+    )
+
+    object_ids: Optional[list[int]] = search_request.json().get('objectIDs')
+
+    if object_ids:
+        object_request = httpx.get(f'https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_ids[0]}')
+        primary_image_url = object_request.json().get('primaryImage')
+        return primary_image_url
+    else:
+        return 'No results found.'
+```
+
+Unfortunately, there is no official format for docstrings, with several competing styles out there. I myself prefer the style defined in the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#381-docstrings), though there are other styles you can use if you wish. The important thing is to pick one and be consistent about it. VSCode conveniently has an [extension](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring) that will autogenerate this format of docstring for you, as well as several other popular formats.
+
 ## Delve Data
 
 * The Alt+F11 full screen shortcut was removed in the Debian 12 "Bookworm" distribution of the Raspberry Pi OS
