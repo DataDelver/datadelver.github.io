@@ -9,7 +9,7 @@ tags:
     - Tutorial
     - Modern ML Microservices
 banner: 
-    image: "/assets/images/banners/delve5.png"
+    image: "/assets/images/banners/delve6.png"
 ---
 
 > "The beginning is the most important part of the work." -Plato
