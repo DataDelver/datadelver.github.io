@@ -3,9 +3,11 @@ layout: post
 title:  "Delve 6: Let's Build a Modern ML Microservice Application - Part 1"
 author: Chase
 categories:
-    - ML Engineering
     - Software Engineering
-tags: Series Tutorial
+tags: 
+    - Series 
+    - Tutorial
+    - Modern ML Microservices
 banner: 
     image: "/assets/images/banners/delve5.png"
 ---
@@ -217,9 +219,9 @@ Our code works but how can we expose it so that other parts of our application (
 
 ## Digging Deeper
 
-The answer is something we've already discussed: Microservices! We can turn our code into a simple API that other services can call to use this functionality. So how do we create an API from our code?
+The answer is something we've already discussed: Microservices! We can turn our code into a simple service with an API that other services can call to use this functionality. So how do we add an API to our code?
 
-There are a few different libraries we could use [Flask](https://flask.palletsprojects.com/en/stable/) is the tried and true library that is still widely used today. However, (you may be picking up on a theme at this point), [FastAPI](https://fastapi.tiangolo.com/) is a newer, and well *faster*, library that comes with some quality of life features that I quite like so I'll be using it with this project. Turing our function into an API is as simple as adding 3 lines of code to our `main.py` file:
+There are a few different libraries we could use [Flask](https://flask.palletsprojects.com/en/stable/) is the tried and true library that is still widely used today. However, (you may be picking up on a theme at this point), [FastAPI](https://fastapi.tiangolo.com/) is a newer, and well *faster*, library that comes with some quality of life features that I quite like so I'll be using it with this project. Turning our function into an API is as simple as adding 3 lines of code to our `main.py` file:
 
 ```python
 from typing import Optional
@@ -263,7 +265,13 @@ We can test this out ourselves, run your application and then head to http://127
 
 This is an application known as [Swagger](https://swagger.io/) and comes pre-installed with FastAPI and provides a nice interface for testing your API. Go head and hit the "Try it out!" button and execute some searches and view the results.
 
-You now have an API. Notice a few other things here as well. Remember those type hints we discussed before? FastAPI is using them to do validation on your requests. It's correctly marking that the title should be a `string` and the response of a successful request should also be a `string`. It also creates a 422 response if something other than a `string` is passed as input. That a lot of benefit for a few type hints!
+You now have an API! Notice a few other things here as well. Remember those type hints we discussed before? FastAPI is using them to do validation on your requests. It's correctly marking that the title should be a `string` and the response of a successful request should also be a `string`. It also creates a 422 response if something other than a `string` is passed as input. That's a lot of benefit for a few type hints!
+
+## Reaching a Respite
+
+ Before we wrap, make sure you commit your code and push it to your own remote Git repository for safe keeping (I tend to use [GitHub](https://github.com/) though there are plenty of other suitable options as well). In this delve we've covered a lot of ground already! We've set up our main development environment, installed our necessary tooling, built a simple application, and turned it into an API. Believe it or not, the core flow of this application of taking an input from an API call, sending it to a different API to get some data, and finally sending it to a third API to get the final result and sending it back after some postprocessing is the same exact flow we will be using with our ML powered applications as well. Though that exploration will come in a future delve.
+
+ That concludes our delve for today, be on the lookout for a part two where we will harden our codebase and reorganize it into something that is more scalable and enterprise ready! A full copy of the code for today can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-one). Looking forward to seeing you all at the next one!
 
 ## Delve Data
 
