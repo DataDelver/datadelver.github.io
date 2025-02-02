@@ -317,8 +317,19 @@ You should now have a fully working client for the Met API, start up a shell and
 >>> from provider.met_provider import MetProvider
 >>> p = MetProvider('https://collectionapi.metmuseum.org')
 >>> p.get_departments()
-'{"departments":[{"department_id":1,"display_name":"American Decorative Arts"},{"department_id":3,"display_name":"Ancient Near Eastern Art"},{"department_id":4,"display_name":"Arms and Armor"},{"department_id":5,"display_name":"Arts of Africa, Oceania, and the Americas"},{"department_id":6,"display_name":"Asian Art"},{"department_id":7,"display_name":"The Cloisters"},{"department_id":8,"display_name":"The Costume Institute"},{"department_id":9,"display_name":"Drawings and Prints"},{"department_id":10,"display_name":"Egyptian Art"},{"department_id":11,"display_name":"European Paintings"},{"department_id":12,"display_name":"European Sculpture and Decorative Arts"},{"department_id":13,"display_name":"Greek and Roman Art"},{"department_id":14,"display_name":"Islamic Art"},{"department_id":15,"display_name":"The Robert Lehman Collection"},{"department_id":16,"display_name":"The Libraries"},{"department_id":17,"display_name":"Medieval Art"},{"department_id":18,"display_name":"Musical Instruments"},{"department_id":19,"display_name":"Photographs"},{"department_id":21,"display_name":"Modern Art"}]}'
+'{"departments":[{"departmentId":1,"displayName":"American Decorative Arts"},{"departmentId":3,"displayName":"Ancient Near Eastern Art"},{"departmentId":4,"displayName":"Arms and Armor"},{"departmentId":5,"displayName":"Arts of Africa, Oceania, and the Americas"},{"departmentId":6,"displayName":"Asian Art"},{"departmentId":7,"displayName":"The Cloisters"},{"departmentId":8,"displayName":"The Costume Institute"},{"departmentId":9,"displayName":"Drawings and Prints"},{"departmentId":10,"displayName":"Egyptian Art"},{"departmentId":11,"displayName":"European Paintings"},{"departmentId":12,"displayName":"European Sculpture and Decorative Arts"},{"departmentId":13,"displayName":"Greek and Roman Art"},{"departmentId":14,"displayName":"Islamic Art"},{"departmentId":15,"displayName":"The Robert Lehman Collection"},{"departmentId":16,"displayName":"The Libraries"},{"departmentId":17,"displayName":"Medieval Art"},{"departmentId":18,"displayName":"Musical Instruments"},{"departmentId":19,"displayName":"Photographs"},{"departmentId":21,"displayName":"Modern Art"}]}'
 ```
+
+This works but it's a bit tricky to work with the output of our client. Notice how all the methods of our client have a return type of `dict`. This means when using the client we have no grantees of the structure of the data we are getting back from our client, and once more, when we do get it back it's difficult to deal with. For example, to get the display name of the first department we'd need some code that looks something like this:
+
+```python
+r = p.get_departments()
+first_department = r['departments'][0]['displayName']
+```
+
+Yuck! While you can type hint more complex return types, `dict[str, list[dict[str, Union[str, int]]]]` would be the type hint for that return for example, this gets pretty ugly and does not help us with the second issue of accessing our data once it's returned. We still have to worry about handling cases where data is missing, or perhaps a different data type than expected, and we just have to type out long Python statements to access nested data structures. Luckily, there is another component of the Data Layer that can help us here: Data Models.
+
+### The Data Model Component
 
 ## Delve Data
 
