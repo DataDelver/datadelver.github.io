@@ -331,6 +331,60 @@ Yuck! While you can type hint more complex return types, `dict[str, list[dict[st
 
 ### The Data Model Component
 
+When discussing how to represent data within an application, you will often hear the concept of [Data Models](https://en.wikipedia.org/wiki/Data_model) brought up. These are not models in the machine learning sense, but simply a representation or model of data within the system (hence the name). You can think of these models as simple classes with no methods, only attributes representing the data of the system. These data models are then passed between the layers of the application to facilitate the flow of data.
+
+For example, in the above departments example I could have a `Department` class to represent a single department, every department has a `department_id` and a `display_name` so we can model that like so:
+
+```python
+class Department:
+    department_id: int
+    display_name: str
+```
+
+We could then have another class that models the response from the API `DepartmentResponse` which in this case is a list of `Department` objects.
+
+```python
+class DepartmentResponse:
+    departments: list[Department]
+```
+
+This helps us better organize the data we are getting back but does not help us at all when it comes to validating that the data is following the schema that we expect. Fortunately, FastAPI ships with another library that can help us here: [Pydantic](https://docs.pydantic.dev/latest/) which will bring our data models to the next level.
+
+Pydantic allows use to create data models like above but will also **validate** that the data provided matches the schema of the type hints of our models. I can't understate how big of a deal this is. This brings what is one of the core strengths of statically typed languages like Java or C# over to Python. Let's try it out!
+
+Before we jump into code I also want to talk about naming again. Just like with clients, I like to group my data models based on what they are for. If the data model represents something *external* to the system, like the schema of an API or database I like to call those an instance of those models a **View**, as it represents a view into an external component. If that data model is instead used to pass data *between* components of the application I like to call an instance of those models a **Data Transfer Object** or DTO, as it is transferring data between components. If that seems a little fuzzy right now don't worry, we will see examples of both in this part!
+
+To start lets create a new directory under `src` called `shared` and make it a module by adding an empty `__init__.py` file. This is where I like to keep things like data models that are potentially shared between layers of the application. Within this folder create another one called `view` and similarly make it a module. This is where we will store our view models. Inside here create a Python file called `met_view.py`, you can probably guess what will go here: our view models for the Met API!
+
+You should now have a `src` directory structure that looks like this:
+
+```
+src
+├── main.py
+├── provider
+│   ├── __init__.py
+│   └── met_provider.py
+└── shared
+    ├── __init__.py
+    └── view
+        ├── __init__.py
+        └── met_view.py
+```
+
+Inside of our `met_view.py` we can create our data models as above, however they will inherit from a special parent class, `BaseModel` from pydantic.
+
+```python
+from pydantic import BaseModel
+
+class Department(BaseModel):
+    department_id: int
+    display_name: str
+
+
+class DepartmentResponse(BaseModel):
+    departments: list[Department]
+```
+
 ## Delve Data
 
 * The use of ML does not preclude us from benefiting from software engineering best practices, on the contrary, we should embrace them
