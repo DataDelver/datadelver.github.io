@@ -65,7 +65,260 @@ With debugging all set up we are now ready to discuss refactoring our code!
 
 ## Refactor, Really?
 
+When we left off in part one we had created a single file application with a `main.py` that looked something like this:
 
+```python
+from typing import Optional
+from fastapi import FastAPI
+import httpx
+
+app = FastAPI()
+
+
+@app.get('/api/search')
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+    search_request: httpx.Response = httpx.get(
+        'https://collectionapi.metmuseum.org/public/collection/v1/search',
+        params={'q': title, 'title': True, 'hasImages': True},
+    )
+
+    object_ids: Optional[list[int]] = search_request.json().get('objectIDs')
+
+    if object_ids:
+        object_request = httpx.get(f'https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_ids[0]}')
+        primary_image_url = object_request.json().get('primaryImage')
+        return primary_image_url
+    else:
+        return 'No results found.'
+```
+
+Now, while there isn't a lot going on in this file right now, I'd argue from an application scalability perspective it's already too complicated. It may seem outlandish to argue that functionally 8 lines of code is too complicated but I'm not arguing from a number of *lines* perspective but from a *scope* perspective. Right now this single file contains all of our business logic, that's fine while our business logic is simple, but what happens as we want to add more complexity and processing steps to our application? The way our application is structured right now we just keep adding more complexity to this single file. This is analogous to a the workflow I've seen many times with data scientists creating every larger *uber* Jupyter notebooks that contain all of their logic. In the same way maintaining a notebook with hundreds of lines of code is unmaintainable, so too is maintaining a single file application. In this delve I intend to refactor this application into something that is more maintainable and scalable without increasing the complexity of the application so we can focus purely on the refactor. To that end we can break our application into 3 main pieces of functionality:
+
+1. We make API requests to external systems to provide *data* to our application
+2. We encapsulate some *business logic* (In this case call the search API to retrieve an Object, then call the Objects API to retrieve an image) within our service
+3. We provide an *interface* (API) to allow external customers to interact with our application
+
+Intuitively as you may suspect, these are the three layers we will break our application into. If any of you are familiar with the concept of [Multitier Architecture](https://en.wikipedia.org/wiki/Multitier_architecture), this is very similar to the three tier architecture often discussed in works of that nature, but zoomed into the scope of our service itself. Which brings us to:
+
+## The Data Layer
+
+The Data Layer, as the name implies, is all about *data*. Functionally, that means we have two objectives we must complete at this layer:
+
+* Be able to request data from other components (both internal to the application like a database or external to the application like other services)
+* Be able to represent the requested data within the application
+
+Starting with the first objective, looking at the [Metropolitan Museum of Art API](https://metmuseum.github.io/) that we are leveraging we can see there are four different operations we can perform:
+
+* **Objects** - A listing of all valid Object IDs available for access.
+* **Object** - A record for an object, containing all open access data about that object, including its image (if the image is available under Open Access)
+* **Departments** - A listing of all valid departments, with their department ID and the department display name
+* **Search** - A listing of all Object IDs for objects that contain the search query within the object’s data
+
+Though currently we are only using the **Object** and **Search** operations. In order to represent these operations without our code, we can lean into our OOP principles and create a client *object* with four *methods*, one for each operation.
+
+Before we do though I'd like to talk about naming. Generally, I like to split my client objects into two categories. Those that simply *provide* data from other systems, and those that let me *modify* data in other systems. I like to call a client in the first case a **Provider**, as it simply provides data to the application. In the second case I like to call the client a **Repository**, as it allows us to modify a repository of data (typically a database).
+
+In our case our API does not allow modifying the collection of artwork (I hope), and so it falls firmly into the provider use case.
+
+### Creating our Provider Component
+
+To that end we are now ready to refactor our code, we can create a new directory under our `src` folder called `provider`. This folder will hold all the provider clients for our application. Within that folder we need to create two files, first a empty file called `__init__.py`, this will mark this directory as a Python module and thus allow Python files within it to be imported to other parts of the application, and a file called `met_provider.py` this file as you can guess will hold our client object.
+
+We should now have a directory structure under `src` that looks like this:
+
+```
+src
+├── main.py
+└── provider
+    ├── __init__.py
+    └── met_provider.py
+```
+
+Inside `met_provider.py` we can create a simple class to hold our API operations:
+
+```python
+class MetProvider:
+    """A client for the Metropolitan Museum of Art API.
+
+    Args:
+        base_url: The base URL of the API.
+    """
+
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+```
+
+Now you might be asking, why not just hard code the URL to the API? We know what it is. The reason I prefer to make the url to the API a class attribute is to allow us to easily point to different deployments of the API with the same client. This often comes up if you follow a Dev/QA/Prod style of deployment. You might have your production API at `https://www.my-api.com` and a QA version of the API hosted at `https://www.my-api-qa.com` and a dev version at `https://www.my-api-dev.com`. Having the API url be a parameter allows us to connect to all three urls without needing to change the code of the client.
+
+Next we can add a method for the **Objects** operation to our API like so:
+
+```python
+from datetime import datetime
+from typing import Optional
+import httpx
+
+
+from shared.view.met_view import DepartmentResponse, ObjectResponse, ObjectsResponse, SearchResponse
+
+
+class MetProvider:
+    """A client for the Metropolitan Museum of Art API.
+
+    Args:
+        base_url: The base URL of the API.
+    """
+
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+
+    def get_objects(
+        self, metadata_date: Optional[datetime] = None, department_ids: Optional[list[int]] = None
+    ) -> dict:
+        """Retrieves objects from the Metropolitan Museum of Art API.
+
+        Args:
+            metadata_date: Returns any objects with updated data after this date.
+            department_ids: Returns any objects in a specific department.
+
+        Returns:
+            A list of objects.
+        """
+
+        query_params = {}
+
+        if metadata_date:
+            query_params['metadataDate'] = metadata_date.strftime('%Y-%m-%d')
+        if department_ids:
+            query_params['departmentIds'] = '|'.join(map(str, department_ids))
+
+        r = httpx.get(
+            f'{self.base_url}/public/collection/v1/objects',
+            params=query_params,
+        )
+
+        return r.json()
+```
+
+We we can already see the benefits of creating a separate class to handle calling the API. The Met API requires that department IDs be joined by a `|` character, we can hide that implementation detail at this layer and instead allow the user to pass in a much more natural and pythonic list of integers. Similarly, we can pass in a `datetime` object and allow this layer to put it in the proper format for this API. In this way we can hide the *specific* details of the API and allow the user to work with much more natural and easy to use Python objects. 
+
+We can similarly flesh out the rest of the operations in our provider class:
+
+```python
+from datetime import datetime
+from typing import Optional
+import httpx
+
+
+from shared.view.met_view import DepartmentResponse, ObjectResponse, ObjectsResponse, SearchResponse
+
+
+class MetProvider:
+    """A client for the Metropolitan Museum of Art API.
+
+    Args:
+        base_url: The base URL of the API.
+    """
+
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+
+    def get_objects(
+        self, metadata_date: Optional[datetime] = None, department_ids: Optional[list[int]] = None
+    ) -> dict:
+        """Retrieves objects from the Metropolitan Museum of Art API.
+
+        Args:
+            metadata_date: Returns any objects with updated data after this date.
+            department_ids: Returns any objects in a specific department.
+
+        Returns:
+            A list of objects.
+        """
+
+        query_params = {}
+
+        if metadata_date:
+            query_params['metadataDate'] = metadata_date.strftime('%Y-%m-%d')
+        if department_ids:
+            query_params['departmentIds'] = '|'.join(map(str, department_ids))
+
+        r = httpx.get(
+            f'{self.base_url}/public/collection/v1/objects',
+            params=query_params,
+        )
+
+        return r.json()
+
+    def get_object(self, object_id: int) -> ObjectResponse:
+        """Retrieves an object from the Metropolitan Museum of Art API.
+
+        Args:
+            object_id: The ID of the object to retrieve.
+
+        Returns:
+            The object.
+        """
+
+        r = httpx.get(f'{self.base_url}/public/collection/v1/objects/{object_id}')
+        return r.json()
+
+    def get_departments(self) -> dict:
+        """Retrieves departments from the Metropolitan Museum of Art API.
+
+        Returns:
+            A list of departments.
+        """
+
+        r = httpx.get(f'{self.base_url}/public/collection/v1/departments')
+        return r.json()
+
+    def search(self, q: str, title: Optional[bool] = None, has_images: Optional[bool] = None) -> dict:
+        """Executes a search against the Metropolitan Museum of Art API.
+
+        Args:
+            q: The query string.
+            title: Whether to search the title field.
+            has_images: Whether to search for objects with images.
+
+        Returns:
+            The search results.
+        """
+
+        query_params = {'q': q}
+
+        if title is not None:
+            query_params['title'] = str(title)
+
+        if has_images is not None:
+            query_params['hasImages'] = str(has_images)
+
+        r = httpx.get(
+            f'{self.base_url}/public/collection/v1/search',
+            params=query_params,
+        )
+
+        return r.json()
+
+```
+
+One other benefit of using a provider class is we only have to implement what we need. The **Search** operation has many more parameters (and you are welcome to map them out as an exercise) but for our logic we only need the `title` and `hasImages` functionality.
+
+You should now have a fully working client for the Met API, start up a shell and try it out!
+
+```
+>>> from provider.met_provider import MetProvider
+>>> p = MetProvider('https://collectionapi.metmuseum.org')
+>>> p.get_departments()
+'{"departments":[{"department_id":1,"display_name":"American Decorative Arts"},{"department_id":3,"display_name":"Ancient Near Eastern Art"},{"department_id":4,"display_name":"Arms and Armor"},{"department_id":5,"display_name":"Arts of Africa, Oceania, and the Americas"},{"department_id":6,"display_name":"Asian Art"},{"department_id":7,"display_name":"The Cloisters"},{"department_id":8,"display_name":"The Costume Institute"},{"department_id":9,"display_name":"Drawings and Prints"},{"department_id":10,"display_name":"Egyptian Art"},{"department_id":11,"display_name":"European Paintings"},{"department_id":12,"display_name":"European Sculpture and Decorative Arts"},{"department_id":13,"display_name":"Greek and Roman Art"},{"department_id":14,"display_name":"Islamic Art"},{"department_id":15,"display_name":"The Robert Lehman Collection"},{"department_id":16,"display_name":"The Libraries"},{"department_id":17,"display_name":"Medieval Art"},{"department_id":18,"display_name":"Musical Instruments"},{"department_id":19,"display_name":"Photographs"},{"department_id":21,"display_name":"Modern Art"}]}'
+```
 
 ## Delve Data
 
