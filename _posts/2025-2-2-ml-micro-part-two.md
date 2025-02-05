@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Delve 7: Let's Build a Modern ML Microservice Application - Part 2, Organizing Code"
+title:  "Delve 7: Let's Build a Modern ML Microservice Application - Part 2, Organizing Code Around Data"
 author: Chase
 categories:
     - Software Engineering
@@ -106,7 +106,7 @@ Now, while there isn't a lot going on in this file right now, I'd argue from an 
 2. We encapsulate some *business logic* (In this case call the search API to retrieve an Object, then call the Objects API to retrieve an image) within our service
 3. We provide an *interface* (API) to allow external customers to interact with our application
 
-Intuitively as you may suspect, these are the three layers we will break our application into. If any of you are familiar with the concept of [Multitier Architecture](https://en.wikipedia.org/wiki/Multitier_architecture), this is very similar to the three tier architecture often discussed in works of that nature, but zoomed into the scope of our service itself. Which brings us to:
+Intuitively as you may suspect, these are the three layers we will break our application into. If any of you are familiar with the concept of [Multitier Architecture](https://en.wikipedia.org/wiki/Multitier_architecture), this is very similar to the three tier architecture often discussed in works of that nature, but zoomed into the scope of our service itself. For this delve we are going to focus on the first of these three layers, the Data Layer.
 
 ## The Data Layer
 
@@ -120,7 +120,7 @@ Starting with the first objective, looking at the [Metropolitan Museum of Art AP
 * **Objects** - A listing of all valid Object IDs available for access.
 * **Object** - A record for an object, containing all open access data about that object, including its image (if the image is available under Open Access)
 * **Departments** - A listing of all valid departments, with their department ID and the department display name
-* **Search** - A listing of all Object IDs for objects that contain the search query within the object’s data
+* **Search** - A listing of all Object IDs for objects that contain the search query within the object's data
 
 Though currently we are only using the **Object** and **Search** operations. In order to represent these operations without our code, we can lean into our OOP principles and create a client *object* with four *methods*, one for each operation.
 
@@ -352,7 +352,7 @@ This helps us better organize the data we are getting back but does not help us 
 
 Pydantic allows use to create data models like above but will also **validate** that the data provided matches the schema of the type hints of our models. I can't understate how big of a deal this is. This brings what is one of the core strengths of statically typed languages like Java or C# over to Python. Let's try it out!
 
-Before we jump into code I also want to talk about naming again. Just like with clients, I like to group my data models based on what they are for. If the data model represents something *external* to the system, like the schema of an API or database I like to call those an instance of those models a **View**, as it represents a view into an external component. If that data model is instead used to pass data *between* components of the application I like to call an instance of those models a **Data Transfer Object** or DTO, as it is transferring data between components. If that seems a little fuzzy right now don't worry, we will see examples of both in this part!
+Before we jump into code I also want to talk about naming again. Just like with clients, I like to group my data models based on what they are for. If the data model represents something *external* to the system, like the schema of an API or database I like to call those an instance of those models a **View**, as it represents a view into an external component. If that data model is instead used to pass data *between* components of the application I like to call an instance of those models a **Data Transfer Object** or DTO, as it is transferring data between components. If that seems a little fuzzy right now don't worry, we will see examples of both!
 
 To start lets create a new directory under `src` called `shared` and make it a module by adding an empty `__init__.py` file. This is where I like to keep things like data models that are potentially shared between layers of the application. Within this folder create another one called `view` and similarly make it a module. This is where we will store our view models. Inside here create a Python file called `met_view.py`, you can probably guess what will go here: our view models for the Met API!
 
@@ -384,6 +384,103 @@ class Department(BaseModel):
 class DepartmentResponse(BaseModel):
     departments: list[Department]
 ```
+
+Go ahead and start up a shell to see the data validation in action! Let's try create a valid `Department`:
+
+```
+>>> from shared.view.met_view import Department
+>>> d = Department(department_id=1, display_name="My Met Department")
+>>> d
+Department(department_id=1, display_name='My Met Department')
+```
+
+It works! But what happens when we try to create a department with a string id instead of an int?
+
+```
+>>> d = Department(department_id="one", display_name="My Met Department")
+Traceback (most recent call last):
+  File "<python-input-6>", line 1, in <module>
+    d = Department(department_id="one", display_name="My Met Department")
+  File "/home/overlord/Documents/PythonProjects/DataDelver/modern-ml-microservices/.venv/lib/python3.13/site-packages/pydantic/main.py", line 214, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Department
+department_id
+  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='one', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.10/v/int_parsin
+```
+
+Here we see that we get a `ValidationError` with a helpful message that we need to supply an int rather than a string.
+
+**Note:** Pydantic does try to type cast fields for you if it makes sense so `Department(department_id="1", display_name="My Met Department")` works!
+
+We can now modify our `get_deparments()` function to return an instance of `DepartmentResponse` rather than a `dict`:
+
+```python
+def get_departments(self) -> DepartmentResponse:
+    """Retrieves departments from the Metropolitan Museum of Art API.
+
+    Returns:
+        A list of departments.
+    """
+
+    r = httpx.get(f'{self.base_url}/public/collection/v1/departments')
+    return DepartmentResponse.model_validate(r.json())
+```
+
+`model_validate` is the key step here. This tells Pydantic we want to validate that data contained in another object (in this case the json response from the API) and return a Pydantic data model if the validation passes.
+
+Let's try it out!
+
+```
+>>> from provider.met_provider import MetProvider
+>>> p = MetProvider('https://collectionapi.metmuseum.org')
+>>> p.get_departments()
+Traceback (most recent call last):
+  File "<python-input-2>", line 1, in <module>
+    p.get_departments()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/overlord/Documents/PythonProjects/DataDelver/modern-ml-microservices/src/provider/met_provider.py", line 67, in get_departments
+    return DepartmentResponse.model_validate(r.json())
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/overlord/Documents/PythonProjects/DataDelver/modern-ml-microservices/.venv/lib/python3.13/site-packages/pydantic/main.py", line 627, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        obj, strict=strict, from_attributes=from_attributes, context=context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+pydantic_core._pydantic_core.ValidationError: 38 validation errors for DepartmentResponse
+departments.0.department_id
+  Field required [type=missing, input_value={'departmentId': 1, 'disp...erican Decorative Arts'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/missing
+...
+```
+
+What's going on? The shaper-eyed among you may have noticed a different in casing when we created our data model. Typically, JSON utilizes [camelCase](https://en.wikipedia.org/wiki/Camel_case) when naming attributes, for example: `departmentId`. However, our data models follow the python convention of using [snake_case](https://en.wikipedia.org/wiki/Snake_case) for our attributes, so for example `department_id`. As a result of this mis-match in casing, the data is not being correctly parsed. How can we fix this?
+
+One way we can do this is to take advantage of the [Field Alias](https://docs.pydantic.dev/latest/concepts/fields/#field-aliases) feature of Pydantic. This allows us, as the name implies, to create aliases other fields can go by. For our `Department` model that would look something like this:
+
+```python
+from pydantic import BaseModel, Field
+
+class Department(BaseModel):
+    department_id: int = Field(alias='departmentId')
+    display_name: str = Field(alias='displayName')
+```
+
+This works but is a bit tedious to type out. Fortunately, for common casing changes, Pydantic provides another option we can specify a [Configuration](https://docs.pydantic.dev/latest/concepts/config/) for our models that changes its default behavior. One of the options is an [alias_generator](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict.alias_generator) which allows us to programmatically generate aliases for our models. Pydantic also comes with a number of [pre-made alias generators](https://docs.pydantic.dev/latest/api/config/#pydantic.alias_generators) for common use cases, including one for converting to camelCase!
+
+Utilizing this we can change our class to:
+
+```python
+from pydantic import BaseModel, ConfigDict, Field
+from pydantic.alias_generators import to_camel
+
+class Department(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel)
+    department_id: int
+    display_name: str
+```
+
 
 ## Delve Data
 
