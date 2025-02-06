@@ -385,7 +385,7 @@ class DepartmentResponse(BaseModel):
     departments: list[Department]
 ```
 
-Go ahead and start up a shell to see the data validation in action! Let's try create a valid `Department`:
+Once nice thing to point out here is we can use data models inside of other data models, as we do to create an attribute of type `list[Department]` in the `DepartmentResponse` model. Go ahead and start up a shell to see the data validation in action! Let's try create a valid `Department`:
 
 ```
 >>> from shared.view.met_view import Department
@@ -467,7 +467,7 @@ class Department(BaseModel):
     display_name: str = Field(alias='displayName')
 ```
 
-This works but is a bit tedious to type out. Fortunately, for common casing changes, Pydantic provides another option we can specify a [Configuration](https://docs.pydantic.dev/latest/concepts/config/) for our models that changes its default behavior. One of the options is an [alias_generator](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict.alias_generator) which allows us to programmatically generate aliases for our models. Pydantic also comes with a number of [pre-made alias generators](https://docs.pydantic.dev/latest/api/config/#pydantic.alias_generators) for common use cases, including one for converting to camelCase!
+This works but is a bit tedious to type out. Fortunately, for common casing changes, Pydantic provides another option we can specify a [model_config](https://docs.pydantic.dev/latest/concepts/config/) for our models that changes its default behavior. One of the options is an [alias_generator](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict.alias_generator) which allows us to programmatically generate aliases for our models. Pydantic also comes with a number of [pre-made alias generators](https://docs.pydantic.dev/latest/api/config/#pydantic.alias_generators) for common use cases, including one for converting to camelCase!
 
 Utilizing this we can change our class to:
 
@@ -481,10 +481,195 @@ class Department(BaseModel):
     display_name: str
 ```
 
+Let's try it out!
+
+```
+>>> from provider.met_provider import MetProvider
+>>> p = MetProvider('https://collectionapi.metmuseum.org')
+>>> p.get_departments()
+DepartmentResponse(departments=[Department(department_id=1, display_name='American Decorative Arts'), Department(department_id=3, display_name='Ancient Near Eastern Art'), Department(department_id=4, display_name='Arms and Armor'), Department(department_id=5, display_name='Arts of Africa, Oceania, and the Americas'), Department(department_id=6, display_name='Asian Art'), Department(department_id=7, display_name='The Cloisters'), Department(department_id=8, display_name='The Costume Institute'), Department(department_id=9, display_name='Drawings and Prints'), Department(department_id=10, display_name='Egyptian Art'), Department(department_id=11, display_name='European Paintings'), Department(department_id=12, display_name='European Sculpture and Decorative Arts'), Department(department_id=13, display_name='Greek and Roman Art'), Department(department_id=14, display_name='Islamic Art'), Department(department_id=15, display_name='The Robert Lehman Collection'), Department(department_id=16, display_name='The Libraries'), Department(department_id=17, display_name='Medieval Art'), Department(department_id=18, display_name='Musical Instruments'), Department(department_id=19, display_name='Photographs'), Department(department_id=21, display_name='Modern Art')])
+```
+
+It works! We now have our departments correctly modeled. Let's take a look at what getting the display name of the first department looks like now:
+
+```python
+r = p.get_departments()
+r.departments[0].display_name
+```
+
+Much more readable! Before we go ahead and create the rest of our views though we should consider that we want all of them to have the same config behavior of allowing camelCase payloads to be validated. We *could* go and add the `model_config` property to all of them however, a more elegant way to solve this is to just have a base class that all our views inherit from that specify this configuration, that way we only have to specify it once!
+
+Go ahead under `src/shared` and create a new Python file called `data_model_base.py` this will (unsurprisingly) hold the base class for our data models.
+
+You should now have a directory structure that looks like this:
+
+```
+src
+├── main.py
+├── provider
+│   ├── __init__.py
+│   └── met_provider.py
+└── shared
+    ├── __init__.py
+    ├── data_model_base.py
+    └── view
+        ├── __init__.py
+        └── met_view.py
+```
+
+Inside we can create a new class `ViewBase` which will be the Pydantic base class for all of our views:
+
+```python
+from pydantic import BaseModel, ConfigDict
+from pydantic.alias_generators import to_camel
+
+
+class ViewBase(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel)
+```
+
+We can now let all of our views inherit from this base class:
+
+```python
+from typing import Optional
+
+from pydantic import Field
+from shared.data_model_base import ViewBase
+
+
+class SearchResponse(ViewBase):
+    total: int
+    object_ids: Optional[list[int]] = Field(alias='objectIDs')
+
+
+class Department(ViewBase):
+    department_id: int
+    display_name: str
+
+
+class DepartmentResponse(ViewBase):
+    departments: list[Department]
+
+
+class ObjectResponse(ViewBase):
+    object_id: int = Field(alias='objectID')
+    title: str
+    primary_image: str
+    additional_images: list[str]
+
+
+class ObjectsResponse(ViewBase):
+    total: int
+    object_ids: list[int] = Field(alias='objectIDs')
+```
+
+Notice how we still had to use aliases in cases where the attribute followed non-standard casing. `ID` not `Id` really?
+
+Finally we can update our `MetProvider` class to utilize these views:
+
+```python
+from datetime import datetime
+from typing import Optional
+import httpx
+
+
+from shared.view.met_view import DepartmentResponse, ObjectResponse, ObjectsResponse, SearchResponse
+
+
+class MetProvider:
+    """A client for the Metropolitan Museum of Art API.
+
+    Args:
+        base_url: The base URL of the API.
+    """
+
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+
+    def get_objects(
+        self, metadata_date: Optional[datetime] = None, department_ids: Optional[list[int]] = None
+    ) -> ObjectsResponse:
+        """Retrieves objects from the Metropolitan Museum of Art API.
+
+        Args:
+            metadata_date: Returns any objects with updated data after this date.
+            department_ids: Returns any objects in a specific department.
+
+        Returns:
+            A list of objects.
+        """
+
+        query_params = {}
+
+        if metadata_date:
+            query_params['metadataDate'] = metadata_date.strftime('%Y-%m-%d')
+        if department_ids:
+            query_params['departmentIds'] = '|'.join(map(str, department_ids))
+
+        r = httpx.get(
+            f'{self.base_url}/public/collection/v1/objects',
+            params=query_params,
+        )
+
+        return ObjectsResponse.model_validate(r.json())
+
+    def get_object(self, object_id: int) -> ObjectResponse:
+        """Retrieves an object from the Metropolitan Museum of Art API.
+
+        Args:
+            object_id: The ID of the object to retrieve.
+
+        Returns:
+            The object.
+        """
+
+        r = httpx.get(f'{self.base_url}/public/collection/v1/objects/{object_id}')
+        return ObjectResponse.model_validate(r.json())
+
+    def get_departments(self) -> DepartmentResponse:
+        """Retrieves departments from the Metropolitan Museum of Art API.
+
+        Returns:
+            A list of departments.
+        """
+
+        r = httpx.get(f'{self.base_url}/public/collection/v1/departments')
+        return DepartmentResponse.model_validate(r.json())
+
+    def search(self, q: str, title: Optional[bool] = None, has_images: Optional[bool] = None) -> SearchResponse:
+        """Executes a search against the Metropolitan Museum of Art API.
+
+        Args:
+            q: The query string.
+            title: Whether to search the title field.
+            has_images: Whether to search for objects with images.
+
+        Returns:
+            The search results.
+        """
+
+        query_params = {'q': q}
+
+        if title is not None:
+            query_params['title'] = str(title)
+
+        if has_images is not None:
+            query_params['hasImages'] = str(has_images)
+
+        r = httpx.get(
+            f'{self.base_url}/public/collection/v1/search',
+            params=query_params,
+        )
+
+        return SearchResponse.model_validate(r.json())
+```
+
+## Wrangling our Data (Layer)
+
+That wraps up our build of the data layer of our application! It may seem like a lot of code to do a small amount, but hopefully it's clear that the benefits of abstracting out the data modeling and validation to its own layer of the application will make it much easier to manage the data needs of our application as it increases in scale and the scope of the data required expands (something that often happens in ML applications). Full code for this part is available [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-two). In the next part we'll see how to leverage this layer in the other parts of the application: the *Business Logic Layer* and the *Interface* layer. See you next time!
 
 ## Delve Data
 
-* The use of ML does not preclude us from benefiting from software engineering best practices, on the contrary, we should embrace them
-* *nix operating systems are generally preferred for Python development, though [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) is a very good option for Windows machines
-* In recent years, several new tools have emerged that have streamlined the Python development process
-* The microservice architecture lends itself well to ML application development
+* As the complexity of our application increases, a single `main.py` file application will become messy
+* Adopting a three layer architecture for our application's code can help us to manage this complexity
+* The first of these layers, the *Data Layer* is responsible for requesting data from other components and representing the requested data within the application
