@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Delve 7: Let's Build a Modern ML Microservice Application - Part 2, Organizing Code Around Data"
+title:  "Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer"
 author: Chase
 categories:
     - Software Engineering
@@ -12,7 +12,7 @@ banner:
     image: "/assets/images/banners/delve7.png"
 ---
 
-> "The beginning is the most important part of the work." -Plato
+> "Data is not just the new oil, it's also the new soil." -David McCandless
 
 ## ML Microservices, the Second
 
@@ -22,11 +22,11 @@ Hello data delvers! In [part one](/software%20engineering/2025/01/26/ml-micro-pa
 
 In part one I mentioned running the main script to check its output, but I didn't discuss how to do that specifically in VSCode. You could of course open a shell and simply execute `python3 main.py` however that missed out on one of the most powerful tools an IDE provides you: the debugger. VSCode relies on something know as a [launch configuration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) to define how code should be executed. Go ahead and follow the instruction in that link to create a launch configuration for FastAPI (VSCode should be smart enough to auto detect it). Run the configuration and:
 
-```shell
+```
 ERROR:    Error loading ASGI app. Could not import module "main".
 ```
 
-What's going on? Remember how in part one we moved all of our Python source code to a directory called `src`? This will have a lot of benefits as we will see but one of the downsides is that by default VSCode expects our main script to be in the root directory of the project. Not to worry though this is easy to fix open up your `launch.json` file that was created in the `.vscode` directory and modify it like so:
+What's going on? Remember how in part one we moved all of our Python source code to a directory called `src`? This will have a lot of benefits as we will see but one of the downsides is that by default VSCode expects our main script to be in the root directory of the project. Not to worry though, this is easy to fix. Open up your `launch.json` file that was created in the `.vscode` directory and modify it like so:
 
 ```json
 {
@@ -100,7 +100,7 @@ def search(title: str) -> str:
         return 'No results found.'
 ```
 
-Now, while there isn't a lot going on in this file right now, I'd argue from an application scalability perspective it's already too complicated. It may seem outlandish to argue that functionally 8 lines of code is too complicated but I'm not arguing from a number of *lines* perspective but from a *scope* perspective. Right now this single file contains all of our business logic, that's fine while our business logic is simple, but what happens as we want to add more complexity and processing steps to our application? The way our application is structured right now we just keep adding more complexity to this single file. This is analogous to a the workflow I've seen many times with data scientists creating every larger *uber* Jupyter notebooks that contain all of their logic. In the same way maintaining a notebook with hundreds of lines of code is unmaintainable, so too is maintaining a single file application. In this delve I intend to refactor this application into something that is more maintainable and scalable without increasing the complexity of the application so we can focus purely on the refactor. To that end we can break our application into 3 main pieces of functionality:
+Now, while there isn't a lot going on in this file right now, I'd argue from an application scalability perspective it's already too complicated. It may seem outlandish to argue that functionally 8 lines of code is too complicated but I'm not arguing from a number of *lines* perspective but from a *scope* perspective. Right now this single file contains all of our business logic, that's fine while our business logic is simple, but what happens as we want to add more complexity and processing steps to our application? The way our application is structured right now we just keep adding more complexity to this single file. This is analogous to the workflow I've seen many times with data scientists creating ever larger *uber* Jupyter notebooks that contain all of their logic. In the same way maintaining a notebook with hundreds of lines of code is unmaintainable, so too is maintaining a single file application. In this delve I intend to refactor this application into something that is more maintainable and scalable without increasing the complexity of the application so we can focus purely on the refactor. To that end we can break our application into 3 main pieces of functionality:
 
 1. We make API requests to external systems to provide *data* to our application
 2. We encapsulate some *business logic* (In this case call the search API to retrieve an Object, then call the Objects API to retrieve an image) within our service
@@ -122,13 +122,13 @@ Starting with the first objective, looking at the [Metropolitan Museum of Art AP
 * **Departments** - A listing of all valid departments, with their department ID and the department display name
 * **Search** - A listing of all Object IDs for objects that contain the search query within the object's data
 
-Though currently we are only using the **Object** and **Search** operations. In order to represent these operations without our code, we can lean into our OOP principles and create a client *object* with four *methods*, one for each operation.
+Though currently we are only using the **Object** and **Search** operations. In order to represent these operations without our code, we can lean into our OOP principles and create a client *class* with four *methods*, one for each operation.
 
-Before we do though I'd like to talk about naming. Generally, I like to split my client objects into two categories. Those that simply *provide* data from other systems, and those that let me *modify* data in other systems. I like to call a client in the first case a **Provider**, as it simply provides data to the application. In the second case I like to call the client a **Repository**, as it allows us to modify a repository of data (typically a database).
+Before we do though I'd like to talk about naming. Generally, I like to split my client classes into two categories. Those that simply *provide* data from other systems, and those that let me *modify* data in other systems. I like to call a client in the first case a **Provider**, as it simply provides data to the application. In the second case I like to call the client a **Repository**, as it allows us to modify a repository of data (typically a database).
 
 In our case our API does not allow modifying the collection of artwork (I hope), and so it falls firmly into the provider use case.
 
-### Creating our Provider Component
+### The Provider Component
 
 To that end we are now ready to refactor our code, we can create a new directory under our `src` folder called `provider`. This folder will hold all the provider clients for our application. Within that folder we need to create two files, first a empty file called `__init__.py`, this will mark this directory as a Python module and thus allow Python files within it to be imported to other parts of the application, and a file called `met_provider.py` this file as you can guess will hold our client object.
 
@@ -156,7 +156,7 @@ class MetProvider:
         self.base_url = base_url
 ```
 
-Now you might be asking, why not just hard code the URL to the API? We know what it is. The reason I prefer to make the url to the API a class attribute is to allow us to easily point to different deployments of the API with the same client. This often comes up if you follow a Dev/QA/Prod style of deployment. You might have your production API at `https://www.my-api.com` and a QA version of the API hosted at `https://www.my-api-qa.com` and a dev version at `https://www.my-api-dev.com`. Having the API url be a parameter allows us to connect to all three urls without needing to change the code of the client.
+Now you might be asking, why not just hard code the URL to the API? We know what it is. The reason I prefer to make the url to the API a constructor parameter is to allow us to easily point to different deployments of the API with the same client. This often comes up if you follow a Dev/QA/Prod style of deployment. You might have your production API at `https://www.my-api.com` and a QA version of the API hosted at `https://www.my-api-qa.com` and a dev version at `https://www.my-api-dev.com`. Having the API url be a parameter allows us to switch between all three urls without needing to change the code of the client.
 
 Next we can add a method for the **Objects** operation to our API like so:
 
@@ -320,14 +320,14 @@ You should now have a fully working client for the Met API, start up a shell and
 '{"departments":[{"departmentId":1,"displayName":"American Decorative Arts"},{"departmentId":3,"displayName":"Ancient Near Eastern Art"},{"departmentId":4,"displayName":"Arms and Armor"},{"departmentId":5,"displayName":"Arts of Africa, Oceania, and the Americas"},{"departmentId":6,"displayName":"Asian Art"},{"departmentId":7,"displayName":"The Cloisters"},{"departmentId":8,"displayName":"The Costume Institute"},{"departmentId":9,"displayName":"Drawings and Prints"},{"departmentId":10,"displayName":"Egyptian Art"},{"departmentId":11,"displayName":"European Paintings"},{"departmentId":12,"displayName":"European Sculpture and Decorative Arts"},{"departmentId":13,"displayName":"Greek and Roman Art"},{"departmentId":14,"displayName":"Islamic Art"},{"departmentId":15,"displayName":"The Robert Lehman Collection"},{"departmentId":16,"displayName":"The Libraries"},{"departmentId":17,"displayName":"Medieval Art"},{"departmentId":18,"displayName":"Musical Instruments"},{"departmentId":19,"displayName":"Photographs"},{"departmentId":21,"displayName":"Modern Art"}]}'
 ```
 
-This works but it's a bit tricky to work with the output of our client. Notice how all the methods of our client have a return type of `dict`. This means when using the client we have no grantees of the structure of the data we are getting back from our client, and once more, when we do get it back it's difficult to deal with. For example, to get the display name of the first department we'd need some code that looks something like this:
+This works but it's a bit tricky to work with the output of our client. Notice how all the methods of our client have a return type of `dict`. This means when using the client we have no guarantees of the structure of the data we are getting back from our client, and once more, when we do get it back it's difficult to deal with. For example, to get the display name of the first department we'd need some code that looks something like this:
 
 ```python
 r = p.get_departments()
-first_department = r['departments'][0]['displayName']
+r['departments'][0]['displayName']
 ```
 
-Yuck! While you can type hint more complex return types, `dict[str, list[dict[str, Union[str, int]]]]` would be the type hint for that return for example, this gets pretty ugly and does not help us with the second issue of accessing our data once it's returned. We still have to worry about handling cases where data is missing, or perhaps a different data type than expected, and we just have to type out long Python statements to access nested data structures. Luckily, there is another component of the Data Layer that can help us here: Data Models.
+Yuck! While you can type hint more complex return types, `dict[str, list[dict[str, Union[str, int]]]]` would be the type hint for that return value for example, this gets pretty ugly and does not help us with the second issue of accessing our data once it's returned. We still have to worry about handling cases where data is missing, or perhaps was a different data type than expected. We also have to type out long Python statements to access nested data structures. Luckily, there is another component of the Data Layer that can help us here: Data Models.
 
 ### The Data Model Component
 
@@ -352,7 +352,7 @@ This helps us better organize the data we are getting back but does not help us 
 
 Pydantic allows use to create data models like above but will also **validate** that the data provided matches the schema of the type hints of our models. I can't understate how big of a deal this is. This brings what is one of the core strengths of statically typed languages like Java or C# over to Python. Let's try it out!
 
-Before we jump into code I also want to talk about naming again. Just like with clients, I like to group my data models based on what they are for. If the data model represents something *external* to the system, like the schema of an API or database I like to call those an instance of those models a **View**, as it represents a view into an external component. If that data model is instead used to pass data *between* components of the application I like to call an instance of those models a **Data Transfer Object** or DTO, as it is transferring data between components. If that seems a little fuzzy right now don't worry, we will see examples of both!
+Before we jump into code I also want to talk about naming again. Just like with clients, I like to group my data models based on what they are for. If the data model represents something *external* to the system, like the schema of an API or database I like to call an instance of those models a **View**, as it represents a view into an external component. If that data model is instead used to pass data *between* components of the application I like to call an instance of those models a **Data Transfer Object** or DTO, as it is transferring data between components. If that seems a little fuzzy right now don't worry, in this series we will see examples of both!
 
 To start lets create a new directory under `src` called `shared` and make it a module by adding an empty `__init__.py` file. This is where I like to keep things like data models that are potentially shared between layers of the application. Within this folder create another one called `view` and similarly make it a module. This is where we will store our view models. Inside here create a Python file called `met_view.py`, you can probably guess what will go here: our view models for the Met API!
 
@@ -467,7 +467,7 @@ class Department(BaseModel):
     display_name: str = Field(alias='displayName')
 ```
 
-This works but is a bit tedious to type out. Fortunately, for common casing changes, Pydantic provides another option we can specify a [model_config](https://docs.pydantic.dev/latest/concepts/config/) for our models that changes its default behavior. One of the options is an [alias_generator](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict.alias_generator) which allows us to programmatically generate aliases for our models. Pydantic also comes with a number of [pre-made alias generators](https://docs.pydantic.dev/latest/api/config/#pydantic.alias_generators) for common use cases, including one for converting to camelCase!
+This works but is a bit tedious to type out. Fortunately, for common casing changes, Pydantic provides another option. We can specify a [model_config](https://docs.pydantic.dev/latest/concepts/config/) for our models that changes its default behavior. One of the options is an [alias_generator](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict.alias_generator) which allows us to programmatically generate aliases for our models. Pydantic also comes with a number of [pre-made alias generators](https://docs.pydantic.dev/latest/api/config/#pydantic.alias_generators) for common use cases, including one for converting to camelCase!
 
 Utilizing this we can change our class to:
 
@@ -497,7 +497,7 @@ r = p.get_departments()
 r.departments[0].display_name
 ```
 
-Much more readable! Before we go ahead and create the rest of our views though we should consider that we want all of them to have the same config behavior of allowing camelCase payloads to be validated. We *could* go and add the `model_config` property to all of them however, a more elegant way to solve this is to just have a base class that all our views inherit from that specify this configuration, that way we only have to specify it once!
+Much more readable! Before we go ahead and create the rest of our views though we should consider that we want all of them to have the same config behavior of allowing camelCase payloads to be validated. We *could* go and add the `model_config` property to all of them however a more elegant way to solve this is to just have a base class that all our views inherit from that specifies this configuration, that way we only have to specify it once!
 
 Go ahead under `src/shared` and create a new Python file called `data_model_base.py` this will (unsurprisingly) hold the base class for our data models.
 
@@ -563,7 +563,7 @@ class ObjectsResponse(ViewBase):
     object_ids: list[int] = Field(alias='objectIDs')
 ```
 
-Notice how we still had to use aliases in cases where the attribute followed non-standard casing. `ID` not `Id` really?
+Notice we still had to use aliases in cases where the attribute followed non-standard casing. `ID` not `Id` really? Also note, there are many more attributes available in the schema of the response to the Object operation in the Met API, however we only need to model the attributes we need. By default Pydantic will just ignore any extra fields, though you can change this in the model configuration.
 
 Finally we can update our `MetProvider` class to utilize these views:
 
