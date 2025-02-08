@@ -295,10 +295,10 @@ class MetProvider:
         query_params = {'q': q}
 
         if title is not None:
-            query_params['title'] = str(title)
+            query_params['title'] = str(title).lower()
 
         if has_images is not None:
-            query_params['hasImages'] = str(has_images)
+            query_params['hasImages'] = str(has_images).lower()
 
         r = httpx.get(
             f'{self.base_url}/public/collection/v1/search',
@@ -651,10 +651,10 @@ class MetProvider:
         query_params = {'q': q}
 
         if title is not None:
-            query_params['title'] = str(title)
+            query_params['title'] = str(title).lower()
 
         if has_images is not None:
-            query_params['hasImages'] = str(has_images)
+            query_params['hasImages'] = str(has_images).lower()
 
         r = httpx.get(
             f'{self.base_url}/public/collection/v1/search',
