@@ -356,8 +356,64 @@ That completes our Business Logic Layer for now! All that's left is to now modif
 
 ## The Interface Layer
 
+The final layer of our application is the `Interface Layer`, this is where users of our application will interact with it (typically through an API). We already had this layer all along it's our `main.py` file. But now we can greatly simplify it using the capabilities we've built up in the previous layers:
+
+```python
+from fastapi import FastAPI
+
+from provider.met_provider import MetProvider
+from service.search_service import SearchService
+
+app = FastAPI()
+search_service = SearchService(MetProvider('https://collectionapi.metmuseum.org'))
+
+
+@app.get('/api/search')
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+    search_result = search_service.search_by_title(title)
+    return search_result.primary_image
+```
+
+Much simpler! If the requirements of our application change, it's also easy to modify. Want to get the additional images too? Easy. Total number of results? Done. All without increasing the complexity of our interface layer! One final thing to do here is to provide some better error handling in the case we get no results though. If you search for something that the Met does not have right now this will cause a `ValueError` to bubble up to the top and result in a `500: Internal Server Error` response. We can change that at this layer to be something more natural like a 404 status code:
+
+```python
+from fastapi import FastAPI, HTTPException
+
+from provider.met_provider import MetProvider
+from service.search_service import SearchService
+
+app = FastAPI()
+search_service = SearchService(MetProvider('https://collectionapi.metmuseum.org'))
+
+
+@app.get('/api/search')
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+
+    try:
+        search_result = search_service.search_by_title(title)
+        return search_result.primary_image
+    except ValueError:
+        raise HTTPException(status_code=404, detail='No results found.')
+```
+
+Congratulations! You now have a fully 3 layered application that will be flexible to changing requirements in the future! In future delves we'll look at how we can harden this application even further and make it even more configurable. We are well on our way to plugging machine learning into it too! Full code for this part is available [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-three).
+
 ## Delve Data
 
-* As the complexity of our application increases, a single `main.py` file application will become messy
-* Adopting a three layer architecture for our application's code can help us to manage this complexity
-* The first of these layers, the *Data Layer* is responsible for requesting data from other components and representing the requested data within the application
+* Breaking our application into three layers *Data*, *Business Logic*, and *Interface* allows us to separate concerns within our codebase and make it more flexible and robust. 
