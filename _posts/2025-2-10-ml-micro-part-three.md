@@ -12,7 +12,7 @@ banner:
     image: "/assets/images/banners/delve8.png"
 ---
 
-> "Data is not just the new oil, it's also the new soil." -David McCandless
+> "For every minute spent organizing, an hour is earned." -Benjamin Franklin
 
 ## ML Microservices, Completing the Layers
 
