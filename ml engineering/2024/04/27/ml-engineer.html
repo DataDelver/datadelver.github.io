@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Delve 4: The ML Engineer, Coming to an Enterprise Near You | DataDelver</title>
+<meta name="generator" content="Jekyll v4.3.4">
+<meta property="og:title" content="Delve 4: The ML Engineer, Coming to an Enterprise Near You">
+<meta name="author" content="Chase">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="“Life is like riding a bicycle. To keep your balance, you must keep moving.” -Albert Einstein">
+<meta property="og:description" content="“Life is like riding a bicycle. To keep your balance, you must keep moving.” -Albert Einstein">
+<link rel="canonical" href="http://www.datadelver.com/ml%20engineering/2024/04/27/ml-engineer.html">
+<meta property="og:url" content="http://www.datadelver.com/ml%20engineering/2024/04/27/ml-engineer.html">
+<meta property="og:site_name" content="DataDelver">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-04-27T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Delve 4: The ML Engineer, Coming to an Enterprise Near You">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Chase"},"dateModified":"2024-04-27T00:00:00+00:00","datePublished":"2024-04-27T00:00:00+00:00","description":"“Life is like riding a bicycle. To keep your balance, you must keep moving.” -Albert Einstein","headline":"Delve 4: The ML Engineer, Coming to an Enterprise Near You","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.datadelver.com/ml%20engineering/2024/04/27/ml-engineer.html"},"url":"http://www.datadelver.com/ml%20engineering/2024/04/27/ml-engineer.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/assets/images/favicon/favicon.ico">
+  <link rel="canonical" href="http://www.datadelver.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="http://www.datadelver.com/feed.xml" title="DataDelver">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header site-header-transparent" role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="DataDelver" src="/assets/images/favicon/favicon.ico" onerror="this.style.display='none'">
+  DataDelver
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<div class="page-link" style="display: inline;">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<div class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</div>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;documentElement.setAttribute("data-header-transparent", "");var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="page-banner">
+    <div class="page-banner-img">
+<div style="background-image: url(/assets/images/banners/delve4.png)"></div>
+        <img class="img-placeholder" src="/assets/images/banners/delve4.png">
+</div>
+    <div class="wrapper">
+      <div class="page-banner-inner">
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Delve 4: The ML Engineer, Coming to an Enterprise Near You</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2024-04-27T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Apr 27, 2024
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> Chase</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 17 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/tags.html#Opinion">#Opinion</a></div></header>
+</div>
+    </div>
+  </section><script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>“Life is like riding a bicycle. To keep your balance, you must keep moving.” -Albert Einstein</p>
+</blockquote>
+
+<h2 id="who-am-i">Who am I?</h2>
+
+<p>Hello data delvers! I hope your year is off to a good start! For this delve I wanted to cover a question that I get asked often, especially whenever I meet someone new, the dialog usually goes something like this:</p>
+
+<blockquote>
+  <p>Me: “Hi I’m Chase, nice to meet you!”</p>
+
+  <p>Other Person: “Hello Chase, it’s nice to meet you too! I’m &lt;Insert Name Here&gt;. I’m a &lt;Insert Profession Here&gt;. What do you do for work?</p>
+
+  <p>Me: “Oh! I’m a machine learning engineer!”</p>
+
+  <p>Other Person: “Oh that’s neat… What’s a machine learning engineer?”</p>
+</blockquote>
+
+<p>Ok, the conversations aren’t usually that contrived and with the explosion in popularity of ChatGPT more and more people have heard the term machine learning than ever before but you understand the point. Those of you that have read the <a href="/about.html">about section</a> of this blog will notice that (at the time of this writing) I call myself a <em>machine learning engineer</em>, but what does that profession actually entail? How does it differ from other professions in the data science and machine learning space such as <em>data engineer</em> or <em>data scientist</em>? Is it any different from a <em>software engineer</em>?</p>
+
+<p>In this delve, I intend to answer these questions and more by first providing a brief overview of the traditional roles in the “Big Data” space, introducing the emerging role of the machine learning engineer, and finally providing some commentary on how I think this specialization can most effectively be utilized within an enterprise.</p>
+
+<h2 id="traditional-roles-in-big-data">Traditional Roles in Big Data</h2>
+
+<p>When we think of the world of data science and machine learning, often referred to as “Big Data”, historically three distinct roles emerge:</p>
+
+<ul>
+  <li>Data Analyst</li>
+  <li>Data Scientist</li>
+  <li>Data Engineer</li>
+</ul>
+
+<p>These roles have been the pillars on which many enterprises have built the foundation of their success in deriving value from their vast quantities of data. Understanding the responsibilities of these roles is crucial to leveraging them efficiently and effectively to drive business value. So what are they?</p>
+
+<h3 id="data-analyst">Data Analyst</h3>
+
+<p>Arguably the profession that has been around the longest, <em>data analysts</em> specialize in collecting data from a wide variety of company sources and distilling it into reports, charts, and visualizations that stakeholders can use to inform business decisions.</p>
+
+<p>Data analysts usually spend most of their time shifting through the enterprise’s data lake and/or warehouse to answer a specific business question or provide an insight into a trend or pattern that is being observed in the business.</p>
+
+<p>The typical tools and technologies I have seen analysts rely on are data query languages like SQL or SAS, and data visualization suites such as PowerBI or Tableau.</p>
+
+<p>The biggest strength of the business analyst is the ability to understand the context of a business problem and present just the right amount of data in order to solve it.</p>
+
+<h3 id="data-scientist">Data Scientist</h3>
+
+<p>Deemed the “Sexist Job of the 21st Century” by the Harvard Business Review, <em>data scientists</em> use their advanced knowledge of statistics and machine learning to build and evaluate predictive models on data and solve complex problems.</p>
+
+<p>Data scientists often spend much of their time in the same environments as data analysts, the data lake/warehouse. However, where the analysts focus on producing visualizations of the data, data scientists often focus on cleaning and organizing data to feed into their models. There’s an often quoted statistic that “80% of a data scientists time is spent cleaning data”. Due to the sensitivity of many modeling techniques to poor quality data, I can attest that this is indeed unfortunately often true. Once a cleaned collection of data has been produced, often called a <em>training set</em>, the data scientist will then use various machine learning techniques to attempt to build a model on that data which can be used to solve the business problem. Importantly, once a model has been trained, the data scientist will then evaluate that model with various statistical methods to ensure it is reasonably robust.</p>
+
+<p>Tools and technologies data scientists use are programming languages such as R and Python along with the machine learning packages contained within them, big data processing frameworks such as Spark, and computation environments such as Jupyter notebooks (although if you’ve read my <a href="/ml%20engineering/2023/12/10/production-notebooks.html">previous delve</a>, you may understand why this isn’t the best idea).</p>
+
+<p>The biggest strength of the data scientist is their advanced knowledge of machine learning that enables them to solve complex problems.</p>
+
+<h3 id="data-engineer">Data Engineer</h3>
+
+<p>If you noticed, the last two roles depend on having all of the data available in a centralized location, often referred to as a data lake or warehouse. (Technically a lake and warehouse are not the same thing but the distinction is unimportant for this discussion.) It is the job of the <em>data engineer</em> to set up the pipelines to feed data into this centralized location.</p>
+
+<p>Data engineers spend much of their time communicating with other engineering teams setting up ingestion processes for their data. Their primary function is to create ETL (Extract Transform Load) jobs to move and cleanse data between different systems. Often these jobs are run on a recurring cadence and take the form of python scripts, either within notebooks or plain files.</p>
+
+<p>Tools and technologies in this specialization include many of the same technologies data scientists use, Python and Spark, but the emphasis is on moving and transforming data rather than building ML models. In addition, job schedulers such as <a href="https://airflow.apache.org/">Airflow</a> can be leveraged to manage ETL jobs.</p>
+
+<p>The data engineer’s biggest strength is a deep technical understanding of how to process very large quantities of data at scale quickly and efficiently.</p>
+
+<h2 id="traditional-enterprise-big-data-role-organization">Traditional Enterprise Big Data Role Organization</h2>
+
+<p>Taking these roles, enterprises in my experience typically arrange them in the follow way:</p>
+
+<p><em>Figure 1: A Typical Enterprise Big Data Role Organization</em></p>
+
+<p><img src="/assets/images/figures/delve4/TraditionalRoleArchitecture.png" alt="Traditional Enterprise Role Organization"></p>
+
+<p>The centralized component is the data lake. Data engineers focus on hydrating the lake with the data required by the data scientists and analysts. The scientists and analysts in turn leverage the data to produce their work artifacts. This setup is extremely effective at producing models and reports that can be used to inform business decisions and deliver business value however there is a catch: What if instead of a data scientist or analyst communicating their results to a business stakeholder, we want the stakeholder to interact with the output of their work product directly, or even have an external customer interact with it?</p>
+
+<p>It is at this point this organization breaks down. How do we take an ML model and turn it into something that our front end applications can consume? What happens if we need the data in real time rather than in a batch ETL job that runs every 30 mins? How can we scale to have every one of our customers interacting with this model at the same time?</p>
+
+<p>For those of you that have read some of my previous delves, this is what I call the “Production Problem”. Suddenly an ad-hoc report is no longer enough, the model needs the support of engineers to deliver business value.</p>
+
+<h2 id="the-production-challenge">The Production Challenge</h2>
+
+<p>The challenge at this point is that none of the roles in the traditional big data setup have the skills or experience to solve this dilemma. Where I’ve seen organization struggle is when they ask the data engineers, scientists, and analysts to solve this problem themselves. What ends up happening is that the individuals in these roles fall back on the technologies they are familiar with. Data engineers try to make ETL jobs run faster, data scientists string together notebooks in “pipelines” to generate the features the models need, analysts aren’t really sure where they fit into a production system at all.</p>
+
+<p>As a consequence, the resultant system usually turns out to be very expensive and inefficient to run if it works at all, the individuals that built it are frustrated being asked to deliver functionality they are not equipped to maintain, and the business value delivered suffers greatly as a result.</p>
+
+<h2 id="data-big-and-small">Data Big and Small</h2>
+
+<p>When we think of training an ML model we often discuss the challenges of <em>Big</em> Data, of building ETL pipelines to move large batches of data between storage appliances to facilitate model training, however there is an equally challenging and often overlooked problem space of sending data to the model at inference time. Sometimes referred to as the <em>last mile</em> problem, this data is <em>Small</em> Data often individual samples of data, not the large batches of data the model was trained on. This challenge is often where I have seen enterprises tripped up. Why? Simply put, the tools, skills, and expertise to solve challenges in this space are completely different, they are much more akin to conventional software engineering challenge than big data ETL pipelines.</p>
+
+<p>What is needed is a new type of engineer, one which specializes in the <em>last mile</em> of getting ML models into a production environment.</p>
+
+<h2 id="enter-the-machine-learning-engineer">Enter the Machine Learning Engineer</h2>
+
+<p>The machine learning engineer, sometimes called an MLOps engineer, is the missing piece of this puzzle. Unlike data engineers, they are more familiar with conventional software engineering, and capable of turning analytic insights and models into services that can be consumed by the larger enterprise as well as having the ML knowledge and experience to interface with data scientists and understand the inference requirements of their models.</p>
+
+<p>In one of my favorite articles on this subject, <a href="https://www.oreilly.com/radar/data-engineers-vs-data-scientists/">Data Engineers vs. Data Scientists</a>, author Jesse Anderson presents a juxtaposition between the skill sets of data scientists and engineers in the following graphic:</p>
+
+<p><em>Figure 2: Diagram illustrating the core competencies of data scientists and data engineers and their overlapping skills. Image Credit: Jessie Anderson</em></p>
+
+<p><img src="/assets/images/figures/delve4/BDIFigure1.png" alt="Traditional Enterprise Role Organization"></p>
+
+<p>He then presents the machine learning engineer as the middle ground between these two extremes:</p>
+
+<p><em>Figure 3: Diagram illustrating where a machine learning engineer fits with a data scientist and data engineer.  Image Credit: Jessie Anderson</em></p>
+
+<p><img src="/assets/images/figures/delve4/BDIFigure2.png" alt="Traditional Enterprise Role Organization"></p>
+
+<p>While I adore this visualization and agree with many of the points raised in the article, particularly about how to correctly staff resources surrounding ML (Business leaders: Don’t hire a bunch of data scientists and expect “magic” to happen without engineering support!), when I think about my own career as someone who calls themselves a machine learning engineer this narrative of the data engineer who cross trains on data science side to end up as a hybrid between the two roles doesn’t particularly resonate with me. While it is tantalizingly elegant to place the machine learning engineer between a data scientist and data engineer I have found that the types of problems I tend to work on and solve day to day have much more in common with conventional software engineering than those I typically see data engineers work on, with some additional data science complexity added on top.</p>
+
+<p>If I adopt the same overlapping skill diagram I find the following to be a much better representation of the type of work I do:</p>
+
+<p><em>Figure 4: Diagram illustrating where a machine learning engineer fits with a data scientist and software engineer.</em></p>
+
+<p><img src="/assets/images/figures/delve4/MLEngineerSkills.png" alt="Traditional Enterprise Role Organization"></p>
+
+<h2 id="a-software-engineer-with-data-science-know-how">A Software Engineer with Data Science Know-How</h2>
+
+<p>When I think about the types of problems that I solve as an ML engineer they are usually formulated as something like this:</p>
+
+<p><em>In response to an event (http request, or streaming event), fetch some data and send it to a model for inference and publish the result (either as an http response, or to a downstream event consumer).</em></p>
+
+<p>A more concrete example might look something like this:</p>
+
+<p><em>When the customer logs into our system (the event), grab their profile (the data), and display a personalized welcome message from our model on their homepage (the result).</em></p>
+
+<p>If you think to yourself, “Hey that sounds like something a typical microservice architecture could solve!” you’d be right! As mentioned previously, the scale of the data needed at model inference time is typically not the scale of data at the time the model was trained. It’s single samples at a time not the large batches of data the model was trained on. It is true that there are production use cases for batch inference, but in my experience it’s almost always better to go with a streaming-based approach as you can fairly easily process records in batch through a streaming system (by batching the event consumer) but the inverse is not true.</p>
+
+<p>The Machine Learning Engineer is the specialist in this sphere. They have the software engineering chops to build scalable and sustainable microservice architectures to deploy ML models as capabilities other engineering teams can leverage. They also have the Data Science know-how to interface with the data scientists, understand their requirements, and help develop the model training code into an engineering artifact.</p>
+
+<p>Another way to look at the difference between an ML Engineer and a Data Engineer is what their work product is and who consumes it:</p>
+
+<ul>
+  <li>A <em>Data Engineer</em> produces <em>ETL Pipelines</em> the output of which is consumed by <em>Data Scientists and Data Analysts</em>
+</li>
+  <li>A <em>ML Engineer</em> produces <em>Models as a Service</em> the output of which is consumed by <em>Other Engineering Teams</em>
+</li>
+</ul>
+
+<p><em>Figure 5: Diagram illustrating the differences in work product and consumers between Data Engineers and ML Engineers</em></p>
+
+<p><img src="/assets/images/figures/delve4/RoleOutputs.png" alt="Traditional Enterprise Role Organization"></p>
+
+<p>As you can see illustrated above, based on the who the end consumer of their work product is, it makes sense that data engineers and ml engineers would have different skill sets and strengths. The real value-add of the ML engineer is the ability to take the output of the data scientist (models) and turn it into a <em>product</em>, that is a service that <em>other</em> engineering teams can consume. Many ML engineers also have the data science know-how to build ML models themselves, which presents an opportunity for a shift within the industry.</p>
+
+<h2 id="the-future-of-ml-engineers-and-mlops">The Future of ML Engineers and “MLOps”</h2>
+
+<p>With the barrier to entry for building ML models continuing to become lower, the task of training a model that once took a highly specialized data scientist months of effort complete is often now being reduced to a matter of calling <code class="language-plaintext highlighter-rouge">model.fit()</code> in whatever ML library of choice you’d like to use. Even the highly complex Large Language Models (LLMs) that have taken the world by storm over the past year are often being exposed behind <a href="https://openai.com/blog/openai-api">convenient APIs that any ML engineer should be able to reasonably utilize</a> (creating a whole sub domain of MLOps know as LLMOps). This poses the question then, instead of having a data scientist spend much time and effort producing a model in the form of a Jupyter notebook and then have the ML engineer translate it into “production”, wouldn’t it be more efficient to have the ML engineer write the code from the start?</p>
+
+<p>It is this thought that I have seen slowly shift the approach enterprises’ take in staffing their data science and ML departments. The days of the data scientist producing notebooks and tossing them over the wall to engineering are coming to an end. While there will continue to be a place for data scientists doing experimentation and research within the enterprise, there will be fewer of them, with more of the burden of training and deploying models shifting to ML engineers. As such, I expect the demand for ML engineers to continue to increase in the coming years, and be accelerated by the LLM boom under the banner of the LLM engineer. What does this mean if you are in one of the other roles in the “Big Data” space?</p>
+
+<p>If you are a data scientist or data engineer it means you should start learning more conventional software engineering practices. If you are data analyst, learn to start leveraging the output of the ML services created by ML engineers as part of your analysis and A/B testing. Though cliche, it is true that the only constant in this industry is change and if they last year has taught us anything, it’s that change is only happening faster than ever before.</p>
+
+<h2 id="additional-reading">Additional Reading</h2>
+
+<ul>
+  <li>
+<a href="https://www.oreilly.com/radar/data-engineers-vs-data-scientists/">Data Engineers vs Data Scientists</a> - The previously mentioned article by Jessie Anderson that introduces the concept of the ML engineer and where they fit in a business organization</li>
+  <li>
+<a href="https://towardsdatascience.com/what-is-a-machine-learning-engineer-597ff778e57b">What is a Machine Learning Engineer?</a> - Principal ML Engineer David Hundley provides his perspective on what the role is</li>
+  <li>
+<a href="https://www.reddit.com/r/MachineLearning/comments/1acmnhk/d_is_data_science_dead/">[D] Is Data Science Dead?</a> A discussion thread on <code class="language-plaintext highlighter-rouge">r/datascience</code> regarding the future of data science as a career path and the industry trend of shifting towards ML engineering</li>
+</ul>
+
+<h2 id="delve-data">Delve Data</h2>
+
+<ul>
+  <li>Historically the three major roles in big data have been Data Analysts, Data Engineers, and Data Scientists</li>
+  <li>In the last few years a new role, ML Engineer, has emerged specializing in turning ML models into products</li>
+  <li>ML Engineers have the potential to take over much of the work of data scientists while reducing the burden of translating notebook code into production applications</li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/software%20engineering/2024/01/28/linux-fun.html" title="Delve 3: Fun Linux Utilities">Delve 3: Fun Linux Utilities</a><a class="next" href="/software%20engineering/2024/06/29/pi-fullscreen.html" title="Delve 5: The Quest for a Full Screen Raspberry Pi Application">Delve 5: The Quest for a...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/ml%20engineering/data%20science/2023/12/23/ml-resources.html" title="Delve 2: My Recommended Machine Learning &amp; Data Science Resources!">
+            Delve 2: My Recommended Machine Learning &amp; Data Science Resources!<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/software%20engineering/2024/01/28/linux-fun.html" title="Delve 3: Fun Linux Utilities">
+            Delve 3: Fun Linux Utilities<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/software%20engineering/2025/02/16/ml-micro-part-three.html" title="Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers">
+            Delve 8: Let's Build a Modern ML Microservice Application - Part 3,...<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/software%20engineering/2024/06/29/pi-fullscreen.html" title="Delve 5: The Quest for a Full Screen Raspberry Pi Application">
+            Delve 5: The Quest for a Full Screen Raspberry Pi Application<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments">
+<div id="utterances-placeholder"></div>
+<script>
+  const utterancesThemeFromDataTheme = () => {
+    const dataTheme = document.documentElement.getAttribute('data-theme');
+    return `github-${dataTheme}`;
+  };
+
+  const setUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: utterancesThemeFromDataTheme()
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme();
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true, childList: false, subtree: false });
+
+  let utterancesScript = document.createElement('script');
+  utterancesScript.async = true;
+  utterancesScript.src = 'https://utteranc.es/client.js';
+  utterancesScript.crossOrigin = 'anonymous';
+  utterancesScript.setAttribute('issue-term', 'title');
+  utterancesScript.setAttribute('label', 'utterances comment');
+  utterancesScript.setAttribute('repo', 'DataDelver/datadelver.github.io');
+  utterancesScript.setAttribute('theme', utterancesThemeFromDataTheme());
+
+  const placeholder = document.getElementById('utterances-placeholder');
+  placeholder.parentNode.replaceChild(utterancesScript, placeholder);
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2023-2025 DataDelver</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
