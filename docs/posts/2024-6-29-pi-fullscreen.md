@@ -1,13 +1,15 @@
 ---
-layout: post
-title:  "Delve 5: The Quest for a Full Screen Raspberry Pi Application"
-author: Chase
+date: 2024-06-29
 categories: 
     - Software Engineering
-tags: Tools Fun
-banner: 
-    image: "/assets/images/banners/delve5.png"
+tags: 
+    - Tools 
+    - Fun
 ---
+
+# Delve 5: The Quest for a Full Screen Raspberry Pi Application
+
+![Banner](../assets/images/banners/delve5.png)
 
 > "All life is problem solving." -Karl Popper
 
@@ -16,6 +18,8 @@ banner:
 Hello data delvers! Apologies for the lack of updates, life has been busy! For today I have a quick delve on a frustrating problem I had to solve, longer delves are on the way!
 
 Like I'm sure many of you, I greatly enjoy doing side projects on the [Raspberry Pi](https://www.raspberrypi.com/) mini computer. If you've read my [previous delve](/software%20engineering/2024/01/28/linux-fun.html), you'll know there are lots of fun utilities you can run on a linux machine. One such application I like to use my Raspberry Pi for is to stream music from web services such as Spotify to my television and then use an audio visualizer like those covered in my previous delve to provide a visual.
+
+<!-- more -->
 
 This worked great in combination with making the terminal full screen so that the only thing visible on the screen was the audio visualizer. Previously this was as simple as executing the keyboard shortcut Alt+F11. However, I noticed when I updated my Linux distribution from Debian 11 "Bullseye" to Debian 12 "Bookworm" the full screen command shortcut stopped working! Confused I thought some configuration got messed up, doing some quick internet searching was not yielding any helpful results and so I resolved myself to live with unmaximized applications for now...
 

@@ -1,16 +1,16 @@
 ---
-layout: post
-title:  "Delve 6: Let's Build a Modern ML Microservice Application - Part 1"
-author: Chase
+date: 2025-01-26
 categories:
     - Software Engineering
 tags: 
     - Series 
     - Tutorial
     - Modern ML Microservices
-banner: 
-    image: "/assets/images/banners/delve6.png"
 ---
+
+# Delve 6: Let's Build a Modern ML Microservice Application - Part 1
+
+![Banner](../assets/images/banners/delve6.png)
 
 > "The beginning is the most important part of the work." -Plato
 
@@ -19,6 +19,8 @@ banner:
 Hello data delvers! Happy New Year! I hope you all have been well! It's been some time since our last delve (sorry!) but I want to kick off 2025 with a new series of delves I've been wanting to do for some time, building out an ML application using modern microservices principles.
 
 In this multi-part series we'll focus on the tools, techniques, and strategies I use to bring ML applications to life in a maintainable, scalable, and extendable way. If that sounds of interest to you, put on your delving gear and join me as we go deep into the depths of the labyrinth!
+
+<!-- more -->
 
 ## ML, Redefining Application Development?
 

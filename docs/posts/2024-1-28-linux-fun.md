@@ -1,19 +1,23 @@
 ---
-layout: post
-title:  "Delve 3: Fun Linux Utilities"
-author: Chase
+date: 2024-01-28
 categories: 
     - Software Engineering
-tags: Tools Fun
-banner: 
-    image: "/assets/images/banners/delve3.png"
+tags: 
+    - Tools 
+    - Fun
 ---
+
+# Delve 3: Fun Linux Utilities
+
+![Banner](../assets/images/banners/delve3.png)
 
 > "People rarely succeed unless they have fun in what they are doing" -Dale Carnegie
 
 ## *nix the Workhorse of MLOps
 
 Welcome to 2024 data delvers! I hope you had a wonderful holiday season! As we enter into the new year I'd like wanted to take some time to talk about things that make my day to day as a developer fun! As I hope to get into in future delves, for many reasons I prefer a *nix (Unix or Linux) based environment for doing development. Many people use MacOS as their *nix environment of choice, however my preferred method of achieving this in recent years has been the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about). It is super easy to set up on any modern windows machine, integrates very nicely with my IDE of choice, [Visual Studio Code](https://code.visualstudio.com/docs/remote/wsl), and avoids many of the dangers associated with partitioning your hard drive to dual-boot your machine with multiple operating systems. As a bonus, when working with cloud providers you are almost always deploying your model on a Linux server, so mirroring that same environment on your dev machine makes everything that much smoother.
+
+<!-- more -->
 
 Importantly for our delve today, WSL provides a full bash shell to interact with the OS. Over the years many a Linux developer has created fun and useful utilities to use within a shell, some of which I'd like to share with you today!
 

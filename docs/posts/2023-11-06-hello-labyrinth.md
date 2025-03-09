@@ -1,18 +1,21 @@
 ---
-layout: post
-title:  "Delve 0: Hello Labyrinth (World)!"
-author: Chase
-categories: Meta
-top: 1
-banner: 
-    image: "/assets/images/banners/delve0.png"
+date: 2023-11-06
+categories: 
+    - Meta
+pin: true
 ---
+
+# Delve 0: Hello Labyrinth (World)!
+
+![Banner](../assets/images/banners/delve0.png)
 
 > It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
 
 ## Entering the Labyrinth
 
 Welcome to my blog data delver! I'm so glad you found your way here!  If you're like me, when you first started out with data science and machine learning, you may have been feeling overwhelmed. With so many different concepts to learn it may have seemed as if there was an insurmountable labyrinth of information ahead of you, with no clear path towards mastery and practical application.  Fear not! For you have found a resource which shall aid you in your own quest to navigate the maze.
+
+<!-- more -->
 
 ### Purpose of this Blog
 

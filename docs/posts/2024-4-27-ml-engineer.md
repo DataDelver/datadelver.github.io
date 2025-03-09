@@ -1,13 +1,14 @@
 ---
-layout: post
-title:  "Delve 4: The ML Engineer, Coming to an Enterprise Near You"
-author: Chase
+date: 2024-04-27
 categories: 
     - ML Engineering
-tags: Opinion
-banner: 
-    image: "/assets/images/banners/delve4.png"
+tags: 
+    - Opinion
 ---
+
+# Delve 4: The ML Engineer, Coming to an Enterprise Near You
+
+![Banner](../assets/images/banners/delve4.png)
 
 > "Life is like riding a bicycle. To keep your balance, you must keep moving." -Albert Einstein
 
@@ -22,6 +23,8 @@ Hello data delvers! I hope your year is off to a good start! For this delve I wa
 > Me: "Oh! I'm a machine learning engineer!"
 >
 > Other Person: "Oh that's neat... What's a machine learning engineer?"
+
+<!-- more -->
 
 Ok, the conversations aren't usually that contrived and with the explosion in popularity of ChatGPT more and more people have heard the term machine learning than ever before but you understand the point. Those of you that have read the [about section](/about.html) of this blog will notice that (at the time of this writing) I call myself a *machine learning engineer*, but what does that profession actually entail? How does it differ from other professions in the data science and machine learning space such as *data engineer* or *data scientist*? Is it any different from a *software engineer*?  
 

@@ -1,0 +1,65 @@
+site_name: DataDelver
+site_url: https://www.datadelver.com
+site_description: DataDelver is a blog about data science, machine learning, and artificial intelligence.
+site_author: Chase Greco
+
+theme:
+  name: material
+  icon:
+    logo: material/pickaxe
+  favicon: assets/images/favicon/pickaxe.png
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue
+      accent: indigo
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+      primary: blue grey
+      accent: deep purple
+  
+  features:
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+plugins:
+  - blog:
+      blog_dir: .
+  - tags
+  - search
+  - rss:
+      match_path: blog/posts/.* 
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
