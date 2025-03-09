@@ -16,7 +16,7 @@ tags:
 
 ## ML Microservices, Completing the Layers
 
-Hello data delvers! In [part two](/software%20engineering/2025/02/05/ml-micro-part-two.html) of this series we refactored to create a separate data layer of our application. As a refresher, these are the three layers of the application we are creating:
+Hello data delvers! In [part two](2025-02-05-ml-micro-part-two.md) of this series we refactored to create a separate data layer of our application. As a refresher, these are the three layers of the application we are creating:
 
 <!-- more -->
 

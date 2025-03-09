@@ -16,7 +16,7 @@ tags:
 
 ## ML Microservices, the Second
 
-Hello data delvers! In [part one](/software%20engineering/2025/01/26/ml-micro-part-one.html) of this series we left off creating a basic application that allowed us to search for a work by title in the Metropolitan Museum of Art's collection. We were able set up a basic project structure as well as the tooling we would need to get the project off the ground. In this second part, I'd like to focus on how we can reorganize our code to make it a bit easier to manage as the complexity of our application scales. However, to begin I'd like to take a slight detour and discussing debugging.
+Hello data delvers! In [part one](2025-01-26-ml-micro-part-one.md) of this series we left off creating a basic application that allowed us to search for a work by title in the Metropolitan Museum of Art's collection. We were able set up a basic project structure as well as the tooling we would need to get the project off the ground. In this second part, I'd like to focus on how we can reorganize our code to make it a bit easier to manage as the complexity of our application scales. However, to begin I'd like to take a slight detour and discussing debugging.
 
 <!-- more -->
 

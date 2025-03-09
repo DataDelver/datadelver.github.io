@@ -17,7 +17,7 @@ tags:
 
 Hello data delvers! Apologies for the lack of updates, life has been busy! For today I have a quick delve on a frustrating problem I had to solve, longer delves are on the way!
 
-Like I'm sure many of you, I greatly enjoy doing side projects on the [Raspberry Pi](https://www.raspberrypi.com/) mini computer. If you've read my [previous delve](/software%20engineering/2024/01/28/linux-fun.html), you'll know there are lots of fun utilities you can run on a linux machine. One such application I like to use my Raspberry Pi for is to stream music from web services such as Spotify to my television and then use an audio visualizer like those covered in my previous delve to provide a visual.
+Like I'm sure many of you, I greatly enjoy doing side projects on the [Raspberry Pi](https://www.raspberrypi.com/) mini computer. If you've read my [previous delve](2024-01-28-linux-fun.md), you'll know there are lots of fun utilities you can run on a linux machine. One such application I like to use my Raspberry Pi for is to stream music from web services such as Spotify to my television and then use an audio visualizer like those covered in my previous delve to provide a visual.
 
 <!-- more -->
 
