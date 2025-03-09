@@ -38,11 +38,18 @@ theme:
     - content.code.copy
     - content.code.select
     - content.code.annotate
+  
+  custom_dir: overrides
 plugins:
   - blog:
       blog_dir: .
+      blog_toc: true
+      post_url_format: "{slug}"
+      post_excerpt: required
   - tags
   - search
+  - social
+  - meta
   - rss:
       match_path: blog/posts/.* 
       date_from_meta:
@@ -76,3 +83,15 @@ markdown_extensions:
   - pymdownx.blocks.caption
 
 use_directory_urls: false
+
+extra:
+  social:
+    - icon: material/linkedin
+      name: LinkedIn
+      link: https://www.linkedin.com/in/chasegreco/
+    - icon: /fontawesome/regular/envelope
+      name: Email
+      link: mailto:chase@datadelver.com
+    - icon: material/github
+      name: GitHub
+      link: https://github.com/Zerthick
