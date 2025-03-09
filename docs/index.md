@@ -1,1 +1,6 @@
+---
+template: home.html
+
+---
+
 # Blog

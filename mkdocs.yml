@@ -6,6 +6,9 @@ site_author: Chase Greco
 repo_name: datadelver.github.io
 repo_url: https://github.com/DataDelver/datadelver.github.io
 
+watch:
+  - overrides/
+
 theme:
   name: material
   icon:
