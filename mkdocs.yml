@@ -28,7 +28,7 @@ theme:
       toggle:
         icon: material/lightbulb
         name: Switch to dark mode
-      primary: blue
+      primary: white
       accent: indigo
 
     # Palette toggle for dark mode
@@ -37,7 +37,7 @@ theme:
       toggle:
         icon: material/lightbulb-outline
         name: Switch to system preference
-      primary: blue grey
+      primary: black
       accent: deep purple
   
   features:
