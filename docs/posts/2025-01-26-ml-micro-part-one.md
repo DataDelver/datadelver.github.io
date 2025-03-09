@@ -50,7 +50,7 @@ Except, when you first boot up VSCode it won't be equipped to develop Python. He
 
 Open up a new Terminal in VSCode a do a quick Python Hello World to verify everything is working as expected:
 
-![Python Hello World](/assets/images/figures/delve6/PythonHelloWorld.png)
+![Python Hello World](../assets/images/figures/delve6/PythonHelloWorld.png)
 
 One thing to note here, there are plenty of good resources out there to learn Python, [https://www.learnpython.org](https://www.learnpython.org) is unironically a good one, so for this series I'm going to assume you have some basic Python knowledge already but I'll point out specifics that I find valuable. 
 
@@ -66,7 +66,7 @@ Finally, you should hopefully already have [Git](https://git-scm.com/) installed
 
 Ok! That should be enough setup for now, let's get coding! Open up a shell and type `uv init modern-ml-microservices` this will create a new starter project directory for us to work with. You can then open up this directory in VSCode by typing `code modern-ml-microservices` and we're up and running!
 
-![Python Hello World](/assets/images/figures/delve6/InitialProjectSetup.png)
+![Python Hello World](../assets/images/figures/delve6/InitialProjectSetup.png)
 
 To start let's take a look at the `pyproject.toml` file. As defined by [PEP 621](https://peps.python.org/pep-0621/), this file is the modern standard for storing our project configuration. It includes things like what version of python our project is compatible with and what its dependencies are. When starting out there are a few things I like to change like adding your own project description and configuring any tool options:
 
@@ -263,7 +263,7 @@ What we've done here is told FastAPI that our function will take in a GET reques
 
 We can test this out ourselves, run your application and then head to http://127.0.0.1:8000/docs in your web browser, you should see something like the below screen:
 
-![FastAPI Home](/assets/images/figures/delve6/FastAPIHome.png)
+![FastAPI Home](../assets/images/figures/delve6/FastAPIHome.png)
 
 This is an application known as [Swagger](https://swagger.io/) and comes pre-installed with FastAPI and provides a nice interface for testing your API. Go head and hit the "Try it out!" button and execute some searches and view the results.
 

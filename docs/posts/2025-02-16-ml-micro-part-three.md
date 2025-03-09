@@ -22,7 +22,7 @@ Hello data delvers! In [part two](/software%20engineering/2025/02/05/ml-micro-pa
 
 *Figure 1: The Three Layer Application*
 
-![Three Tiered Application](/assets/images/figures/delve8/ThreeTieredApplication.png)
+![Three Tiered Application](../assets/images/figures/delve8/ThreeTieredApplication.png)
 
 For this delve, we will be creating the remaining two layers.
 

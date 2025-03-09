@@ -26,7 +26,7 @@ Hello data delvers! I hope your year is off to a good start! For this delve I wa
 
 <!-- more -->
 
-Ok, the conversations aren't usually that contrived and with the explosion in popularity of ChatGPT more and more people have heard the term machine learning than ever before but you understand the point. Those of you that have read the [about section](/about.html) of this blog will notice that (at the time of this writing) I call myself a *machine learning engineer*, but what does that profession actually entail? How does it differ from other professions in the data science and machine learning space such as *data engineer* or *data scientist*? Is it any different from a *software engineer*?  
+Ok, the conversations aren't usually that contrived and with the explosion in popularity of ChatGPT more and more people have heard the term machine learning than ever before but you understand the point. Those of you that have read the [about section](../about.md) of this blog will notice that (at the time of this writing) I call myself a *machine learning engineer*, but what does that profession actually entail? How does it differ from other professions in the data science and machine learning space such as *data engineer* or *data scientist*? Is it any different from a *software engineer*?  
 
 In this delve, I intend to answer these questions and more by first providing a brief overview of the traditional roles in the "Big Data" space, introducing the emerging role of the machine learning engineer, and finally providing some commentary on how I think this specialization can most effectively be utilized within an enterprise.
 
@@ -56,7 +56,7 @@ Deemed the "Sexist Job of the 21st Century" by the Harvard Business Review, *dat
 
 Data scientists often spend much of their time in the same environments as data analysts, the data lake/warehouse. However, where the analysts focus on producing visualizations of the data, data scientists often focus on cleaning and organizing data to feed into their models. There's an often quoted statistic that "80% of a data scientists time is spent cleaning data". Due to the sensitivity of many modeling techniques to poor quality data, I can attest that this is indeed unfortunately often true. Once a cleaned collection of data has been produced, often called a *training set*, the data scientist will then use various machine learning techniques to attempt to build a model on that data which can be used to solve the business problem. Importantly, once a model has been trained, the data scientist will then evaluate that model with various statistical methods to ensure it is reasonably robust.
 
-Tools and technologies data scientists use are programming languages such as R and Python along with the machine learning packages contained within them, big data processing frameworks such as Spark, and computation environments such as Jupyter notebooks (although if you've read my [previous delve](/ml%20engineering/2023/12/10/production-notebooks.html), you may understand why this isn't the best idea).
+Tools and technologies data scientists use are programming languages such as R and Python along with the machine learning packages contained within them, big data processing frameworks such as Spark, and computation environments such as Jupyter notebooks (although if you've read my [previous delve](../posts/2023-12-10-production-notebooks.md), you may understand why this isn't the best idea).
 
 The biggest strength of the data scientist is their advanced knowledge of machine learning that enables them to solve complex problems.
 
@@ -76,7 +76,7 @@ Taking these roles, enterprises in my experience typically arrange them in the f
 
 *Figure 1: A Typical Enterprise Big Data Role Organization*
 
-![Traditional Enterprise Role Organization](/assets/images/figures/delve4/TraditionalRoleArchitecture.png)
+![Traditional Enterprise Role Organization](../assets/images/figures/delve4/TraditionalRoleArchitecture.png)
 
 The centralized component is the data lake. Data engineers focus on hydrating the lake with the data required by the data scientists and analysts. The scientists and analysts in turn leverage the data to produce their work artifacts. This setup is extremely effective at producing models and reports that can be used to inform business decisions and deliver business value however there is a catch: What if instead of a data scientist or analyst communicating their results to a business stakeholder, we want the stakeholder to interact with the output of their work product directly, or even have an external customer interact with it? 
 
@@ -104,13 +104,13 @@ In one of my favorite articles on this subject, [Data Engineers vs. Data Scienti
 
 *Figure 2: Diagram illustrating the core competencies of data scientists and data engineers and their overlapping skills. Image Credit: Jessie Anderson*
 
-![Traditional Enterprise Role Organization](/assets/images/figures/delve4/BDIFigure1.png)
+![Traditional Enterprise Role Organization](../assets/images/figures/delve4/BDIFigure1.png)
 
 He then presents the machine learning engineer as the middle ground between these two extremes:
 
 *Figure 3: Diagram illustrating where a machine learning engineer fits with a data scientist and data engineer.  Image Credit: Jessie Anderson*
 
-![Traditional Enterprise Role Organization](/assets/images/figures/delve4/BDIFigure2.png)
+![Traditional Enterprise Role Organization](../assets/images/figures/delve4/BDIFigure2.png)
 
 While I adore this visualization and agree with many of the points raised in the article, particularly about how to correctly staff resources surrounding ML (Business leaders: Don't hire a bunch of data scientists and expect "magic" to happen without engineering support!), when I think about my own career as someone who calls themselves a machine learning engineer this narrative of the data engineer who cross trains on data science side to end up as a hybrid between the two roles doesn't particularly resonate with me. While it is tantalizingly elegant to place the machine learning engineer between a data scientist and data engineer I have found that the types of problems I tend to work on and solve day to day have much more in common with conventional software engineering than those I typically see data engineers work on, with some additional data science complexity added on top.
 
@@ -118,7 +118,7 @@ If I adopt the same overlapping skill diagram I find the following to be a much 
 
 *Figure 4: Diagram illustrating where a machine learning engineer fits with a data scientist and software engineer.*
 
-![Traditional Enterprise Role Organization](/assets/images/figures/delve4/MLEngineerSkills.png)
+![Traditional Enterprise Role Organization](../assets/images/figures/delve4/MLEngineerSkills.png)
 
 ## A Software Engineer with Data Science Know-How
 
@@ -141,7 +141,7 @@ Another way to look at the difference between an ML Engineer and a Data Engineer
 
 *Figure 5: Diagram illustrating the differences in work product and consumers between Data Engineers and ML Engineers*
 
-![Traditional Enterprise Role Organization](/assets/images/figures/delve4/RoleOutputs.png)
+![Traditional Enterprise Role Organization](../assets/images/figures/delve4/RoleOutputs.png)
 
 As you can see illustrated above, based on the who the end consumer of their work product is, it makes sense that data engineers and ml engineers would have different skill sets and strengths. The real value-add of the ML engineer is the ability to take the output of the data scientist (models) and turn it into a *product*, that is a service that *other* engineering teams can consume. Many ML engineers also have the data science know-how to build ML models themselves, which presents an opportunity for a shift within the industry.
 
