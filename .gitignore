@@ -5,3 +5,5 @@ _site
 vendor
 .vscode
 .cache
+.venv
+site

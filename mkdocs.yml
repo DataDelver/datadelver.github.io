@@ -1,7 +1,10 @@
 site_name: DataDelver
 site_url: https://www.datadelver.com
-site_description: DataDelver is a blog about data science, machine learning, and artificial intelligence.
+site_description: Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
 site_author: Chase Greco
+
+repo_name: datadelver.github.io
+repo_url: https://github.com/DataDelver/datadelver.github.io
 
 theme:
   name: material
@@ -44,7 +47,6 @@ plugins:
   - blog:
       blog_dir: .
       blog_toc: true
-      post_url_format: "{slug}"
       post_excerpt: required
   - tags
   - search
@@ -81,6 +83,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.blocks.caption
+  - admonition
 
 use_directory_urls: false
 
@@ -94,4 +97,4 @@ extra:
       link: mailto:chase@datadelver.com
     - icon: material/github
       name: GitHub
-      link: https://github.com/Zerthick
+      link: https://github.com/DataDelver

@@ -1,3 +1,7 @@
+# About
+
+![Avatar](assets/images/avatar/avatar.png)
+
 Welcome to my blog data delver! I'm so glad you found your way here! 
 My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience. 
 I love exploring all things machine learning with a particular emphasis on practical application and "making things real".
