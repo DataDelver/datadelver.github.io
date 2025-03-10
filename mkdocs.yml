@@ -53,7 +53,11 @@ plugins:
       post_excerpt: required
   - tags
   - search
-  - social
+  - social:
+      cards_layout_options:
+        # background_image: layouts/background.png
+        background_color: "#FFFFFF"
+        color: "#000000"
   - meta
   - rss:
       match_path: blog/posts/.* 
