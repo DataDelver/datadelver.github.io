@@ -96,12 +96,14 @@ use_directory_urls: false
 
 extra:
   social:
-    - icon: material/linkedin
+    - icon: fontawesome/brands/linkedin
       name: LinkedIn
       link: https://www.linkedin.com/in/chasegreco/
     - icon: /fontawesome/regular/envelope
       name: Email
       link: mailto:chase@datadelver.com
-    - icon: material/github
+    - icon: fontawesome/brands/github
       name: GitHub
       link: https://github.com/DataDelver
+
+copyright: Copyright &copy; 2023 - 2025 Chase Greco
