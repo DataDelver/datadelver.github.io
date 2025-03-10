@@ -1,0 +1,107 @@
+site_name: DataDelver
+site_url: https://www.datadelver.com
+site_description: Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
+site_author: Chase Greco
+
+repo_name: datadelver.github.io
+repo_url: https://github.com/DataDelver/datadelver.github.io
+
+watch:
+  - overrides/
+
+theme:
+  name: material
+  icon:
+    logo: material/pickaxe
+  favicon: assets/images/favicon/pickaxe.png
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/lightbulb-auto-outline
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+      primary: white
+      accent: indigo
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to system preference
+      primary: black
+      accent: deep purple
+  
+  features:
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+  
+  custom_dir: overrides
+plugins:
+  - blog:
+      blog_dir: .
+      blog_toc: true
+      post_excerpt: required
+  - tags
+  - search
+  - social:
+      cards_layout_options:
+        # background_image: layouts/background.png
+        background_color: "#FFFFFF"
+        color: "#000000"
+  - meta
+  - rss:
+      match_path: blog/posts/.* 
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+  - redirects:
+      redirect_maps:
+        'meta/2023/11/06/hello-labyrinth.md': 'posts/2023-11-06-hello-labyrinth.md'
+        'ml engineering/2023/12/10/production-notebooks.md': 'posts/2023-12-10-production-notebooks.md'
+        'ml engineering/data science/2023/12/23/ml-resources.md': 'posts/2023-12-23-ml-resources.md'
+        'software engineering/2024/01/28/linux-fun.md': 'posts/2024-01-28-linux-fun.md'
+        'ml engineering/2024/04/27/ml-engineer.md': 'posts/2024-04-27-ml-engineer.md'
+        'software engineering/2024/06/29/pi-fullscreen.md': 'posts/2024-06-29-pi-fullscreen.md'
+        'software engineering/2025/01/26/ml-micro-part-one.md': 'posts/2025-01-26-ml-micro-part-one.md'
+        'software engineering/2025/02/05/ml-micro-part-two.md': 'posts/2025-02-05-ml-micro-part-two.md'
+        'software engineering/2025/02/16/ml-micro-part-three.md': 'posts/2025-02-16-ml-micro-part-three.md'
+        
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - admonition
+
+use_directory_urls: false
+
+extra:
+  social:
+    - icon: material/linkedin
+      name: LinkedIn
+      link: https://www.linkedin.com/in/chasegreco/
+    - icon: /fontawesome/regular/envelope
+      name: Email
+      link: mailto:chase@datadelver.com
+    - icon: material/github
+      name: GitHub
+      link: https://github.com/DataDelver

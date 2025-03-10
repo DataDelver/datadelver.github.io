@@ -1,19 +1,22 @@
 ---
-layout: post
-title:  "Delve 1: The (Hidden) Danger of Notebooks in Production"
-author: Chase
+date: 2023-12-10
 categories: 
     - ML Engineering
-tags: Opinion
-banner: 
-    image: "/assets/images/banners/delve1.png"
+tags: 
+    - Opinion
 ---
+
+# Delve 1: The (Hidden) Danger of Notebooks in Production
+
+![Banner](../assets/images/banners/delve1.png)
 
 > "Coming together is a beginning. Keeping together is progress. Working together is success." - Henry Ford
 
 ## When Good Intentions go Awry 
 
 At many points in my career I have come across the topic of deploying code related to machine learning models in the form of [Jupyter Notebooks](https://jupyter.org/). Often, the push towards this idea comes from a place of good intentions, of speeding up the the model deployment process or enabling better access to and understanding of the production environment by data scientists. However, despite the good intentions, this approach has in my experience created an environment of quite negative effect for the engineering teams asked to maintain these systems. In this delve, I will share my own personal experiences on working with notebooks in production systems, some of the ways I have observed them creating unnecessary friction between data scientists and ML engineers, and reflect how I think notebooks can be used as part of a healthy production system.
+
+<!-- more -->
 
 ### What are Notebooks Anyway?
 

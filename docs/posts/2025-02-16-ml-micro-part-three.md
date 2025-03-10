@@ -1,26 +1,28 @@
 ---
-layout: post
-title:  "Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers"
-author: Chase
+date: 2025-02-16
 categories:
     - Software Engineering
 tags: 
     - Series 
     - Tutorial
     - Modern ML Microservices
-banner: 
-    image: "/assets/images/banners/delve8.png"
 ---
+
+# Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers
+
+![Banner](../assets/images/banners/delve8.png)
 
 > "For every minute spent organizing, an hour is earned." -Benjamin Franklin
 
 ## ML Microservices, Completing the Layers
 
-Hello data delvers! In [part two](/software%20engineering/2025/02/05/ml-micro-part-two.html) of this series we refactored to create a separate data layer of our application. As a refresher, these are the three layers of the application we are creating:
+Hello data delvers! In [part two](2025-02-05-ml-micro-part-two.md) of this series we refactored to create a separate data layer of our application. As a refresher, these are the three layers of the application we are creating:
+
+<!-- more -->
 
 *Figure 1: The Three Layer Application*
 
-![Three Tiered Application](/assets/images/figures/delve8/ThreeTieredApplication.png)
+![Three Tiered Application](../assets/images/figures/delve8/ThreeTieredApplication.png)
 
 For this delve, we will be creating the remaining two layers.
 

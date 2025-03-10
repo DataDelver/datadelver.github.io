@@ -1,16 +1,16 @@
 ---
-layout: post
-title:  "Delve 6: Let's Build a Modern ML Microservice Application - Part 1"
-author: Chase
+date: 2025-01-26
 categories:
     - Software Engineering
 tags: 
     - Series 
     - Tutorial
     - Modern ML Microservices
-banner: 
-    image: "/assets/images/banners/delve6.png"
 ---
+
+# Delve 6: Let's Build a Modern ML Microservice Application - Part 1
+
+![Banner](../assets/images/banners/delve6.png)
 
 > "The beginning is the most important part of the work." -Plato
 
@@ -20,6 +20,8 @@ Hello data delvers! Happy New Year! I hope you all have been well! It's been som
 
 In this multi-part series we'll focus on the tools, techniques, and strategies I use to bring ML applications to life in a maintainable, scalable, and extendable way. If that sounds of interest to you, put on your delving gear and join me as we go deep into the depths of the labyrinth!
 
+<!-- more -->
+
 ## ML, Redefining Application Development?
 
 To begin this delve I'm going to start by stating that for part one I am not going to be discussing machine learning at all, only core software engineering principles. "What? How can you talk about building ML applications and not ML at all!" I could hear you say. Firstly, I will talk about ML *eventually*, however the main point I want to raise here is **there is nothing special about ML that invalidates good software engineering practices.** I think this is such an important point that I will state it again, repeat with me:
@@ -28,7 +30,7 @@ To begin this delve I'm going to start by stating that for part one I am not goi
 
 This is something I have seen even experienced practitioners get tripped up on. Particularly those that have come from a software engineering background but have never worked with ML before. They join a team, see all the data scientists working in notebooks and see everyone else nodding their heads and working to productionize those notebooks and think "Gee, this doesn't seem to make sense to me but this is what everyone else is doing so it must be right." and go along with the herd. I'm here to say that you are right to feel like something is off.
 
-Historically the data science community has not come from a software engineering background, but one of statistics and analytics. As a result, a whole crop of tools and companies have sprung up to make productionizing their work "easy". Sometimes even advocating for running notebooks in production as "best practice". If you've read my [previous delve](/ml%20engineering/2023/12/10/production-notebooks.html) on the subject you know that this approach is full of pitfalls.
+Historically the data science community has not come from a software engineering background, but one of statistics and analytics. As a result, a whole crop of tools and companies have sprung up to make productionizing their work "easy". Sometimes even advocating for running notebooks in production as "best practice". If you've read my [previous delve](2023-12-10-production-notebooks.md) on the subject you know that this approach is full of pitfalls.
 
 In addition to the above drawbacks, the mentality of "ML is special, it requires a different paradigm to productionize" forces us to ignore all of the wonderful best practices that have developed over the past several decades of software engineering to improve reliability, testability, and extendability ([Object Oriented Programming](https://en.wikipedia.org/wiki/Object-oriented_programming) is over 50 years old at this point, I don't think it's going anywhere). As such, instead of asking "How do we modify our software development best practices to accommodate ML?" I prefer to ask opposite question: "How can we develop ML capabilities in a way that can benefit from all the best practices of software engineering?". It is this approach that I intend to begin to explore in this delve.
 
@@ -48,7 +50,7 @@ Except, when you first boot up VSCode it won't be equipped to develop Python. He
 
 Open up a new Terminal in VSCode a do a quick Python Hello World to verify everything is working as expected:
 
-![Python Hello World](/assets/images/figures/delve6/PythonHelloWorld.png)
+![Python Hello World](../assets/images/figures/delve6/PythonHelloWorld.png)
 
 One thing to note here, there are plenty of good resources out there to learn Python, [https://www.learnpython.org](https://www.learnpython.org) is unironically a good one, so for this series I'm going to assume you have some basic Python knowledge already but I'll point out specifics that I find valuable. 
 
@@ -64,7 +66,7 @@ Finally, you should hopefully already have [Git](https://git-scm.com/) installed
 
 Ok! That should be enough setup for now, let's get coding! Open up a shell and type `uv init modern-ml-microservices` this will create a new starter project directory for us to work with. You can then open up this directory in VSCode by typing `code modern-ml-microservices` and we're up and running!
 
-![Python Hello World](/assets/images/figures/delve6/InitialProjectSetup.png)
+![Python Hello World](../assets/images/figures/delve6/InitialProjectSetup.png)
 
 To start let's take a look at the `pyproject.toml` file. As defined by [PEP 621](https://peps.python.org/pep-0621/), this file is the modern standard for storing our project configuration. It includes things like what version of python our project is compatible with and what its dependencies are. When starting out there are a few things I like to change like adding your own project description and configuring any tool options:
 
@@ -261,7 +263,7 @@ What we've done here is told FastAPI that our function will take in a GET reques
 
 We can test this out ourselves, run your application and then head to http://127.0.0.1:8000/docs in your web browser, you should see something like the below screen:
 
-![FastAPI Home](/assets/images/figures/delve6/FastAPIHome.png)
+![FastAPI Home](../assets/images/figures/delve6/FastAPIHome.png)
 
 This is an application known as [Swagger](https://swagger.io/) and comes pre-installed with FastAPI and provides a nice interface for testing your API. Go head and hit the "Try it out!" button and execute some searches and view the results.
 

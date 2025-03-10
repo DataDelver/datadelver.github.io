@@ -1,22 +1,24 @@
 ---
-layout: post
-title:  "Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer"
-author: Chase
+date: 2025-02-05
 categories:
     - Software Engineering
 tags: 
     - Series 
     - Tutorial
     - Modern ML Microservices
-banner: 
-    image: "/assets/images/banners/delve7.png"
 ---
+
+# Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer
+
+![Banner](../assets/images/banners/delve7.png)
 
 > "Data is not just the new oil, it's also the new soil." -David McCandless
 
 ## ML Microservices, the Second
 
-Hello data delvers! In [part one](/software%20engineering/2025/01/26/ml-micro-part-one.html) of this series we left off creating a basic application that allowed us to search for a work by title in the Metropolitan Museum of Art's collection. We were able set up a basic project structure as well as the tooling we would need to get the project off the ground. In this second part, I'd like to focus on how we can reorganize our code to make it a bit easier to manage as the complexity of our application scales. However, to begin I'd like to take a slight detour and discussing debugging.
+Hello data delvers! In [part one](2025-01-26-ml-micro-part-one.md) of this series we left off creating a basic application that allowed us to search for a work by title in the Metropolitan Museum of Art's collection. We were able set up a basic project structure as well as the tooling we would need to get the project off the ground. In this second part, I'd like to focus on how we can reorganize our code to make it a bit easier to manage as the complexity of our application scales. However, to begin I'd like to take a slight detour and discussing debugging.
+
+<!-- more -->
 
 ## To Debug or Not
 

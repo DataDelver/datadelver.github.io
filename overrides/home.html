@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+
+{% block tabs %}
+{{ super() }}
+
+<!-- The big featured header  -->
+<header
+    style="background-image: url('assets/images/banners/home.png'); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 100vh; background-color: rgba(0, 0, 0, 0.8);">
+
+    <div style="margin: auto; padding-top: 50vh;">
+        <div
+            style="text-align: center; color: white; text-shadow: 1px 1px 2px rgba(51, 51, 51, 0.3333333333); font-size: x-large;">
+            <h1>DataDelver</h1>
+            Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+<!-- Page content -->
+{% block container %}
+<div class="md-content" data-md-component="content">
+    <div class="md-content__inner">
+
+        <!-- Posts -->
+        {% for post in posts %}
+        {% include "partials/post.html" %}
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if pagination %}
+        {% block pagination %}
+        {% include "partials/pagination.html" %}
+        {% endblock %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
