@@ -10,7 +10,7 @@ tags:
 
 ![Banner](../assets/images/banners/delve4.png)
 
-> "Life is like riding a bicycle. To keep your balance, you must keep moving." -Albert Einstein
+> "Life is like riding a bicycle. To keep your balance, you must keep moving." - Albert Einstein
 
 ## Who am I?
 

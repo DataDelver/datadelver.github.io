@@ -11,7 +11,7 @@ tags:
 
 ![Banner](../assets/images/banners/delve5.png)
 
-> "All life is problem solving." -Karl Popper
+> "All life is problem solving." - Karl Popper
 
 ## Full Screen Applications on the Raspberry Pi, Why so Hard?
 
