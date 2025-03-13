@@ -40,6 +40,103 @@ My inspiration for migrating came when I was browsing some of the articles in my
 
 Finally, it uses Python as it's backend which means it's much easier for me to extend and work with. All of these reasons led me to decide to take the plunge and migrate.
 
+## Migrating from Jekyll to Material
+
+To kick things off I started by reading the [Setting up a blog](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/) documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:
+
+```
+├── README.md
+├── docs
+│   ├── CNAME
+│   ├── about.md
+│   ├── assets
+│   ├── index.md
+│   └── posts
+├── mkdocs.yml
+├── pyproject.toml
+└── uv.lock
+```
+
+!!! note
+    For my site which is primarily a blog I followed this [blog only](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#blog-only) section of the setup guide to have all of my posts directly under the `docs/posts` path.
+
+
+Some other nice things here is since Material is a Python package we can use [uv](https://docs.astral.sh/uv/) and a `pyproject.toml` file to manage our dependencies!
+
+The next step was to clean up the Markdown of the posts themselves. An example of the Markdown of my very first post looked something like this:
+
+```markdown
+---
+layout: post
+title:  "Delve 0: Hello Labyrinth (World)!"
+author: Chase
+categories: Meta
+top: 1
+banner: 
+    image: "/assets/images/banners/delve0.png"
+---
+
+> It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
+
+## Entering the Labyrinth
+
+Welcome to my blog data delver! I'm so glad you found your way here!  If you're like me, when you first started out with data science and machine learning, you may have been feeling overwhelmed. With so many different concepts to learn it may have seemed as if there was an insurmountable labyrinth of information ahead of you, with no clear path towards mastery and practical application.  Fear not! For you have found a resource which shall aid you in your own quest to navigate the maze.
+
+### Purpose of this Blog
+
+The purpose of this blog is to document my own "delves" into this labyrinth and any resulting knowledge I have unearthed. I plan to focus on a range of topics, from general software engineering to data science, machine learning engineering, and MLOps, pulling from a range of experiences across my own career as a machine learning engineer and data scientist with a focus on practical, grounded application in industry following best practice.
+
+### Who am I?
+
+My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience. I love exploring all things machine learning with a particular emphasis on practical application and "making things real". When I'm not writing code, I enjoy swing dancing, reading, and playing video games.
+
+## Delve Data
+* Welcome to my blog!
+* Stay tuned for more posts on data science, machine learning, and MLOps!
+```
+
+This needed to be slightly modified like so:
+
+```markdown
+---
+date: 2023-11-06
+categories: 
+    - Meta
+---
+
+# Delve 0: Hello Labyrinth (World)!
+
+![Banner](../assets/images/banners/delve0.png)
+
+> It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
+
+## Entering the Labyrinth
+
+Welcome to my blog data delver! I'm so glad you found your way here!  If you're like me, when you first started out with data science and machine learning, you may have been feeling overwhelmed. With so many different concepts to learn it may have seemed as if there was an insurmountable labyrinth of information ahead of you, with no clear path towards mastery and practical application.  Fear not! For you have found a resource which shall aid you in your own quest to navigate the maze.
+
+<!-- more -->
+
+### Purpose of this Blog
+
+The purpose of this blog is to document my own "delves" into this labyrinth and any resulting knowledge I have unearthed. I plan to focus on a range of topics, from general software engineering to data science, machine learning engineering, and MLOps, pulling from a range of experiences across my own career as a machine learning engineer and data scientist with a focus on practical, grounded application in industry following best practice.
+
+### Who am I?
+
+My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience. I love exploring all things machine learning with a particular emphasis on practical application and "making things real". When I'm not writing code, I enjoy swing dancing, reading, and playing video games.
+
+## Delve Data
+* Welcome to my blog!
+* Stay tuned for more posts on data science, machine learning, and MLOps!
+```
+
+A few things to point out:
+
+* The post metadata is much more simplified
+* An explicit date now needs to be added to the metadata
+* `categories` metadata now needs to be represented as a list
+* The `title` and `banner` needed to be moved to the main body of the post
+* A `<!-- more -->` comment needed to be added to facilitate marking a cutoff for the post excerpt  
+
 ## Delve Data
 
 * Breaking our application into three layers *Data*, *Business Logic*, and *Interface* allows us to separate concerns within our codebase and make it more flexible and robust. 
