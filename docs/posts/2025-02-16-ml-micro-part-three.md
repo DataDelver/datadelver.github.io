@@ -12,7 +12,7 @@ tags:
 
 ![Banner](../assets/images/banners/delve8.png)
 
-> "For every minute spent organizing, an hour is earned." -Benjamin Franklin
+> "For every minute spent organizing, an hour is earned." - Benjamin Franklin
 
 ## ML Microservices, Completing the Layers
 

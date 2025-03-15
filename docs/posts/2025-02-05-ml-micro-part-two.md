@@ -12,7 +12,7 @@ tags:
 
 ![Banner](../assets/images/banners/delve7.png)
 
-> "Data is not just the new oil, it's also the new soil." -David McCandless
+> "Data is not just the new oil, it's also the new soil." - David McCandless
 
 ## ML Microservices, the Second
 

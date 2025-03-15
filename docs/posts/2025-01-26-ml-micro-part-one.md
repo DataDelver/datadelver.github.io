@@ -12,7 +12,7 @@ tags:
 
 ![Banner](../assets/images/banners/delve6.png)
 
-> "The beginning is the most important part of the work." -Plato
+> "The beginning is the most important part of the work." - Plato
 
 ## A New Year, A New Start
 
