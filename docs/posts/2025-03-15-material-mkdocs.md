@@ -6,6 +6,7 @@ tags:
     - Tools
 links:
     - Setting up a blog: https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/
+    - Creating a custom homepage: https://a3bagged.github.io/theme-test/custom-homepage/
 ---
 
 # Delve 9: Migrating from Jekyll to MkDocs
@@ -34,17 +35,17 @@ We can see that commits peaked around 2016 and then declined to the point where 
 
 ## Material for MkDocs, Made of the Right Stuff
 
-My inspiration for migrating came when I was browsing some of the articles in my favorite Python newsletter [PyCoders Weekly](https://pycoders.com/) and came across [one that was using a slick UI](https://blog.jonathanchun.com/2025/02/16/to-type-or-not-to-type/) (It's a good read by the way). At the bottom of the article was a link stating "Made with Material for MkDocs". Following the link brought me to the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) project and I was instantly impressed with what they had put together. It builds on top of the already popular [MkDocs](https://www.mkdocs.org/) project to provide a clean, modern theme inspired by material design principles. In addition, unlike Jekyll is has pretty active development community and is used by some pretty popular projects we've used on this blog to generate their websites like [uv](https://docs.astral.sh/uv/) and [FastAPI](https://fastapi.tiangolo.com/).
+My inspiration for migrating came when I was browsing some of the articles in my favorite Python newsletter [PyCoders Weekly](https://pycoders.com/) and came across [one that was using a slick UI](https://blog.jonathanchun.com/2025/02/16/to-type-or-not-to-type/) (It's a good read by the way). At the bottom of the article was a link stating "Made with Material for MkDocs". Following the link brought me to the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) project and I was instantly impressed with what they had put together. It builds on top of the already popular [MkDocs](https://www.mkdocs.org/) project to provide a clean, modern theme inspired by material design principles. In addition, unlike Jekyll it has pretty active development community and is used by some pretty popular projects we've used on this blog to generate their websites like [uv](https://docs.astral.sh/uv/) and [FastAPI](https://fastapi.tiangolo.com/).
 
 *Figure 2: Material for MkDocs Commits over Time*
 
 ![Material Commits over Time](../assets/images/figures/delve9/MaterialCommits.png)
 
-Finally, it uses Python as it's backend which means it's much easier for me to extend and work with. All of these reasons led me to decide to take the plunge and migrate.
+Finally, it uses Python as its backend which means it's much easier for me to extend and work with. All of these reasons led me to decide to take the plunge and migrate.
 
 ## Migrating from Jekyll to Material
 
-To kick things off I started by reading the [Setting up a blog](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/) documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:
+To kick things off I started by reading the [Basic blog tutorial](https://squidfunk.github.io/mkdocs-material/tutorials/blogs/basic/) documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:
 
 ```
 ├── README.md
@@ -65,7 +66,7 @@ To kick things off I started by reading the [Setting up a blog](https://squidfun
 
 Some other nice things here is since Material is a Python package we can use [uv](https://docs.astral.sh/uv/) and a `pyproject.toml` file to manage our dependencies!
 
-The next step was to clean up the Markdown of the posts themselves. An example of the Markdown of my very first post looked something like this:
+The next step was to clean up the Markdown of the posts themselves. For example, the Markdown of my very first post looked something like this:
 
 ```markdown
 ---
@@ -73,7 +74,6 @@ layout: post
 title:  "Delve 0: Hello Labyrinth (World)!"
 author: Chase
 categories: Meta
-top: 1
 banner: 
     image: "/assets/images/banners/delve0.png"
 ---
