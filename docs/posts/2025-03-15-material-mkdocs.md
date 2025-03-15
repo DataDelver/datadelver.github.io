@@ -9,7 +9,7 @@ links:
     - Creating a custom homepage: https://a3bagged.github.io/theme-test/custom-homepage/
 ---
 
-# Delve 9: Migrating from Jekyll to MkDocs
+# Delve 9: Migrating from Jekyll to Material for MkDocs
 
 ![Banner](../assets/images/banners/delve9.png)
 
@@ -35,7 +35,7 @@ We can see that commits peaked around 2016 and then declined to the point where 
 
 ## Material for MkDocs, Made of the Right Stuff
 
-My inspiration for migrating came when I was browsing some of the articles in my favorite Python newsletter [PyCoders Weekly](https://pycoders.com/) and came across [one that was using a slick UI](https://blog.jonathanchun.com/2025/02/16/to-type-or-not-to-type/) (It's a good read by the way). At the bottom of the article was a link stating "Made with Material for MkDocs". Following the link brought me to the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) project and I was instantly impressed with what they had put together. It builds on top of the already popular [MkDocs](https://www.mkdocs.org/) project to provide a clean, modern theme inspired by material design principles. In addition, unlike Jekyll it has pretty active development community and is used by some pretty popular projects we've used on this blog to generate their websites like [uv](https://docs.astral.sh/uv/) and [FastAPI](https://fastapi.tiangolo.com/).
+My inspiration for migrating came when I was browsing some of the articles in my favorite Python newsletter [PyCoders Weekly](https://pycoders.com/) and came across [one that was using a slick UI](https://blog.jonathanchun.com/2025/02/16/to-type-or-not-to-type/) (It's a good read by the way). At the bottom of the article was a link stating "Made with Material for MkDocs". Following the link brought me to the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) project and I was instantly impressed with what they had put together. It builds on top of the already popular [MkDocs](https://www.mkdocs.org/) project to provide a clean, modern theme inspired by material design principles. In addition, unlike Jekyll it has pretty active development community and is used by some very popular projects to generate their websites like [uv](https://docs.astral.sh/uv/) and [FastAPI](https://fastapi.tiangolo.com/).
 
 *Figure 2: Material for MkDocs Commits over Time*
 
@@ -45,7 +45,7 @@ Finally, it uses Python as its backend which means it's much easier for me to ex
 
 ## Migrating from Jekyll to Material
 
-To kick things off I started by reading the [Basic blog tutorial](https://squidfunk.github.io/mkdocs-material/tutorials/blogs/basic/) documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:
+To kick things off I started by reading the [basic blog tutorial](https://squidfunk.github.io/mkdocs-material/tutorials/blogs/basic/) documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:
 
 ```
 ├── README.md
@@ -174,7 +174,7 @@ With that you should have your posts fully rended and configured!
 
 ## Handling Link Migrations
 
-On thing that was very important to me was to not break any existing links to my blog that may have been published. By default, Material follows a different schema for post urls which would break any existing links. Fortunately there is a workaround for this.
+On thing that was very important to me was to not break any existing links to my blog that may have been published. Out of the box Material follows a different schema for post urls which would break any existing links. Fortunately there is a workaround for this.
 
 To begin by default Material does not add `.html` to the end of urls like Jekyll, however we can change this behavior by adding the following to our `mkdcos.yml` file:
 
@@ -184,10 +184,12 @@ use_directory_urls: false
 
 This adds `.html` to the end of post urls but Jeykll by default included other information in post urls like categories. For example:
 
-* Old url - https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html
-* New url - https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html
+| Engine     | URL                                                                                                                                                  |
+| ---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Jekyll     | [https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html](https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html)                   |
+| Material   | [https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html](https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html) |
 
-We can handle this by utilizing the [mkdocs-redirects plugin](https://github.com/mkdocs/mkdocs-redirects) to manually redirect these old url formats over to new ones. The trick is we have to link to the old url **as if a Markdown file existed at that location**.
+We can handle this by utilizing the [mkdocs-redirects plugin](https://github.com/mkdocs/mkdocs-redirects) to manually redirect these Jekyll url formats to the new Material ones. The trick is we have to link to the old url **as if a Markdown file existed at that location**.
 
 Functionally this looks like the following section in the `mkdocs.yml` file:
 
@@ -201,7 +203,7 @@ Using this approach we can redirect all of the old urls to the new format, prese
 
 ## Customizing the Home Page
 
-One final thing I wanted to modify for my blog was the homepage, the default landing page simply displays the list of posts, however I wanted to add a header image. In research this I found this [excellent tutorial](https://a3bagged.github.io/theme-test/custom-homepage/) by A3Bagged which covers how to do this.
+One final thing I wanted to modify for my blog was the homepage, the default landing page simply displays the list of posts, however I wanted to add a header image. In researching how this could be achieved I found this [excellent tutorial](https://a3bagged.github.io/theme-test/custom-homepage/) by A3Bagged which covers this exact topic.
 
 !!! note
     If you still want to display blog posts on your home page you will need to copy the contents of the [blog template](https://github.com/squidfunk/mkdocs-material/blob/master/material/templates/blog.html) and add it to the bottom of your `home.html` override.
@@ -263,7 +265,7 @@ Overall, the migration process was pretty smooth. One thing I did notice is the 
 
 I also didn't fully cover all of the plugins I used for this blog as I think the already existing plugin documentation does a good job of covering it. I encourage you to look at the [source code for this site](https://github.com/DataDelver/datadelver.github.io) if you are curious how I set anything up though!
 
-I'm very happy I made the jump to Material though, I like how the site looks now and am much more confident in my ability to support it moving forward! Let me know in the comments what you think of the redesign!
+I'm very happy I made the jump to Material, I like how the site looks now and am much more confident in my ability to support it moving forward! Let me know in the comments what you think of the redesign!
 
 ## Delve Data
 
