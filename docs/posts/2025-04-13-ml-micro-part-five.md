@@ -220,7 +220,7 @@ def test_get_objects() -> None:
     assert response.total == 495439
 ```
 
-When writing tests I like to follow a structure make popular by the [Behavior Driven Development](https://dannorth.net/introducing-bdd/) testing philosophy. Each test case has three sections:
+When writing tests I like to follow a structure made popular by the [Behavior Driven Development](https://dannorth.net/introducing-bdd/) testing philosophy. Each test case has three sections:
 
 * **Given** - Initial set of conditions
 * **When** - The test action occurs
@@ -260,6 +260,8 @@ def test_get_objects(httpx_mock) -> None:
 ```
 
 Here we take advantage of the special `httpx_mock` *fixture* to create a dummy response whenever a request is made to the url `https://collectionapi-dummy.metmuseum.org/public/collection/v1/objects`. We then use this dummy response to make assertions in our tests. Now we don't have to worry about the Met API changing their collection size and breaking our tests!
+
+We can go ahead and run this test by simply executing the `pytest` command in the root of the project or by using the [testing panel](https://code.visualstudio.com/docs/debugtest/testing) of VSCode.
 
 Now we could go ahead an repeat this logic for every test we want to write but it will become tedious to mock out the provider every time. Another way we could do this is create the mocked provider in a test *fixture* and re-use it in all of our tests. That would look something like this:
 
@@ -418,7 +420,7 @@ Note that we set `is_optional` to `True` for our mocked responses in the fixture
 !!! tip
     I find code generation tools like [GitHub Copilot](https://github.com/features/copilot) particularly good at generating test cases. I encourage you to try them out, they have saved me a lot of time!
 
-With our provider methods all tested we can move on to the *Service Layer* and test our `SearchService` class.
+With our provider methods all tested we can move on to the *Business Logic Layer* and test our `SearchService` class.
 
 ## Mock all the Things!
 Our search service just has one method to test `search_by_title` as a reminder, this is what the source code looks like:
@@ -569,7 +571,271 @@ def test_search_by_title(mock_provider: MagicMock) -> None:
 
 One other benefit of this type of mock is we can also make assertions if methods on the mock were called and what arguments were passed into them as we are doing with the `assert_called_once_with` method. Neat!
 
+This test covers the case where we have results to return but noticed that the `SearchService` should raise as `ValueError` in the case that no results are found. How can we test this behavior as well?
 
+!!! note
+    You will sometimes hear the terms "Happy Path" and "Sad Path" used in the context of these types of tests.  In this example the happy path is the case where things go "right" and we have results to return and the sad path is where things go "wrong" and we raise an exception. Ideally you should cover both happy and sad paths in your test cases with each path being it's own test case.
+
+It turns out pytest has a `raises` function that can be used in a context manager to implement this exact type of test:
+
+```python title="tests/unit/service/test_search_service.py" linenums="63"
+def test_search_by_title_no_results(mock_provider: MagicMock) -> None:
+    """Test the search_by_title method of the SearchService class when no results are found."""
+
+    # GIVEN
+    service = SearchService(mock_provider)
+    title = 'Nonexistent Title'
+    mock_provider.search.return_value = SearchResponse.model_validate(
+        {
+            'total': 0,
+            'objectIDs': [],
+        }
+    )
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match='No results found.'):
+        service.search_by_title(title)
+    mock_provider.search.assert_called_once_with(q=title)
+```
+
+A few things to note here is we have to override the return value of the search function of our mock to simulate no results. We can also verify we get back the expected error message by passing it into the `match` argument of the `raises` function. Finally given the structure of the code I often combine the *When* and *Then* sections of the test into one.
+
+That wraps up the tests of our business logic layer! We only have one more layer to go: The *Interface Layer*.
+
+## Bringing Unit Tests to the Interface
+
+By this point you should know the drill, we don't want to use the `SearchService` directly in our tests, instead we want to create a mock instead. We can take a look at the code of our main script:
+
+```python title="src/main.py" linenums="1"
+import os
+from fastapi import FastAPI, HTTPException
+
+from provider.met_provider import MetProvider
+from service.search_service import SearchService
+from shared.config.config_loader import load_config_settings
+
+app = FastAPI()
+app_settings = load_config_settings(os.getenv('ENV', 'dev'))
+search_service = SearchService(MetProvider(app_settings.met_api_url))
+
+
+@app.get('/api/search')
+def search(title: str) -> str:
+    """Executes a search against the Metropolitan Museum of Art API and returns the url of the primary image of the first search result.
+
+    Args:
+        title: The title of the work you wish to search for.
+
+    Returns:
+        The url of the primary image of the first search result or 'No results found.' if no search results are found.
+    """
+
+    try:
+        search_result = search_service.search_by_title(title)
+        return search_result.primary_image
+    except ValueError:
+        raise HTTPException(status_code=404, detail='No results found.')
+```
+
+Looks pretty simple. We have both a happy path of returning the primary image url and a sad path where we return a 404 status code. We'll want to test both. FastAPI fortunately provides a convenient [Test Client](https://fastapi.tiangolo.com/reference/testclient/) we can use to invoke the functions in our main script without needing to rig up making HTTP requests ourselves. Putting this together we can create a simple test script as follows:
+
+```python title="tests/test_main.py" linenums="1"
+from main import app
+from fastapi.testclient import TestClient
+from unittest.mock import MagicMock
+import pytest
+from pytest_mock import MockerFixture
+
+from service.search_service import SearchService
+
+
+@pytest.fixture
+def mock_search_service(mocker: MockerFixture) -> MagicMock:
+    """Mock the SearchService class."""
+
+    mock = MagicMock(SearchService)
+    mock.search_by_title.return_value.primary_image = 'https://example.com/image.jpg'
+    return mock
+
+
+def test_search(mock_search_service: MagicMock, mocker: MockerFixture) -> None:
+    """Test the search endpoint."""
+
+    # GIVEN
+    client = TestClient(app)
+    mocker.patch('main.search_service', mock_search_service)
+    title = 'Test Title'
+
+    # WHEN
+    response = client.get(f'/api/search?title={title}')
+
+    # THEN
+    assert response.status_code == 200
+    assert response.json() == 'https://example.com/image.jpg'
+    mock_search_service.search_by_title.assert_called_once_with(title)
+
+
+def test_search_no_results(mock_search_service: MagicMock, mocker: MockerFixture) -> None:
+    """Test the search endpoint when no results are found."""
+
+    # GIVEN
+    client = TestClient(app)
+    mocker.patch('main.search_service', mock_search_service)
+    mock_search_service.search_by_title.side_effect = ValueError('No results found.')
+    title = 'Test Title'
+
+    # WHEN
+    response = client.get(f'/api/search?title={title}')
+
+    # THEN
+    assert response.status_code == 404
+    assert response.json() == {'detail': 'No results found.'}
+```
+
+Notice how we can use the `TestClient` to make requests against our API and make assertions on the responses. With that we have a decent suite of unit tests for our code! But how can we know how much of the code we are testing?
+
+## No Code Left Behind: Test Coverage
+
+The question above relates to the concept of [Code Coverage](https://en.wikipedia.org/wiki/Code_coverage). There are many different ways to compute code coverage but perhaps one of the simplest is measuring the percentage of lines of code executed as a result of running all of your tests. Fortunately, the [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/readme.html) extension does exactly that. Go ahead an install it as a development dependency of the project.
+
+We can then add another section to our `pyproject.toml` to configure it like so:
+
+```toml title="pyproject.toml" linenums="33"
+[tool.coverage.run]
+omit = [
+    "tests",
+]
+source = [
+    "src",
+]
+
+[tool.coverage.report]
+fail_under = 60 
+show_missing = true
+skip_empty = true
+```
+
+You can read more about these config options [here](https://coverage.readthedocs.io/en/latest/config.html). An important one to call out is the `fail_under` setting. This represents a coverage threshold under which the test suite will be marked as a failure. This can be useful to make sure un-tested code doesn't accidentally get released! I generally like to set this to 60% with a goal of getting to at least 80%. Let's go ahead and run our tests and see were we are now:
+
+```
+$pytest --cov
+==================================================================================== test session starts =====================================================================================
+platform linux -- Python 3.13.1, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/datadelver/Documents/PythonProjects/DataDelver/modern-ml-microservices
+configfile: pyproject.toml
+testpaths: tests
+plugins: httpx-0.35.0, anyio-4.7.0, mock-3.14.0, cov-6.0.0
+collected 9 items                                                                                                                                                                           
+                                                                                                                                                 [ 20%]
+tests/unit/provider/test_met_provider.py ....                                                                                                                                          [ 60%]
+tests/unit/service/test_search_service.py ..                                                                                                                                           [ 80%]
+tests/unit/test_main.py ..                                                                                                                                                             [100%]
+
+---------- coverage: platform linux, python 3.13.1-final-0 -----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+src/main.py                             15      0   100%
+src/provider/met_provider.py            29      4    86%   35, 37, 84, 87
+src/service/search_service.py           12      0   100%
+src/shared/config/config_loader.py      20      0   100%
+src/shared/data_model_base.py            6      0   100%
+src/shared/dto/search_result.py          7      0   100%
+src/shared/view/met_view.py             19      0   100%
+------------------------------------------------------------------
+TOTAL                                  108      4    96%
+
+6 empty files skipped.
+
+Required test coverage of 60.0% reached. Total coverage: 96.30%
+```
+
+!!! tip
+    You can also use the [Run with Test Coverage](https://code.visualstudio.com/docs/debugtest/testing#_test-coverage) option in the VSCode testing panel to get a nice visual display of coverage!
+
+We are doing pretty good, but it looks like we are missing a few lines in the met provider. Taking a look we can see those lines are related to optional parameters that can get passed in. Let's add some tests to our `test_met_provider.py` script to fix this.
+
+```python title="tests/unit/provider/test_met_provider.py" linenums="112"
+def test_get_objects_with_metadata_date_and_department_ids(provider_with_mock_api: MetProvider, httpx_mock) -> None:
+    """Test the get_objects method of the MetProvider class with metadata date."""
+
+    # GIVEN
+    provider = provider_with_mock_api
+    metadata_date = datetime(day=1, month=1, year=2023)
+    department_ids = [1]
+    # Mock the response for the get_objects method with metadata date
+    httpx_mock.add_response(
+        url=f'{provider.base_url}/public/collection/v1/objects?metadataDate=2023-01-01&departmentIds=1',
+        json={
+            'total': 1,
+            'objectIDs': [1],
+        },
+    )
+
+    # WHEN
+    response = provider.get_objects(metadata_date=metadata_date, department_ids=department_ids)
+
+    # THEN
+    assert response.total == 1
+    assert response.object_ids == [1]
+
+def test_search_with_title_and_has_images(provider_with_mock_api: MetProvider, httpx_mock) -> None:
+    """Test the search method of the MetProvider class with title and has_images."""
+
+    # GIVEN
+    provider = provider_with_mock_api
+
+    # Mock the response for the search method with title and has_images
+    httpx_mock.add_response(
+        url=f'{provider.base_url}/public/collection/v1/search?q=Test+Title&title=true&hasImages=true',
+        json={
+            'total': 1,
+            'objectIDs': [1],
+        },
+    )
+
+    # WHEN
+    response = provider.search(q='Test Title', title=True, has_images=True)
+
+    # THEN
+    assert response.total == 1
+    assert response.object_ids == [1]
+```
+
+Let's re-run our tests and see what we get:
+
+```
+$pytest --cov
+==================================================================================== test session starts =====================================================================================
+platform linux -- Python 3.13.1, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/datadelver/Documents/PythonProjects/DataDelver/modern-ml-microservices
+configfile: pyproject.toml
+testpaths: tests
+plugins: httpx-0.35.0, anyio-4.7.0, mock-3.14.0, cov-6.0.0
+collected 11 items                                                                                                                                                                           
+                                                                                                                                                  [ 16%]
+tests/unit/provider/test_met_provider.py ......                                                                                                                                        [ 66%]
+tests/unit/service/test_search_service.py ..                                                                                                                                           [ 83%]
+tests/unit/test_main.py ..                                                                                                                                                             [100%]
+
+---------- coverage: platform linux, python 3.13.1-final-0 -----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+src/main.py                             15      0   100%
+src/provider/met_provider.py            29      0   100%
+src/service/search_service.py           12      0   100%
+src/shared/config/config_loader.py      20      0   100%
+src/shared/data_model_base.py            6      0   100%
+src/shared/dto/search_result.py          7      0   100%
+src/shared/view/met_view.py             19      0   100%
+------------------------------------------------------------------
+TOTAL                                  108      0   100%
+
+6 empty files skipped.
+
+Required test coverage of 60.0% reached. Total coverage: 100.00%
+```
+
+Nice 100%! Don't let this lull you into a false sense of security though, 100% coverage does not necessarily mean you have good tests or that there are no bugs. As will all metrics they are simply a tool for you to use, not a target. In practice I rarely get to 100% coverage on more complex codebases (though generally above 80% is a good place to shoot for). 
 
 ## Delve Data
 * Applications often have a need to change variable values per Deployment Environment
