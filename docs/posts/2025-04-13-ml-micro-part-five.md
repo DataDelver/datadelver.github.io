@@ -24,7 +24,7 @@ links:
 Hello data delvers! In [part four](2025-03-125-ml-micro-part-four.md) of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.  
 <!-- more -->
 
-As the complexity of the application grows, so too does the difficulty in verifying that it is behaving as expected. Right now, it is fairly straightforward to test our application. We can bring up the swagger docs, and try a few sample requests to make sure all is behaving as expected. However, we can imagine as we add more and more functionality to our app, it will become more tedious to do this type of *manual* testing every time we make a change to verify nothing has broken. Once more, if something does break, this testing may make it difficult to determine where in our application the break actually occurred (unless we have very, very helpful error messages). A better approach would be to have a set of *automated* tests, that run whenever we make a change to verify nothing has broken. It is this type of testing that I would like to focus on for the subject of this delve.
+As the complexity of the application grows, so too does the difficulty in verifying that it is behaving as expected. Right now, it is fairly straightforward to test our application. We can bring up the swagger docs, and try a few sample requests to make sure everything is working. However, we can imagine as we add more and more functionality to our app, it will become more tedious to do this type of *manual* testing every time we make a change to verify nothing has broken. Once more, if something does break, this testing may make it difficult to determine where in our application the break actually occurred (unless we have very, very helpful error messages). A better approach would be to have a set of *automated* tests that run whenever we make a change to verify nothing has broken. It is this type of testing that I would like to focus on for the subject of this delve.
 
 !!! info
     There are [many types of software testing](https://www.geeksforgeeks.org/types-software-testing/). For this delve we will be focusing on small subset of testing strategies. Other forms of testing may be covered in future delves.
@@ -33,10 +33,10 @@ As the complexity of the application grows, so too does the difficulty in verify
 
 To begin let's talk about how we might go about writing tests for our application. We could start at the highest level, trying to test the whole application in one go, sending it requests and validating responses. This solves the first problem of having to not run our tests manually anymore, but doesn't solve the second of trying to isolate where the breakage occurred. A different strategy would be to break the application into the smallest pieces possible and test each piece independently of the others and then once the pieces are verified to be working in isolation, test how they work together. In this way, if something breaks we should be able to tell were the breakage occurred because the test for the broken piece should fail. In this type of testing approach we call these pieces of the application *Units* and this testing strategy [Unit Testing](https://en.wikipedia.org/wiki/Unit_testing).
 
-The next question you may be asking is "Where to begin writing your unit tests?". This is more personal preference but I like to start at the lowest layers of my application and work my way up. For us that means starting at the *Data Layer* and working our way up, though it can be valid to start in the reverse order as well.
+The next question you may be asking is "Where to begin writing your unit tests?". This is more personal preference but I like to start at the lowest layers of my application and work my way up. For us that means starting at the *Data Layer*, though it can be valid to start in the reverse order as well.
 
 !!! note
-    Another valid question to ask is "When should I write my tests?". In this series we are following what I'd call the "conventional" or "typical" route of testing in which we already have working code and we are writing tests to ensure that is it behaving as expected. However, there is an alternative software development philosophy known as [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) that advocates for the opposite flow: That of writing the tests for a new piece of functionality first, then writing the code that passes the test. Test Driven Development has a lot of advantages, namely forcing the discussion around the desired functionality before any code to implement that functionality has been written. It is worth exploring this approach more and seeing if it aligns with your own development style more than the typical route. It's also worth mentioning that these two approaches are not mutually exclusive and can be mixed and matched as needed.
+    Another valid question to ask is "When should I write my tests?". In this series we are following what I'd call the "conventional" or "typical" route of testing in which we already have working code and we are writing tests to ensure that is it behaving as expected. However, there is an alternative software development philosophy known as [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) that advocates for the opposite flow: That of writing the tests for a new piece of functionality first, then writing the code that passes the test. Test Driven Development has a lot of advantages, namely forcing the discussion around the desired functionality before any code to implement that functionality has been written. It is worth exploring this approach more and seeing if it aligns better with your own development style than the typical route. It's also worth mentioning that these two approaches are not mutually exclusive and can be mixed and matched as needed.
 
 So if we follow this bottom up approach to testing we should begin at the *Data Layer* of our application with the `MetProvider` class. In order to do this we will need to install a few more dependencies. Namely [pytest](https://docs.pytest.org/en/stable/), [pytest-mock](https://pytest-mock.readthedocs.io/en/latest/index.html), and [pytest-httpx](https://github.com/Colin-b/pytest_httpx).
 
@@ -226,7 +226,7 @@ When writing tests I like to follow a structure made popular by the [Behavior Dr
 * **When** - The test action occurs
 * **Then** - Validate that the desired behavior has happened
 
-In this way you can write a test case as a simple sentence. For example the above test could be written as "Given a Met Provider connected to the Met API, when I call the get objects method, then I should get 495439 results back." Now, in writing the test case in this way you might already see the problem with this test. As of right now, when I call this route on the Met API I get 495439 results, but what happens if the Met adds another work to their collection? I would then get 495440 results back and this test would *fail* even though nothing is wrong with the code. This demonstrates an important principle of unit testing, that tests should be written in such a way that they test the unit in *isolation* and should not be dependent on the state of any external system to the unit in order for the test to succeed. So how can we address this?
+In this way you can write a test case as a simple sentence. For example the above test could be written as "Given a Met Provider connected to the Met API, when I call the get objects method, then I should get 495,439 results back." Now, in writing the test case in this way you might already see the problem with this test. As of right now, when I call this route on the Met API I get 495,439 results, but what happens if the Met adds another work to their collection? I would then get 495,440 results back and this test would *fail* even though nothing is wrong with the code. This demonstrates an important principle of unit testing, that tests should be written in such a way that they test the unit in *isolation* and should not be dependent on the state of any external system to the unit in order for the test to succeed. So how can we address this?
 
 !!! note
     This quality of independence from external systems is not always prohibited and is even desired for types of testing other than unit testing.
@@ -300,7 +300,7 @@ def test_get_objects(provider_with_mock_api: MetProvider) -> None:
     assert response.object_ids == [1]
 ```
 
-Now every test that needs the provider mocked out can simply take in the `provider_with_mock_api` argument. With this pattern in had we can go ahead and write the rest of our test cases:
+Now every test that needs the provider mocked out can simply take in the `provider_with_mock_api` argument. With this pattern in hand we can go ahead and write the rest of our test cases:
 
 ```python title="tests/unit/provider/test_met_provider.py" linenums="1"
 from provider.met_provider import MetProvider
@@ -423,7 +423,7 @@ Note that we set `is_optional` to `True` for our mocked responses in the fixture
 With our provider methods all tested we can move on to the *Business Logic Layer* and test our `SearchService` class.
 
 ## Mock all the Things!
-Our search service just has one method to test `search_by_title` as a reminder, this is what the source code looks like:
+Our search service just has one method to test `search_by_title`. As a reminder, this is what the source code looks like:
 
 ```python title="src/service/search_service.py" linenums="1"
 from provider.met_provider import MetProvider
@@ -692,7 +692,7 @@ def test_search_no_results(mock_search_service: MagicMock, mocker: MockerFixture
     assert response.json() == {'detail': 'No results found.'}
 ```
 
-Notice how we can use the `TestClient` to make requests against our API and make assertions on the responses. With that we have a decent suite of unit tests for our code! But how can we know how much of the code we are testing?
+Notice how we can use the `TestClient` to make requests against our API and make assertions on the responses. We also use `mocker.patch` to replace the search service of the app after it has been created. Finally in the case where we want the search to raise an exception we can use the `side_effect` attribute of the mock. With that we have a decent suite of unit tests for our code! But how can we know how much of the code we are testing?
 
 ## No Code Left Behind: Test Coverage
 
@@ -835,9 +835,162 @@ TOTAL                                  108      0   100%
 Required test coverage of 60.0% reached. Total coverage: 100.00%
 ```
 
-Nice 100%! Don't let this lull you into a false sense of security though, 100% coverage does not necessarily mean you have good tests or that there are no bugs. As will all metrics they are simply a tool for you to use, not a target. In practice I rarely get to 100% coverage on more complex codebases (though generally above 80% is a good place to shoot for). 
+Nice 100%! Don't let this lull you into a false sense of security though, 100% coverage does not necessarily mean you have good tests or that there are no bugs. As with all metrics they are simply a tool for you to use, not a target. In practice I rarely get to 100% coverage on more complex codebases (though generally above 80% is a good place to shoot for). 
+
+With that we have successfully unit tested our code, but we aren't done yet!
+
+## Testing Together: Because No Unit Is an Island
+
+So far we have tested how each component of our application has worked in *isolation*, but we haven't tested how they work *together*. This type of testing falls under the category of *Integration Testing* and is similar to the premise we first started with. Of making test calls to our application and verifying the responses. In this way, we can ensure all the layers are operating together correctly.
+
+To start off we need to tell pytest we are going to have a different type of test now. I like to prefix my integration tests with `inttest_` instead of `test_` so we need to update our config appropriately:
+
+```toml title="pyproject.toml" linenums="22" hl_lines="9"
+[tool.pytest.ini_options]
+minversion = "6.0"
+pythonpath = "src"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "inttest_*.py",
+]
+```
+
+Next, we'll create a test that looks very similar to our unit test for the main script but without the mock search service.
+
+```python title="tests/unit/provider/test_met_provider.py" linenums="112"
+from main import app
+from fastapi.testclient import TestClient
+import pytest
+from pytest_mock import MockerFixture
+
+from provider.met_provider import MetProvider
+from service.search_service import SearchService
+
+
+@pytest.fixture
+def search_service(provider_with_mock_api: MetProvider) -> SearchService:
+    """Fixture to provide a mocked SearchService instance."""
+    return SearchService(provider_with_mock_api)
+
+
+def test_search(search_service: SearchService, mocker: MockerFixture) -> None:
+    """Test the search endpoint."""
+
+    # GIVEN
+    client = TestClient(app)
+    mocker.patch('main.search_service', search_service)
+    title = 'Test Title'
+
+    # WHEN
+    response = client.get(f'/api/search?title={title}')
+
+    # THEN
+    assert response.status_code == 200
+    assert response.json() == 'https://example.com/image.jpg'
+
+
+def test_search_no_results(search_service: SearchService, mocker: MockerFixture, httpx_mock) -> None:
+    """Test the search endpoint when no results are found."""
+
+    # GIVEN
+    client = TestClient(app)
+    mocker.patch('main.search_service', search_service)
+    httpx_mock.add_response(
+        url=f'{search_service.met_provider.base_url}/public/collection/v1/search?q=Test No Results Title',
+        json={
+            'total': 0,
+            'objectIDs': [],
+        },
+    )
+    title = 'Test No Results Title'
+
+    # WHEN
+    response = client.get(f'/api/search?title={title}')
+
+    # THEN
+    assert response.status_code == 404
+    assert response.json() == {'detail': 'No results found.'}
+```
+
+Let's break this down. We still don't want to hit the real Met API so we still need our `provider_with_mock_api` fixture, but now we want to create a `SearchService` instance that uses it, which we do in the `search_service` fixture. In this way we will execute all the layers of the app up until the API call and be able to validate that they are working as expected. For the sad path we also have to provide a slightly different response that returns no results to trigger the error condition. 
+
+Now, you may have noticed that I didn't copy paste the `provider_with_mock_api` fixture here, how can this be? Well, pytest provides a special file called `conftest.py` that gets run before the test suite is executed (not before every test). It's the perfect place to put shared fixtures we want to use in different test scripts. Go ahead and move the `provider_with_mock_api` fixture to a file called `tests/conftest.py` like so:
+
+```python title="tests/conftest.py" linenums="1"
+import pytest
+
+from provider.met_provider import MetProvider
+
+
+@pytest.fixture
+def provider_with_mock_api(httpx_mock) -> MetProvider:
+    """Mock responses for the Metropolitan Museum of Art API."""
+
+    dummy_url = 'https://collectionapi-dummy.metmuseum.org'
+
+    # Mock the response for the get_objects method
+    httpx_mock.add_response(
+        url=f'{dummy_url}/public/collection/v1/objects',
+        json={
+            'total': 1,
+            'objectIDs': [1],
+        },
+        is_optional=True,
+    )
+
+    # Mock the response for the get_object method
+    httpx_mock.add_response(
+        url=f'{dummy_url}/public/collection/v1/objects/1',
+        json={
+            'objectID': 1,
+            'title': 'Test Object',
+            'primaryImage': 'https://example.com/image.jpg',
+            'additionalImages': [
+                'https://example.com/image1.jpg',
+                'https://example.com/image2.jpg',
+            ],
+        },
+        is_optional=True,
+    )
+
+    # Mock the response for the get_departments method
+    httpx_mock.add_response(
+        url=f'{dummy_url}/public/collection/v1/departments',
+        json={
+            'departments': [
+                {
+                    'departmentId': 1,
+                    'displayName': 'Test Department',
+                },
+            ],
+        },
+        is_optional=True,
+    )
+
+    # Mock the response for the search method
+    httpx_mock.add_response(
+        url=f'{dummy_url}/public/collection/v1/search?q=Test Title',
+        json={
+            'total': 1,
+            'objectIDs': [1],
+        },
+        is_optional=True,
+    )
+
+    return MetProvider(dummy_url)
+```
+
+Now we can use this fixture in all of our tests!
+
+## Just the Beginning
+
+This wraps up our brief delve into the world of automated software testing! We just scratched the surface of what is possible here but hopefully it gives you enough to get started! In the future we may cover other types of testing, let me know in the comments below if that's something you'd like to see! Full code for this part is available [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-five)!
 
 ## Delve Data
-* Applications often have a need to change variable values per Deployment Environment
-* Hard coding these values makes this difficult
-* Using tools like Pydantic Settings, we can create a configuration file that makes it easy to switch these values per environment
+* There are many types of software testing strategies available to validate that sofware is behaving as expected
+* Unit testing seeks to test each piece of the application in isolation
+* Integration testing seeks to test how each piece of the application works together
+* Tools like pytest and its extensions help automate this testing process
