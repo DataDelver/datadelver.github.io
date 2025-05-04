@@ -21,7 +21,7 @@ links:
 
 ## ML Microservices, Keep Calm and Run Your Tests
 
-Hello data delvers! In [part four](2025-03-125-ml-micro-part-four.md) of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.  
+Hello data delvers! In [part four](2025-03-25-ml-micro-part-four.md) of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.  
 <!-- more -->
 
 As the complexity of the application grows, so too does the difficulty in verifying that it is behaving as expected. Right now, it is fairly straightforward to test our application. We can bring up the swagger docs, and try a few sample requests to make sure everything is working. However, we can imagine as we add more and more functionality to our app, it will become more tedious to do this type of *manual* testing every time we make a change to verify nothing has broken. Once more, if something does break, this testing may make it difficult to determine where in our application the break actually occurred (unless we have very, very helpful error messages). A better approach would be to have a set of *automated* tests that run whenever we make a change to verify nothing has broken. It is this type of testing that I would like to focus on for the subject of this delve.
