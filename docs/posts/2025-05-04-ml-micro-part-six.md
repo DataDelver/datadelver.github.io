@@ -22,7 +22,7 @@ links:
 
 ## ML Microservices, Deployment through Docker
 
-Hello data delvers! In [part five](2025-04-13-ml-micro-part-five.md) of this series we added automated tests to our application to make it easier to catch bugs. I this part we'll cover packaging and deploying the app!  
+Hello data delvers! In [part five](2025-04-13-ml-micro-part-five.md) of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!  
 <!-- more -->
 
 ## From Near to Afar, Or How to Leave my Local Machine
