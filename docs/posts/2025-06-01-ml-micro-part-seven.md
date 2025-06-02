@@ -15,7 +15,7 @@ links:
     - Part Six: posts/2025-05-04-ml-micro-part-six.md
 ---
 
-# Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model APIs and Versioning with MLFlow
+# Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow
 
 ![Banner](../assets/images/banners/delve13.png)
 
@@ -23,16 +23,16 @@ links:
 
 ## Reset and Rescope
 
-Hello data delvers! In [part six](2025-05-04-ml-micro-part-six.md) of this series we containerized our application, making it portable and easy to deploy. For this part we will take a step back. Introduce machine learning (finally!), and explore how we can incorporate machine learning models into our microservice ecosystem!   
+Hello data delvers! In [part six](2025-05-04-ml-micro-part-six.md) of this series we containerized our application, making it portable and easy to deploy. For this part we will take a step back. Introduce machine learning (finally!), and explore how we can begin to incorporate machine learning models into our microservice ecosystem!   
 <!-- more -->
 
 ## Machine Learning (Finally!)
 
-This series has up until now focused on *core software engineering knowledge*. This is intentional, if you've read [some of my previous delves](2024-04-27-ml-engineer.md), you'll know that I view machine learning grounded in good software engineering practices essential to extract business value at scale. It is for this reason I wanted to ensure we had laid a sturdy foundation in engineering before introducing the science, but without further ado, let's dive in!
+This series has up until now focused on *core software engineering knowledge*. This is intentional, if you've read [some of my previous delves](2024-04-27-ml-engineer.md), you'll know that I view machine learning grounded in good software engineering practices as essential to extract business value at scale. It is for this reason I wanted to ensure we had laid a sturdy foundation in engineering before introducing the science, but without further ado, let's dive in!
 
-This series will not focus on machine learning fundamentals as there are [plenty of good resources out there already that already cover that](2023-12-23-ml-resources.md), however what I will touch on is how to develop machine learning models with an engineering mindset. To begin, go ahead and create an account on [kaggle](https://www.kaggle.com/). Kaggle is ubiquitous in the data science world as a place to host competitive data science competitions (like the famous [Zillow Prize](https://www.kaggle.com/c/zillow-prize-1)), but it is also an invaluable resource to learn. For this delve we will be working with the dataset provided by the [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) learning competition so go ahead an sign up to it with your kaggle account and take a quick look at the data it provides as well as some of the submissions others have made to the competition to get a feel for what is working. 
+This series will not focus on machine learning fundamentals as there are [plenty of good resources out there already that already cover that](2023-12-23-ml-resources.md), however what I will touch on is how to develop machine learning models with an engineering mindset. To begin, go ahead and create an account on [kaggle](https://www.kaggle.com/). Kaggle is ubiquitous in the data science world as a place to host competitive data science competitions (like the famous [Zillow Prize](https://www.kaggle.com/c/zillow-prize-1)), but it is also an invaluable resource to learn from. For this delve we will be working with the dataset provided by the [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) learning competition so go ahead an sign up to it with your kaggle account and take a quick look at the data it provides as well as some of the submissions others have made to the competition to get a feel for what is working. 
 
-## Preparing Your Project
+## Prepare Your Project
 
 Instead of building off our existing codebase we are going to start fresh with a brand new project (don't worry we'll be revisiting our previous codebase in a future delve!). Go ahead and initialize a starter project with `uv init` that will give you a basic file structure that looks something like this:
 
@@ -45,7 +45,7 @@ Instead of building off our existing codebase we are going to start fresh with a
 └── pyproject.toml
 ```
 
-You can go ahead a remove the `hello.py` script, we won't be using it. Now, our future project will have multiple different parts for *training* the model, and *using* the model as part of microservices. As you can probably imagine, the set of Python library dependencies we have for training the model may be different that the Python library dependencies we have when we use the model. However, any libraries we have in common throughout the different parts of the project we probably want to stay the same version.  Previously this was a big headache, we could have different `requirements.txt` files for the different project parts to maintain different sets of dependencies, but making sure that if a dependency was re-used it multiple parts it was the same version? Good luck! Fortunately for us `uv` comes to the rescue here with it's concept of [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/). We can have a single uv workspace with one `uv.lock` file but multiple different sub-applications within it with their own dependency lists.
+You can go ahead a remove the `hello.py` script, we won't be using it. Now, our future project will have multiple different parts. Such as for *training* the model, and *using* the model as part of microservices. As you can probably imagine, the set of Python library dependencies we have for training the model may be different than the Python library dependencies we have when we use the model. However, any libraries we have in common throughout the different parts of the project we probably want to stay the same version.  Previously this was a big headache, we could have different `requirements.txt` files for the different project parts to maintain different sets of dependencies, but making sure that if a dependency was re-used in multiple parts it was the same version? Good luck! Fortunately for us `uv` comes to the rescue here with its concept of [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/). We can have a single uv workspace with one `uv.lock` file but multiple different sub-applications within it with their own dependency lists.
 
 Let's try it out! Go ahead and create a `housing-price-model` directory to hold our model application. Within it create a new `pyproject.toml` file with the following contents:
 
@@ -60,7 +60,7 @@ requires-python = ">=3.13"
 
 The final trick to make this work is we have to modify the root `pyproject.toml` file to let uv know about this workspace member:
 
-```toml title="housing-price-model" linenums="1" hl_lines="9-10"
+```toml title="pyproject.toml" linenums="1" hl_lines="9-10"
 [project]
 name = "modern-ml-microservices"
 version = "0.1.0"
@@ -115,9 +115,9 @@ With that we should have our final project directory structure that looks like t
 └── pyproject.toml
 ```
 
-## Building a Model
+## Build a Model
 
-To start off with we need to install our project dependencies. First off make sure you are in the `housing-price-model` directory in your shell, they you can use `uv add` to install all of these dependencies:
+To start off with we need to install our project dependencies. First off make sure you are in the `housing-price-model` directory in your shell, then you can use `uv add` to install all of these dependencies:
 
 * [pandas](https://pandas.pydata.org/) - Standard library for data manipulation
 * [scikit-learn](https://scikit-learn.org/stable/) - The most popular library for doing machine learning in Python
@@ -177,7 +177,7 @@ train.head()
 
 We can take note out test data has one less column then our training data (this makes sense since it doesn't have an actual price for each house).
 
-If we want to visualize our target variable (Sale Price) we can do so using plotly like so:
+If we want to visualize our target variable (Sale Price) we can do so using Plotly like so:
 
 ```python title="Cell 3" linenums="1"
 # Create a histogram chart using Plotly
@@ -263,7 +263,7 @@ print(f'Categorical columns: {categorical_columns}')
 
 ## Feature Engineering
 
-The next part of our notebook will focus on feature engineering and where I also want to spend a decent amount of time. Feature engineering is in my experience often where the breakdown between Data Scientists and ML Engineers occurs. I think a large part of this is due to how feature engineering is typically presented in tutorials (and indeed many of the notebooks submitted to this competition). It is usually viewed as a separate stage of the pipeline *distinct* from the model itself. In such cases you will typically see pandas being used (the ubiquitous `pd.get_dummies()` for encoding categorical variables for example) to transform the dataset into the features the model utilizes. This creates two issues:
+The next part of our notebook will focus on feature engineering. It is also where I want to spend a decent amount of time. Feature engineering is in my experience often where the breakdown between Data Scientists and ML Engineers occurs. I think a large part of this is due to how feature engineering is typically presented in tutorials (and indeed many of the notebooks submitted to this competition). It is usually viewed as a separate stage of the pipeline *distinct* from the model itself. In such cases you will typically see pandas being used (the ubiquitous `pd.get_dummies()` for encoding categorical variables for example) to transform the dataset into the features the model utilizes. This creates two issues:
 
 1. Since feature engineering can be any arbitrary python code it can become very complex and very messy
 2. Any feature engineering that is performed will have to be replicated in the environment where the model is used to make predictions
@@ -272,7 +272,7 @@ These issues combine to create situations where engineers must translate and rep
 
 Instead of treating the feature engineering logic as a separate component, we could bundle it with the model itself. We'd have to set some constraints on what feature transformations could be performed (they couldn't call out to external APIs for example), but then we wouldn't have to worry about replicating any feature engineering logic as it would be a part of the model!
 
-scikit learn actually supports this concept through the use of [Column Transformers & Pipelines](https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html), though it is sadly not widely publicized. For example if we wanted to replace all values missing from numeric columns with their median, and all categorical values with their most frequent value we could do the following transformation in pandas:
+scikit-learn actually supports this concept through the use of [Column Transformers & Pipelines](https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html), though it is sadly not widely publicized. For example if we wanted to replace all values missing from numeric columns with their median, and all categorical values with their most frequent value we could do the following transformation in pandas:
 
 ```python title="Hypothetical Feature Engineering" linenums="1"
 # Fill numeric columns with median
@@ -307,7 +307,7 @@ impute_transformer = ColumnTransformer(
 )
 ```
 
-The `ColumnTransformer` takes in a list of tuples where the first value is a name for the transformation, the second value is a function conforming to the scikit learn transformer signature, and the third value is a list of columns to apply the transformation on. Hopefully you can already see how this is a much more structured and uniform form than the previous code. Now you might say "That's great if I want to do a transformation built into scikit learn, but what if it doesn't have the functionality I need?". Fortunately, sckit learn supports creating your own transformer functions pretty easily with the [FunctionTransformer](https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.FunctionTransformer.html) or your own transformer class by inheriting from [TransformerMixin](https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html) so you aren't really giving up any functionality, just obeying a common signature.
+The `ColumnTransformer` takes in a list of tuples where the first value is a name for the transformation, the second value is a function conforming to the scikit-learn transformer signature, and the third value is a list of columns to apply the transformation on. Hopefully you can already see how this is much more structured and uniform compared to the previous code. Now you might say "That's great if I want to do a transformation built into scikit-learn, but what if it doesn't have the functionality I need?". Fortunately, scikit-learn supports creating your own transformer functions pretty easily with the [FunctionTransformer](https://scikit-learn.org/1.6/modules/generated/sklearn.preprocessing.FunctionTransformer.html) or your own transformer class by inheriting from [TransformerMixin](https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html) so you aren't really giving up any functionality, just obeying a common signature.
 
 We can apply [one-hot encoding](https://en.wikipedia.org/wiki/One-hot) to our categorical features in a similar way:
 
@@ -361,14 +361,14 @@ And make predictions on the test set with:
 pipeline.predict(test)
 ```
 
-Notice how we didn't have to transform our data at all before we fed it into the model for predictions? That's the power of attaching our feature engineering directly to the model! Now some poor engineer doesn't have to replicate that logic anywhere and if we wanted to test different versions of the model with different feature engineering logic? No sweat, each version has the correct logic attached to it already. Hopefully it's clear how this simple approach of attaching feature engineering logic to models can dramatically reduce friction when deploying them and speed up time to production.
+Notice how we didn't have to transform our data at all before we fed it into the model for predictions? That's the power of attaching our feature engineering directly to the model! Now some poor engineer doesn't have to replicate that logic anywhere and if we wanted to test different versions of the model with different feature engineering logic? No sweat, each version has the correct logic attached to it already. This simple approach of attaching feature engineering logic to models can dramatically reduce friction when deploying them and speed up time to production.
 
 !!! tip
-    As with any software pattern, bundling feature engineering logic with the model has potential to be mis-used. (I've seen whole A/B tests orchestrated within bundled feature engineering logic for example). When deciding what logic to bundle with the model a good rule of thumb is if it specific to the training set the model was built on (a median value changes based on the samples in the training set for example) consider bundling it with the model. If the transformation is not related to the training set (choosing which version of the model to use for which customers for example) don't bundle it. This rule can be broken however if computing the feature on-the-fly as data is sent to the model is computationally expensive. As with all things, a balance must be found between convenience and computational practicality.
+    As with any software pattern, bundling feature engineering logic with the model has potential to be misused. (I've seen whole A/B tests orchestrated within bundled feature engineering logic for example). When deciding what logic to bundle with the model a good rule of thumb is if it specific to the training set the model was built on (a median value changes based on the samples in the training set for example) consider bundling it with the model. If the transformation is not related to the training set (choosing which version of the model to use for which customers for example) don't bundle it. This rule can be broken however if computing the feature on-the-fly as data is sent to the model is computationally expensive. As with all things, a balance must be found between convenience and computational practicality.
 
 ## Get in the Flow with MLFlow
 
-As with all science, the key to success is experimentation. We rarely get it right the first try, we have to try different algorithms and parameters to see what works and what doesn't for the problem we are trying to solve, [there is no free lunch](https://en.wikipedia.org/wiki/No_free_lunch_theorem). Therefore, keeping track of our experiments is of paramount importance and that's where another tool [MLFlow](https://mlflow.org/), is particularly helpful. Backed by the same company that created Databricks, MLFlow is an all in one solution for experiment tracking and reporting, model versioning, and more. We can install it by running `uv add mlflow` in the root of our project.
+As with all science, the key to success is experimentation. We rarely get it right the first try, we have to try different algorithms and parameters to see what works and what doesn't for the problem we are trying to solve, [there is no free lunch](https://en.wikipedia.org/wiki/No_free_lunch_theorem). Therefore, keeping track of our experiments is of paramount importance and that's where another tool, [MLFlow](https://mlflow.org/), is particularly helpful. Backed by the same company that created Databricks, MLFlow is an all in one solution for experiment tracking and reporting, model versioning, and more. We can install it by running `uv add mlflow` in the root of our project.
 
 MLFlow follows a centralized server paradigm but for example purposes we can run the server locally. Create a new directory in the project root called `mlflow-server` and inside an executable bash script with the following contents:
 
@@ -395,7 +395,7 @@ Go ahead execute the script to start MLFlow and check out the server UI, there w
 !!! tip
     MLFlow will create two directories `mlartifacts` and `mlruns` when it executes. You can choose to add these to the .gitignore so they don't get checked in (and you probably should in production settings) but it means your trained model artifacts will *not* be checked into git.
 
-Next we are going to be modifying our notebook to utilize MLFlow as well, since MLFlow will be a modeling dependency as well, we can add it by running `uv add mlflow` in the `housing-price-model` directory as well (importantly the same version of MLFlow will be used).
+Next we are going to be modifying our notebook to utilize MLFlow. Since MLFlow is a dependency of modeling, we can add it to the `housing-price-model` application by running `uv add mlflow` in the `housing-price-model` directory as well (importantly the same version of MLFlow will be used).
 
 First we have to import MLFlow:
 
@@ -425,7 +425,7 @@ mlflow.set_tracking_uri(uri='http://127.0.0.1:9999')
 mlflow.set_experiment('Housing Price Prediction')
 ```
 
-Next we modify our training code to run under an mlflow experiment and log the trained model along with some metrics using MLFlow:
+Next we modify our training code to run under an MLFlow experiment and log the trained model along with some metrics using MLFlow:
 
 ```python title="Cell 14 (Modified)" linenums="1"
 # Create a new MLflow Experiment
@@ -469,7 +469,7 @@ print("Random Forest MAE:", mae)
 
 A few thing to note here:
 
-* The model training code is run under a `with mlflow.start_run():` clause, this tells mlflow this code will be a new `run` under the experiment.
+* The model training code is run under a `with mlflow.start_run():` clause, this tells MLFlow this code will be a new `run` under the experiment.
 * Model metrics and figures can be logged along with the model using the `log_metric()` and `log_figures()` functions respectively
 * `infer_signature` can be used to auto-infer a model data contract from the training data
 * The model artifact itself is logged with `log_model()`
@@ -514,9 +514,7 @@ mlflow models generate-dockerfile --model-uri $1 --output-directory build --enab
 docker build -t $2 build
 ```
 
-Go into the MLFlow UI and copy the 
-
-We can then execute it by running `./model-build.sh runs:/{RUN_ID}/model house-price-model` where `{RUN_ID}` is the Run ID in the MLFlow UI.
+We can then execute it by running `./model-build.sh runs:/{RUN_ID}/model house-price-model` where `{RUN_ID}` is the Run ID of the model training run, which you can find in the MLFlow UI.
 
 !!! tip
     You may need to export the location of the MLFlow tracking server to an environment variable with the following command `export MLFLOW_TRACKING_URI=http://localhost:9999` in order to for it work (or add it to you .bashrc file or equivalent)
@@ -549,7 +547,7 @@ Then run `docker compose up`!
 
 In order to hit out API, MLFlow expects the data in something know as [dataframe_split](https://mlflow.org/docs/latest/deployment/deploy-model-locally/#json-input) format. Fortunately, we can easily convert our test dataset into that format by running the following snippet of code in our model training notebook:
 
-```python linenums="1"
+```python title="Model Input JSON Conversion Snippet" linenums="1"
 import json
 
 json.dumps({
@@ -559,7 +557,7 @@ json.dumps({
 
 This will grab the first five rows of the dataset. Use your REST client of choice (I like [Bruno](https://www.usebruno.com/)) to put the JSON in the body of a POST request and send it to `http://localhost:8080/invocations` You should get something like the following output back:
 
-```json linenums="1"
+```json title="Model Output Predictions" linenums="1"
 {
     "predictions": [
         128528.33,
@@ -571,7 +569,7 @@ This will grab the first five rows of the dataset. Use your REST client of choic
 }
 ```
 
-Where each element in the array is the prediction for the corresponding row in the input dataframe. Congradulations! You now have a deployed model API!
+Where each element in the array is the prediction for the corresponding row in the input dataframe. Congradulations! You now have a running model API!
 
 ## Putting it all Together
 
@@ -579,5 +577,5 @@ Training and deploying models is the heart of MLOps and is often frought with fr
 
 ## Delve Data
 * Many challenges exist when training and deploying ML models
-* By leveraging scikit learn column transformers and pipelines we can greatly reduce the amount of feature engineering translation logic that needs to be done
+* By leveraging scikit-learn column transformers and pipelines we can greatly reduce the amount of feature engineering translation logic that needs to be done
 * MLFlow provides a convient framework for both tracking model experimentation and deploying model artifacts as APIs
