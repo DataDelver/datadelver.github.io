@@ -1,5 +1,5 @@
 ---
-date: 2025-07-01
+date: 2025-07-21
 categories:
     - ML Engineering
 tags: 
@@ -90,11 +90,11 @@ If you make it through the initial round of technical interviews you will also t
 
 ### Behavioral/Hiring Manager 
 
-Typically conducted by the Hiring Manger, usually focused on your past experiences. It's good to have a set of stories prepared for different types of situations such as learning something new, navigating a conflict with a co-worker, collaborating with business partners, etc. The stories don't always have to be completely positive either, having examples of "Looking back I would have done this differently because of X" can be useful to demonstrate your own self-introspection and growth. The [STAR Method](https://interviewkickstart.com/blogs/career-advice/situational-scenario-based-interview-questions-answers) can be particularly useful here.
+These are typically conducted by the Hiring Manger and usually focused on your past experiences. It's good to have a set of stories prepared for different types of situations such as learning something new, navigating a conflict with a co-worker, collaborating with business partners, etc. The stories don't always have to be completely positive either, having examples of "Looking back I would have done this differently because of X" can be useful to demonstrate your own self-introspection and growth. The [STAR Method](https://interviewkickstart.com/blogs/career-advice/situational-scenario-based-interview-questions-answers) can be particularly useful here.
 
 ### Product/Past Project
 
-This type of interview can be presented in a few different ways, it sometimes takes the form of being asked to give an overview of a past project that you've worked on, other times you are being asked to develop a new product from scratch. What ties these together is the emphasis on *measurable* business value. For your past project be prepared to discuss what some of the Key Performance Indicators (KPIs) are, how you measured the impact of your project against these KPIs, and what the outcome was (hopefully positive!). For designing a new product the ask is the same but instead of having real results you are theorizing what hypothetical results could be. In this scenario be prepared to discuss how you would adjust if a certain KPI shifted, and what some of the tradeoffs in your approach could be.
+This type of interview can be presented in a few different ways, it sometimes takes the form of being asked to give an overview of a past project that you've worked on, other times you are being asked to develop a new product from scratch. What ties these together is the emphasis on *measurable* business value. For your past project be prepared to discuss what some of the Key Performance Indicators (KPIs) were, how you measured the impact of your project against these KPIs, and what the outcome was (hopefully positive!). For designing a new product the ask is the same but instead of having real results you are theorizing what hypothetical results could be. In this scenario be prepared to discuss how you would adjust if a certain KPI shifted, and what some of the tradeoffs in your approach could be.
 
 ### Stakeholder
 
@@ -118,6 +118,11 @@ How these stack rank is up to you, the one piece of advice I'd give at this stag
 ## Closing Thoughts
 
 The journey to find a new job can be both exciting and stressful. My final words of advice are do not rush. Allocate 3-6 months for your search, you don't want to necessarily accept the first opportunity that comes your way if it doesn't check all of your boxes but also don't go searching for the "perfect" role either, there are always tradeoffs. Finally, don't get discouraged! If you are finding you are not getting responses to your applications take a step back, work on your profile and try again. If you find that you aren't passing a particular type of interview, identify your weaknesses and work on them. The right opportunity will eventually come. 🙂
+
+## Additional Reading
+
+* [(Opinionated) Guide to ML Engineer Job Hunting](https://www.yuan-meng.com/posts/mle_interviews/) - An article from Yuan Meng on his experience hunting for an MLE role, provides a good additional perspective on the types of interviews encountered
+* [Preparing for Your Full Loop Interview at Meta](https://www.metacareers.com/ML-prep-onsite) - A guide from the Meta MLE group on their interview process, good reference for what to expect at FAANG level roles
 
 ## Delve Data
 * Searching for a Machine Learning Engineer Role can be both exciting and stressful
