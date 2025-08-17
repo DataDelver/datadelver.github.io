@@ -263,7 +263,7 @@ In the context of our simple ecosystem this pattern would look like this:
 
 With the theory out of the way, let's write some code!
 
-## Building the Orchestrator: Setup (uv Workspaces for the Win!)
+## Building the Orchestrator: Setup
 
 To start off we need to modify our project structure to include an additional project within our workspace to house our orchestrator service. We can rely on the uv workspace concept we introduced in the [previous delve](2025-06-01-ml-micro-part-seven.md) to do this pretty easily! Add a new folder in the root of our project called `housing-price-orchestrator` with its own `pyproject.toml`:
 
@@ -605,5 +605,387 @@ A few notes:
 * We instantiate the `httpx.Client` globally so it can be re-used across multiple invocations
 * We are including a version number: `v1` as part of our url, this insures if we need to make a breaking change to our API in the future we can clearly denote which contract version our route supports
 
+## Building the Orchestrator: Testing
+
+Don't forget about the importance of testing our code! In order to test our code we need to add a few configuration settings to our main `pyproject.toml` file to tell pytest where our tests are:
+
+```toml title="pyproject.toml" linenums="1" hl_lines="21-45"
+[project]
+name = "modern-ml-microservices"
+version = "0.1.0"
+description = "Example repository of how to build a modern microservice architecture to support machine learning applications."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv.workspace]
+members = ["housing-price-model", "housing-price-orchestrator"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+pythonpath = [
+    "housing-price-orchestrator/src"
+]
+testpaths = [
+    "housing-price-orchestrator/tests",
+]
+python_files = [
+    "test_*.py",
+    "inttest_*.py",
+]
+
+[tool.coverage.run]
+omit = [
+    "housing-price-orchestrator/tests",
+]
+source = [
+    "housing-price-orchestrator/src",
+]
+
+[tool.coverage.report]
+fail_under = 60 
+show_missing = true
+skip_empty = true
+```
+
+If you haven't already, make sure your ruff configurations are included there as well. Next we create unit and integration tests for each of our classes, for example, here's how you can test the `MLFlowModelProvider`:
+
+```python title="housing-price-orchestrator/tests/unit/provider/test_mlflow_model_provider.py" linenums="1"
+import pandas as pd
+import httpx
+import pytest
+from unittest.mock import MagicMock
+
+from provider.mlflow_model_provider import MLFlowModelProvider
+from shared.view.mlflow_view import MLFlowPredictionsView
+
+
+def test_health_success(mocker):
+    """Test the health method returns True when /ping returns 200."""
+    # GIVEN
+    mocker.patch('httpx.get', return_value=MagicMock(status_code=200))
+    provider = MLFlowModelProvider(base_url='http://fake-url')
+
+    # WHEN
+    result = provider.health()
+
+    # THEN
+    assert result is True
+
+
+def test_health_failure(mocker):
+    """Test the health method returns False when /ping raises an error."""
+    # GIVEN
+    mocker.patch('httpx.get', side_effect=httpx.RequestError('fail'))
+    provider = MLFlowModelProvider(base_url='http://fake-url')
+
+    # WHEN
+    result = provider.health()
+
+    # THEN
+    assert result is False
+
+
+def test_predict_success(mocker):
+    """Test the predict method returns MLFlowPredictionsView on success."""
+    # GIVEN
+    mock_client = MagicMock()
+    provider = MLFlowModelProvider(base_url='http://fake-url', client=mock_client)
+    df = pd.DataFrame([{'a': 1, 'b': 2}])
+    expected_payload = {'dataframe_split': df.to_dict(orient='split')}
+    mock_response = MagicMock()
+    mock_response.json.return_value = {'predictions': [123.45]}
+    mock_client.post.return_value = mock_response
+    mock_response.raise_for_status.return_value = None
+    mocker.patch.object(
+        MLFlowPredictionsView, 'model_validate', return_value=MLFlowPredictionsView(predictions=[123.45])
+    )
+
+    # WHEN
+    result = provider.predict(df)
+
+    # THEN
+    mock_client.post.assert_called_once()
+    assert isinstance(result, MLFlowPredictionsView)
+    assert result.predictions == [123.45]
+
+
+def test_predict_http_error(mocker):
+    """Test the predict method raises if HTTP error occurs."""
+    # GIVEN
+    mock_client = MagicMock()
+    provider = MLFlowModelProvider(base_url='http://fake-url', client=mock_client)
+    df = pd.DataFrame([{'a': 1, 'b': 2}])
+    mock_response = MagicMock()
+    mock_response.raise_for_status.side_effect = httpx.HTTPStatusError(
+        'fail', request=MagicMock(), response=MagicMock()
+    )
+    mock_client.post.return_value = mock_response
+
+    # WHEN / THEN
+    with pytest.raises(httpx.HTTPStatusError):
+        provider.predict(df)
+```
+
+A full collection of tests can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-eight/housing-price-orchestrator/tests)!
+
+!!! tip
+    Writing tests is another area where GenAI shines, I utilized Github Copilot to generate these tests with a bit of prompting.
+
+With our code now tested let's Dockerize it so it can be deployed!
+
+## Building the Orchestrator: Dockerizing
+
+To start we need to define our Dockerfile for our orchestrator, no surprises here, it's almost same one we've used before!
+
+```docker title="housing-price-orchestrator/Dockerfile" linenums="1"
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+
+# Install the project into `/app`
+WORKDIR /app
+
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
+
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
+
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock,from=project_root \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
+
+# Then, copy the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock,from=project_root \
+    uv sync --frozen --no-dev
+
+# Place executables in the environment at the front of the path
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
+
+# Run the FastAPI application by default
+CMD ["fastapi", "run", "src/main.py", "--port", "8000"]
+```
+
+You may have noticed this `from=project_root` section of the mounts. What's going on here? This has to do with the Docker build context. Our `uv.lock` file is in the root of the project. However, our Dockerfile is nested underneath the `housing-price-orchestrator` directory. We'd like to use this directory as the Docker build context so that all of the `COPY` commands work correctly, but this excludes the `uv.lock` file. Fortunately Docker has the concept of [additional contexts](https://docs.docker.com/reference/compose-file/build/#additional_contexts) to support including additional directories as part of the build which is what we are leveraging here. We create the `project_root` context as part of our `compose.yaml`: 
+
+```yaml title="compose.yaml" linenums="1"
+services:
+  housing-price-model:
+    build:
+      context: housing-price-model/build
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+  housing-price-orchestrator:
+    build: 
+      context: housing-price-orchestrator
+      additional_contexts:
+        project_root: .
+    environment:
+      - ENV=dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - housing-price-model
+```
+
+!!! note
+    The build for the price model container has been changed as well, instead of referencing an already built image, the image is built as part of the `docker compose` command, this is personal preference, either approach is acceptable.
+
+Compose also lets us specify the dependency between the orchestrator service and the model service, ensuring the price model is spun up first before the orchestrator.
+
+## Running our Orchestrator!
+
+With our compose configured we can spin up our services by first executing `docker compose build` and then `docker compose up`, you should see something like the following:
+
+```
+$docker compose up
+Attaching to housing-price-model-1, housing-price-orchestrator-1
+housing-price-orchestrator-1  | 
+housing-price-orchestrator-1  |    FastAPI   Starting production server 🚀
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |              Searching for package file structure from directories with         
+housing-price-orchestrator-1  |              __init__.py files                                                  
+housing-price-orchestrator-1  |              Importing from /app/src
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |     module   🐍 main.py
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |       code   Importing the FastAPI app object from the module with the following
+housing-price-orchestrator-1  |              code:                                                              
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |              from main import app
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |        app   Using import string: main:app
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |     server   Server started at http://0.0.0.0:8000
+housing-price-orchestrator-1  |     server   Documentation at http://0.0.0.0:8000/docs
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |              Logs:
+housing-price-orchestrator-1  |  
+housing-price-orchestrator-1  |       INFO   Started server process [1]
+housing-price-orchestrator-1  |       INFO   Waiting for application startup.
+housing-price-orchestrator-1  |       INFO   Application startup complete.
+housing-price-orchestrator-1  |       INFO   Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+housing-price-model-1         | /usr/local/lib/python3.13/site-packages/starlette_exporter/middleware.py:97: FutureWarning: group_paths and filter_unhandled_paths will change defaults from False to True in the next release. See https://github.com/stephenhillier/starlette_exporter/issues/79 for more info
+housing-price-model-1         |   warnings.warn(
+housing-price-model-1         | 2025-08-17 19:02:14,704 [mlserver.parallel] DEBUG - Starting response processing loop...
+housing-price-model-1         | 2025-08-17 19:02:14,723 [mlserver.rest] INFO - HTTP server running on http://0.0.0.0:8080
+housing-price-model-1         | INFO:     Started server process [70]
+housing-price-model-1         | INFO:     Waiting for application startup.
+housing-price-model-1         | 2025-08-17 19:02:14,833 [mlserver.metrics] INFO - Metrics server running on http://0.0.0.0:8082
+housing-price-model-1         | 2025-08-17 19:02:14,833 [mlserver.metrics] INFO - Prometheus scraping endpoint can be accessed on http://0.0.0.0:8082/metrics
+housing-price-model-1         | INFO:     Started server process [70]
+housing-price-model-1         | INFO:     Waiting for application startup.
+housing-price-model-1         | INFO:     Application startup complete.
+housing-price-model-1         | 2025-08-17 19:02:16,363 [mlserver.grpc] INFO - gRPC server running on http://0.0.0.0:8081
+housing-price-model-1         | INFO:     Application startup complete.
+housing-price-model-1         | INFO:     Uvicorn running on http://0.0.0.0:8082 (Press CTRL+C to quit)
+housing-price-model-1         | INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+housing-price-model-1         | 2025-08-17 19:02:19,153 [mlserver] INFO - Loaded model 'mlflow-model' succesfully.
+```
+
+Compose will nicely separate out the logs for each service for us. With our services up and running we can now hit our orchestrator! Go ahead and hit `http://localhost:8000/api/v1/price/predict` with the following request using your REST client of choice:
+
+```json title="Orchestrator API Request"
+{
+    "id": 1461,
+    "msSubClass": 20,
+    "msZoning": "RH",
+    "lotFrontage": 80,
+    "lotArea": 11622,
+    "street": "Pave",
+    "alley": null,
+    "lotShape": "Reg",
+    "landContour": "Lvl",
+    "utilities": "AllPub",
+    "lotConfig": "Inside",
+    "landSlope": "Gtl",
+    "neighborhood": "NAmes",
+    "condition1": "Feedr",
+    "condition2": "Norm",
+    "bldgType": "1Fam",
+    "houseStyle": "1Story",
+    "overallQual": 5,
+    "overallCond": 6,
+    "yearBuilt": 1961,
+    "yearRemodAdd": 1961,
+    "roofStyle": "Gable",
+    "roofMatl": "CompShg",
+    "exterior1St": "VinylSd",
+    "exterior2Nd": "VinylSd",
+    "masVnrType": null,
+    "masVnrArea": 0,
+    "exterQual": "TA",
+    "exterCond": "TA",
+    "foundation": "CBlock",
+    "bsmtQual": "TA",
+    "bsmtCond": "TA",
+    "bsmtExposure": "No",
+    "bsmtFinType1": "Rec",
+    "bsmtFinSf1": 468,
+    "bsmtFinType2": "LwQ",
+    "bsmtFinSf2": 144,
+    "bsmtUnfSf": 270,
+    "totalBsmtSf": 882,
+    "heating": "GasA",
+    "heatingQc": "TA",
+    "centralAir": "Y",
+    "electrical": "SBrkr",
+    "firstFlrSf": 896,
+    "secondFlrSf": 0,
+    "lowQualFinSf": 0,
+    "grLivArea": 896,
+    "bsmtFullBath": 0,
+    "bsmtHalfBath": 0,
+    "fullBath": 1,
+    "halfBath": 0,
+    "bedroomAbvGr": 2,
+    "kitchenAbvGr": 1,
+    "kitchenQual": "TA",
+    "totRmsAbvGrd": 5,
+    "functional": "Typ",
+    "fireplaces": 0,
+    "fireplaceQu": null,
+    "garageType": "Attchd",
+    "garageYrBlt": 1961,
+    "garageFinish": "Unf",
+    "garageCars": 1,
+    "garageArea": 730,
+    "garageQual": "TA",
+    "garageCond": "TA",
+    "pavedDrive": "Y",
+    "woodDeckSf": 140,
+    "openPorchSf": 0,
+    "enclosedPorch": 0,
+    "threeSsnPorch": 0,
+    "screenPorch": 120,
+    "poolArea": 0,
+    "poolQc": null,
+    "fence": "MnPrv",
+    "miscFeature": null,
+    "miscVal": 0,
+    "moSold": 6,
+    "yrSold": 2010,
+    "saleType": "WD",
+    "saleCondition": "Normal"
+}
+```
+
+You should get back a response that looks something like this:
+
+```json title="Orchestrator API Response"
+{
+    "id": 1461,
+    "predictedPrice": 128528.33
+}
+```
+
+Importantly try changing the request to include an invalid value such as `Dummy` for the `street` field, instead of getting back a 200 response you should now get a pydantic validation error:
+
+```json title="Orchestrator API Validation Error Response"
+{
+    "detail": [
+        {
+            "type": "literal_error",
+            "loc": [
+                "body",
+                "street"
+            ],
+            "msg": "Input should be 'Grvl' or 'Pave'",
+            "input": "Dummy",
+            "ctx": {
+                "expected": "'Grvl' or 'Pave'"
+            }
+        }
+    ]
+}
+```
+
+Much nicer! I'll leave trying out the batch enndpoint to you 🙂
+
+## Orchestrated Chaos
+
+With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congradulations on making it this far!
+
 ## Delve Data
-* asdf
+* Exposing MLFlow model APIs directly comes with several drawbacks
+* Utilizing the Microservice Orchestration Pattern can get us around these drawbacks
+* Using a combination of uv workspaces and dDocker compose we can easily create this multi-service setup in one codebase
