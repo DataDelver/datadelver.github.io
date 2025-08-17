@@ -51,7 +51,8 @@ plugins:
       blog_dir: .
       blog_toc: true
       post_excerpt: required
-  - tags
+  - tags:
+      listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search
   - social:
       cards_layout_options:
