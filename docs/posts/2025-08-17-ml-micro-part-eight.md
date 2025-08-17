@@ -979,13 +979,13 @@ Importantly try changing the request to include an invalid value such as `Dummy`
 }
 ```
 
-Much nicer! I'll leave trying out the batch enndpoint to you 🙂
+Much nicer! I'll leave trying out the batch endpoint to you 🙂
 
 ## Orchestrated Chaos
 
-With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congradulations on making it this far!
+With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congratulations on making it this far!
 
 ## Delve Data
 * Exposing MLFlow model APIs directly comes with several drawbacks
 * Utilizing the Microservice Orchestration Pattern can get us around these drawbacks
-* Using a combination of uv workspaces and dDocker compose we can easily create this multi-service setup in one codebase
+* Using a combination of uv workspaces and Docker compose we can easily create this multi-service setup in one codebase
