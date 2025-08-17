@@ -578,4 +578,4 @@ Training and deploying models is the heart of MLOps and is often frought with fr
 ## Delve Data
 * Many challenges exist when training and deploying ML models
 * By leveraging scikit-learn column transformers and pipelines we can greatly reduce the amount of feature engineering translation logic that needs to be done
-* MLFlow provides a convient framework for both tracking model experimentation and deploying model artifacts as APIs
+* MLFlow provides a convenient framework for both tracking model experimentation and deploying model artifacts as APIs
