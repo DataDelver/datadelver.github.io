@@ -29,7 +29,7 @@ Greetings data delvers! In [part seven](2025-06-01-ml-micro-part-seven.md) of th
 
 ## A Larger System
 
-As we began to explore in our last delve in this series, the model code alone is just a small part of overall codebase. In this delve we will expand our codebase beyond simply serving the model as an API, but instead look to leverage the API as part of a larger system, but first let's take a look at the system we produced in our last delve:
+As we began to explore in our last delve in this series, the model code alone is just a small part of overall codebase. In this delve we will expand our codebase beyond simply serving the model as an API, but instead look to leverage that API as part of a larger system, but first let's take a look at the system we produced in our last delve:
 
 *Figure 1: A Basic ML Ecosystem*
 
@@ -983,7 +983,7 @@ Much nicer! I'll leave trying out the batch endpoint to you 🙂
 
 ## Orchestrated Chaos
 
-With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congratulations on making it this far!
+With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congratulations on making it this far! Code for this part can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-eight)!
 
 ## Delve Data
 * Exposing MLFlow model APIs directly comes with several drawbacks
