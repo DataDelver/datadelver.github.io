@@ -255,7 +255,7 @@ In the context of our simple ecosystem this pattern would look like this:
 !!! Note
     The **Orchestrator Pattern** is often contrasted with the **Choreography Pattern** in microservice architectural design. In the Choreography Pattern, each service communicates asynchronously by emitting events that other services consume to produce a workflow.
 
-    *Figure 5: The Choreography Pattern*
+    *Figure 4: The Choreography Pattern*
 
     ![Choreography Pattern](../assets/images/figures/delve15/ML_Ecosystem-ChoreographyPattern.png)
 
