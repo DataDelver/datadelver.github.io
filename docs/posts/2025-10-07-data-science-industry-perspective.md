@@ -8,7 +8,7 @@ tags:
 
 # Delve 17: Data Science, An Industry Perspective
 
-![Banner](../assets/images/banners/delve16.png)
+![Banner](../assets/images/banners/delve17.png)
 
 > "Academia is about discovering truth. Industry is about delivering value." - Cassie Kozyrkov
 
