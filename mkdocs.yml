@@ -55,10 +55,11 @@ plugins:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search
   - social:
+      cards_layout: default/variant
       cards_layout_options:
-        # background_image: layouts/background.png
-        background_color: "#FFFFFF"
-        color: "#000000"
+        background_image: layouts/background.png
+        background_color: "#00000033"
+        color: "#FFFFFF"
   - meta
   - rss:
       match_path: blog/posts/.* 
