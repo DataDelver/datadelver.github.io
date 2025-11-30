@@ -65,3 +65,38 @@ Perhaps one of the most important challenges an organization may face when it co
 
 Organizations should take care when deploying AI solutions to make sure the consider the ethical and legal considerations of doing so before impacting their customers.
 
+## Individual Challenge 1: Verification Tax
+
+In addition to the organizational challenges above, individuals can also face challenges when leveraging AI. Perhaps the largest and most time consuming is verification. An AI might be able to generate a full project in a matter of minutes but it might take you hours to verify that it is working correctly. In his article [Being "Confidently Wrong" is holding AI back](https://promptql.io/blog/being-confidently-wrong-is-holding-ai-back), PromptQL co-founder coins this the "Verification Tax". This friction is is a direct result of shifting from being a *creator* to an *editor*. Editing often requires more cognitive effort due to requiring a higher level of vigilance to spotting subtle errors in AI outputs.
+
+In order to combat this, individuals should break larger tasks into smaller sub-tasks before handing them to an AI for completion, this makes it easier to verifying the output of the AI is correct before moving on to the next task.
+
+## Individual Challenge 2: Prompt Fatigue
+
+Another challenge individuals face is endlessly adjusting their prompts to get the desired outputs. This is a particular challenge when the prompt is vague, requiring multiple edits to get the desired output, leading to the feeling it would have been faster to just do the work yourself. This also occurs when the AI is missing necessary context to solve the problem correctly, such as knowledge of previous attempts at creating a solution.
+
+To address this challenge you should develop a collection of templates of your most useful prompts for routing tasks. Start a problem with one of these templates rather than a blank prompt and iterate on top of it. In addition, attempt to provide *context* and *structure* to your prompts by giving the AI a persona, goal, and constraints. For example:
+
+> Act as a financial analyst. Analyze the following data and produce three key takeaways for an executive audience, limiting your answer to 150 words.
+
+This provide the AI a framework to produce the type of output you are looking for rather than a free-form response.
+
+## Individual Challenge 3: Skill Atrophy
+
+Finally, a legitimate concern for many individuals leveraging AI is to become to over-reliant on it. The goal is to treat AI as a *collaborative partner* rather than shortcut, ensuring you remain "in-the-loop" of the development cycle.
+
+Some strategies you could employ include:
+
+* Always produce the initial draft of work yourself and then as AI to optimize or refine it. This forces you to attempt a solution yourself before relying on AI.
+* Reverse engineer the output, particularly effective when learning new skills, instead of just using the AI output verbatim attempt to ask the AI *why* it produced a specific output and attempt cross-reference it with other non-AI sources to give you more underlying context.
+* Delegate tasks to AI, not skills. Use AI for solving repetitive, low-value tasks (the ones it is good at!) but do the complex, high-value tasks yourself that requires the skills of your career.
+
+Ultimately it is up to you to determine where your boundary with AI is, but remember you are ultimate responsible for how the output is utilized so take steps to use it responsibility.
+
+## Responsible Innovation
+
+AI has truly accelerated out ability to explore, comprehend, and produce vast amounts of data. However, if one is not aware of the limitations and challenges that come with leveraging AI, it will continue to under deliver on the value it promises to deliver. Organizations should focus on strong data governance above all else and shouldn't invest in the latest flashing AI tool until their data house is in order. Individuals should focus on "human-in-the-loop" workflows and treat AI as a collaborator, not a replacement.
+
+With these challenges addressed you are ready to innovate responsibly with AI!
+
+## Delve Data
