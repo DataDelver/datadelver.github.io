@@ -100,3 +100,7 @@ AI has truly accelerated out ability to explore, comprehend, and produce vast am
 With these challenges addressed you are ready to innovate responsibly with AI!
 
 ## Delve Data
+
+* Leveraging AI effectively comes with several challenges both to organizations and individuals
+* Organizations should focus on effective data governance before attempting to leverage AI
+* Individuals should treat AI as a collaborative partner and keep themselves "in-the-loop" of the development cycle
