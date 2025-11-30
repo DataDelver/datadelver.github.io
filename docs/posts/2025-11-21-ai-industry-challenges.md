@@ -4,6 +4,9 @@ categories:
     - Data Science
 tags: 
     - Opinion
+social:
+  cards_layout_options:
+    title: The Challenges of AI in Industry
 ---
 
 # Delve 18: The Challenges of AI in Industry
