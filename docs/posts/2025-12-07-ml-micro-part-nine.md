@@ -235,7 +235,7 @@ It's also worth explaining the other environment variables we are leveraging:
 
 * [UV_COMPILE_BYTECODE](https://docs.astral.sh/uv/reference/environment/#uv_compile_bytecode) - Setting this ensures that `uv` will compile the bytecode of all Python source files ahead of time, leading to longer container build times but shorter execution times, typically a desired tradeoff in deployed images.
 
-* [UV_LINK_MODE](https://docs.astral.sh/uv/reference/environment/#uv_link_mode) — We can pair setting this variable along with a [caching strategy] described in the `uv` documentation to speed up local builds by reusing the system `uv` cache instead of forcing `uv` to create its own inside the container.
+* [UV_LINK_MODE](https://docs.astral.sh/uv/reference/environment/#uv_link_mode) — We can pair setting this variable along with a [caching strategy](https://docs.astral.sh/uv/guides/integration/docker/#caching) described in the `uv` documentation to speed up local builds by reusing the system `uv` cache instead of forcing `uv` to create its own inside the container.
 
 ## Installing Dependencies
 
