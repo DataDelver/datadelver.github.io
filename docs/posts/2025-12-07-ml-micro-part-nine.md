@@ -15,6 +15,9 @@ links:
     - Part Six: posts/2025-05-04-ml-micro-part-six.md
     - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
     - Part Eight: posts/2025-08-17-ml-micro-part-eight.md
+social:
+  cards_layout_options:
+    title: Docker Container Optimization
 ---
 
 # Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization
