@@ -2,7 +2,6 @@
 date: 2023-11-06
 categories: 
     - Meta
-pin: true
 ---
 
 # Delve 0: Hello Labyrinth (World)!
