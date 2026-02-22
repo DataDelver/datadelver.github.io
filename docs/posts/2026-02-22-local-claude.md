@@ -84,6 +84,8 @@ Congratulations! You now have a fully-local Claude Code instance!
 
 If you are like me and coming from Github Copilot you may find having to use the CLI jarring. Fortunately, there is a [Claude Code VS Code Plugin](https://code.claude.com/docs/en/vs-code) that will provide a seamless integration within the IDE. In order to get it to work you will need to follow the [steps for using third party providers](https://code.claude.com/docs/en/vs-code#use-third-party-providers), namely, disabling the login prompt.
 
+You will also need to go into the extension settings and set your selected model to your local LLM.
+
 With that, you should be good to open up the Claude Code extension and get coding!
 
 ![Claude-Code-Plugin](../assets/images/figures/delve21/Claude_Code_Plugin.png)
