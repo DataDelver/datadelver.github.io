@@ -14,9 +14,9 @@ social:
 
 ![Banner](../assets/images/banners/delve21.png)
 
-> "Self-reflection is the school of wisdom." - Baltasar Gracian
+> "The right tool doesn't just make a job easier; it changes how you think about the problem." - Gemini 3
 
-Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own productivity increase is by leveraging AI as a pair programmer. Up until this point, I have primarily relied on Github Copilot as my AI assistant. However, I recently gave Claude Code a try at work and was pleasantly surprised at its ability to go beyond what I had seen from Copilot and really "pair" with me. Wanting to leverage Claude Code for my own personal projects, I resolved to set it up on my own machine. However, not wanting to spend money on tokens I wanted to be able to run an LLM locally and connect it to Claude Code. Fortunately with the latest release of Ollama, this is a pretty straightforward thing to do!
+Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own productivity increase is by leveraging AI as a pair programmer. Up until this point, I have primarily relied on Github Copilot as my AI assistant. However, I recently gave Claude Code a try at work and was pleasantly surprised at its ability to go beyond what I had seen from Copilot and really "pair" with me. Based on these results, I resolved to set it up on my own machine to use for my personal projects. However, not wanting to spend money on tokens I wanted to be able to run an LLM locally and connect it to Claude Code. Fortunately with the latest release of Ollama this is a pretty straightforward thing to do!
 <!-- more -->
 
 ## Ollama, Oh Lama?
@@ -50,7 +50,7 @@ Once you've decided which LLM you prefer you can install it in a new terminal by
 
 ## Claude!
 
-You next step is to install [Claude Code](https://code.claude.com/docs/en/overview)! On Linux or Mac you can again run a simple shell script:
+Your next step is to install [Claude Code](https://code.claude.com/docs/en/overview)! On Linux or Mac you can again run a simple shell script:
 
 `curl -fsSL https://claude.ai/install.sh | bash`
 
