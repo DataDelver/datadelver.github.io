@@ -19,7 +19,7 @@ social:
 Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own productivity increase is by leveraging AI as a pair programmer. Up until this point, I have primarily relied on Github Copilot as my AI assistant. However, I recently gave Claude Code a try at work and was pleasantly surprised at its ability to go beyond what I had seen from Copilot and really "pair" with me. Based on these results, I resolved to set it up on my own machine to use for my personal projects. However, not wanting to spend money on tokens I wanted to be able to run an LLM locally and connect it to Claude Code. Fortunately with the latest release of Ollama this is a pretty straightforward thing to do!
 <!-- more -->
 
-## Ollama, Oh Lama?
+## Ollama, Oh Llama?
 
 [Ollama](https://ollama.com/) is a leading open-source framework that enables you to run Large Language Models (LLMs) completely locally and connect them to a variety of applications. In a [recent release](https://ollama.com/blog/claude), it added support for connecting directly to Claude Code.
 
