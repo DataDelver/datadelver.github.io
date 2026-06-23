@@ -14,6 +14,8 @@ social:
 
 ![Banner](../assets/images/banners/delve22.png)
 
+> "It is not the strongest or the most intelligent who will survive but those who can best manage change." - Charles Darwin
+
 Hello data delvers! It's been some time but I'm back with more delves! In the time since my [previous delve](2026-02-22-local-claude.md) the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!
 <!-- more -->
 
