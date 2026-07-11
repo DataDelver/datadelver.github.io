@@ -707,5 +707,10 @@ Hopefully this delve has shown just how useful AI can be to improve the develope
     Just for fun I asked Claude to improve the project Readme after writing this, you can see the results [here](https://github.com/DataDelver/modern-ml-microservices/blob/part-ten/README.md)! 
 
 ## Delve Data
-* There are a number of optimizations described in the `uv` documentation for Docker image builds.
-* Using multi-stage Docker builds, we can support additional build-time dependencies while ensuring they don't increase the size of the overall image.
+
+* Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project and AI can be a useful tool to improve this
+* Command runner tools like `just` help standardize and simplify project workflows by aliasing complex commands
+* Pre-commit hooks automate code quality checks, ensuring consistent formatting and linting before every commit
+* Text-based diagramming tools like Mermaid integrate naturally with AI workflows and version control
+* AI-assisted refactoring benefits from clear project documentation and established tooling conventions
+* A `CLAUDE.md` file helps enforce project standards and improves AI-assisted development over time
