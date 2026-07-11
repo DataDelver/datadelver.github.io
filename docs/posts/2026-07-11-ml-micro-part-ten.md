@@ -1,5 +1,5 @@
 ---
-date: 2026-07-12
+date: 2026-07-11
 categories:
     - ML Engineering
 tags: 
@@ -105,7 +105,7 @@ If you want a full breakdown of how to use this script and connect it to Claude 
 
 ## Just Do It!
 
-Tackling the first problem of having to remember commands, we can introduce [just](https://github.com/casey/just) as a command runner tool. Just is inspired by [make](https://www.gnu.org/software/make/) but designed specifically as a command runner, not a build tool, meaning it can avoid some of the [complexities of the original make](https://github.com/casey/just#what-are-the-idiosyncrasies-of-make-that-just-avoids). I find it extremely useful to alias commands in projects so I don't have to remember all the syntax. For example, we can add a `justfile` to the root of our project with the following contents:
+To tackle the first problem of having to remember commands, we can introduce [just](https://github.com/casey/just) as a command runner tool. Just is inspired by [make](https://www.gnu.org/software/make/) but designed specifically as a command runner, not a build tool, meaning it can avoid some of the [complexities of the original make](https://github.com/casey/just#what-are-the-idiosyncrasies-of-make-that-just-avoids). I find it extremely useful to alias commands in projects so I don't have to remember all the syntax. For example, we can add a `justfile` to the root of our project with the following contents:
 
 ```justfile title="justfile" linenums="1"
 # Lint code
@@ -123,7 +123,7 @@ uv run ruff check .
 All checks passed!
 ```
 
-Writing all of these by hand would take a while. Instead, let's ask AI to do it!
+There are many aliases we could add like this that would be useful, however writing all of these by hand would take a while. Instead, let's ask AI to do it!
 
 !!! claude
     Create a justfile for this repo with standard commands such as installing or updating all packages, building workspace packages, spinning up and tearing down the docker containers, running tests (optionally with coverage or generating an html report), linting, lint fixing, formatting the code and running a format check. Include emoji echo outputs for each command.
@@ -235,8 +235,6 @@ Available recipes:
     install            # Install all dependencies
     lint               # Lint code
     lint-fix           # Lint and fix code
-    pre-commit
-    pre-commit-install # Pre-commit hooks
     test               # Run tests
     test-cov           # Run tests with coverage
     test-html          # Run tests and generate HTML coverage report
