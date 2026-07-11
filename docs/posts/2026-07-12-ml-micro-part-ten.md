@@ -701,7 +701,10 @@ The project is organized into several main components:
 
 ## Wrapping it Up
 
-Hopefully this delve has shown just how useful AI can be to improve the developer experience and do some refactoring along the way!
+Hopefully this delve has shown just how useful AI can be to improve the developer experience and do some refactoring along the way! Full code available for this part [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-ten)!
+
+!!! note
+    Just for fun I asked Claude to improve the project Readme after writing this, you can see the results [here](https://github.com/DataDelver/modern-ml-microservices/blob/part-ten/README.md)! 
 
 ## Delve Data
 * There are a number of optimizations described in the `uv` documentation for Docker image builds.
