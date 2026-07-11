@@ -27,26 +27,26 @@ social:
 
 > "Code is read much more often than it is written." - Guido van Rossum
 
-Greetings data delvers! It has been a while since we last delved into modern ML microservices. In [part nine](2025-12-07-ml-micro-part-nine.md) of this series we looked at optimizing our docker container setup. Since then, AI of course has become a much more prominent tool in the software engineering space. While there has been much commentary about how AI can lead to developer burnout for this delve I want to take a look at how AI can actually improve the developer experience!
+Greetings data delvers! It has been a while since we last delved into modern ML microservices. In [part nine](2025-12-07-ml-micro-part-nine.md) of this series we looked at optimizing our docker container setup. Since then, AI of course has become a much more prominent tool in the software engineering space. While there has been much commentary about how AI can lead to developer burnout, for this delve I want to take a look at how AI can actually improve the developer experience!
 <!-- more -->
 
 ## DevX
 
-When starting a new project, the Developer Experience (or DevX) is usually not top of mind. The focus is on "ship it" without much thought into how the code will be maintained over time. This leads to many issues that negatively impact the experience of working with the code: poor documentation, cryptic build processes, technical debt, missing tests, etc. In the era of AI vibe coding, this problem can become even worse with the volume of code being produced. However, just as AI can be a tool to push slop, it can also be very useful in taming the very issues that come from it. Let's dive in and see how.
+When starting a new project, the Developer Experience (or DevX) is usually not top of mind. The focus is on "ship it" without much consideration for how the code will be maintained over time. This leads to many issues that negatively impact the experience of working with the code: poor documentation, cryptic build processes, technical debt, missing tests, etc. In the era of AI vibe coding, this problem can become even worse with the volume of code being produced. However, just as AI can be a tool to push slop, it can also be very useful in taming the very issues that come from it. Let's dive in and see how.
 
 ## The Setup
 
 I'm starting with the [part nine](https://github.com/DataDelver/modern-ml-microservices/tree/part-nine) state of my Modern ML Microservices repo. While I hope this repo is pretty straightforward it has a few drawbacks:
 
-* Lack of clear instructions of how to run the project - You have to remember all of the `uv` and `pytest` commands to fix everything
+* Lack of clear instructions on how to run the project - You have to remember all of the `uv` and `pytest` commands to run everything
 * No automated linting - While we have ruff available, we need to remember to run it
-* Sparse Readme - Pretty self explanatory
+* Sparse README - Pretty self-explanatory.
 
-This mirrors what I typically find neglected in most projects, since none of these issues are critical path to getting the software functional they are deprioritized. A perfect candidate for improvement with AI.
+This mirrors what I typically find neglected in most projects. Since none of these issues are on the critical path to getting the software functional, they are deprioritized. A perfect candidate for improvement with AI.
 
 ## Enter... the AI!
 
-For this particular project I decided to use the Gemma4 quants available from [Unsloth](https://huggingface.co/unsloth/gemma-4-12b-it-GGUF), since this isn't a purely coding focused task I wanted a more general purpose model. My full setup script is available below:
+For this particular project, I decided to use the Gemma4 quants available from [Unsloth](https://huggingface.co/unsloth/gemma-4-12b-it-GGUF). Since this isn't a purely coding-focused task, I wanted a more general-purpose model. My full setup script is available below:
 
 ```powershell title="Start-Gemma4.ps1" linenums="1"
 <#
@@ -105,7 +105,7 @@ If you want a full breakdown of how to use this script and connect it to Claude 
 
 ## Just Do It!
 
-Tackling the first problem of having to remember commands we can introduce [just](https://github.com/casey/just) as a command runner tool. Just is inspired by [make](https://www.gnu.org/software/make/) but designed specifically as a command runner, not a build tool meaning it can avoid some of the [complexities of the original make](https://github.com/casey/just#what-are-the-idiosyncrasies-of-make-that-just-avoids). I find it extremely useful to alias commands in projects so I don't have to remember all the syntax. For example, we can add a `justfile` to the root of our project with the following contents:
+Tackling the first problem of having to remember commands, we can introduce [just](https://github.com/casey/just) as a command runner tool. Just is inspired by [make](https://www.gnu.org/software/make/) but designed specifically as a command runner, not a build tool, meaning it can avoid some of the [complexities of the original make](https://github.com/casey/just#what-are-the-idiosyncrasies-of-make-that-just-avoids). I find it extremely useful to alias commands in projects so I don't have to remember all the syntax. For example, we can add a `justfile` to the root of our project with the following contents:
 
 ```justfile title="justfile" linenums="1"
 # Lint code
@@ -114,7 +114,7 @@ lint:
     uv run ruff check .
 ```
 
-And instead of having to remember the specific command to invoke ruff we can instead execute `just check` in our shell instead, pretty neat!
+And instead of having to remember the specific command to invoke ruff, we can execute `just lint` in our shell. Pretty neat!
 
 ```bash
 just lint
@@ -123,12 +123,12 @@ uv run ruff check .
 All checks passed!
 ```
 
-Now, we could write all of our command aliases by hand, but that would take a while, instead let's ask AI to do it!
+Writing all of these by hand would take a while. Instead, let's ask AI to do it!
 
 !!! claude
     Create a justfile for this repo with standard commands such as installing or updating all packages, building workspace packages, spinning up and tearing down the docker containers, running tests (optionally with coverage or generating an html report), linting, lint fixing, formatting the code and running a format check. Include emoji echo outputs for each command.
 
-You can iterate back and forth with Claude to configure it how you like it but I ended up with something like this:
+You can iterate back and forth with Claude to configure it how you like it, but I ended up with something like this:
 
 ```justfile title="justfile" linenums="1"
 # Default command: List all available commands
@@ -246,9 +246,9 @@ Available recipes:
 
 ## Before you Commit to AI: pre-commit!
 
-We now have a bunch of convenient commands for linting and fixing our code, but we still have to remember to run them before committing and pushing, lets fix that with [pre-commit](https://pre-commit.com/). 
+We now have a bunch of convenient commands for linting and fixing our code, but we still have to remember to run them before committing and pushing. Let's fix that with [pre-commit](https://pre-commit.com).
 
-Pre-commit does exactly what it sounds like, it executes a hook before `git commit` finishes running, let's ask Claude again to add this to our repo.
+Pre-commit does exactly what it sounds like. It executes a hook before `git commit` finishes running. Let's ask Claude again to add this to our repo.
 
 !!! claude
     Set up ruff with precommit https://github.com/astral-sh/ruff-pre-commit
@@ -256,7 +256,7 @@ Pre-commit does exactly what it sounds like, it executes a hook before `git comm
 !!! tip
     I often paste the url to docs straight into my prompts so Claude can reference them for me.
 
-Doing this should generate something like the below output in the project root:
+Doing this should generate something like the following in the project root:
 
 ```yaml title=".pre-commit-config.yaml" linenums="1"
 # Lint code
@@ -279,12 +279,12 @@ Now when we run `git commit` our code will be automatically linted and formatted
 !!! note
     This works for Claude as well so it's a good way to ensure any auto generated code is properly formatted too!
 
-Pre-commit requires installation commands in order to use, lets ask Claude to add them to our justfile.
+Pre-commit requires installation commands in order to use it. Let's ask Claude to add them to our justfile.
 
 !!! claude
     Add commands to the justfile for running pre commit hooks, and installing pre commit
 
-This generates something like this, great!
+This generates something like the following:
 
 ```justfile title="justfile" linenums="65"
 # Pre-commit hooks
@@ -299,10 +299,10 @@ pre-commit:
 
 ## The Best Diagramming Tool for AI: Mermaid 🧜‍♀️
 
-Currently there are no architecture diagrams in the repo to show how the different layers fit together, instead of drawing one by hand, let's ask Claude to use [Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams) to create one for us. Mermaid has quickly become my go-to diagramming tool. It has a number of benefits mostly stemming from its markdown inspired syntax, allowing AI to easily write and *read* mermaid diagrams with its context. It also is natively rendered in VSCode and Github. Let's give it a try!
+Currently there are no architecture diagrams in the repo to show how the different layers fit together. Instead of drawing one by hand, let's ask Claude to use [Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams) to create one for us. Mermaid has quickly become my go-to diagramming tool. It has a number of benefits mostly stemming from its markdown-inspired syntax, allowing AI to easily write and *read* mermaid diagrams within its context. It is also natively rendered in VSCode and GitHub. Let's give it a try!
 
 !!! claude
-    In the main readme include a mermaid diagram the details the architecture of the project
+    In the main readme include a mermaid diagram that details the architecture of the project
 
 This created the following Markdown in the project Readme:
 
@@ -333,13 +333,13 @@ graph TD
 ```
 
 !!! tip
-    This is a very simple example but I have found mermaid diagrams + AI to be extremely useful for both diagramming and *exploring* codebases. If you are confronted with a new codebase that you don't understand, ask Claude to generate a diagram of it!
+    This is a very simple example, but I have found mermaid diagrams + AI to be extremely useful for both diagramming and *exploring* codebases. If you are confronted with an unfamiliar codebase, ask Claude to generate a diagram. It is a fast way to build mental context.
 
 ## Let's Refactor
 
-Now that we have some documentation in place, let's try out Claude for some refactoring work. The current way config values are loaded is somewhat confusing, they could come from the project `config.yaml` but they could also be overridden by environment variables, let's make this more explicit. Instead of loading config values directly from the environment, let's modify our config loader to only read them from `config.yaml` but explicitly allow overriding certain variables with a `${value:default}` syntax. This gives us more control over which environment variable can and cannot be set by environment variables with an optional default fallback. Importantly, this also makes `config.yaml` the single source of truth for all configuration settings.
+Now that we have some documentation in place, let's try out Claude for some refactoring work. The current way config values are loaded is somewhat confusing. They could come from the project `config.yaml`, but they could also be overridden by environment variables. Let's make this more explicit. Instead of loading config values directly from the environment, let's modify our config loader to only read them from `config.yaml` but explicitly allow overriding certain variables with a `${value:default}` syntax. This gives us more control over which variables can and cannot be overridden via environment variables, with an optional default fallback. Importantly, this also makes `config.yaml` the single source of truth for all configuration settings.
 
-Since this is a bit of a larger task lets use the `plan` mode in Claude to have it give us a plan document to approve rather than just jumping in.
+Since this is a bit of a larger task, let's use the `plan` mode in Claude to have it give us a plan document to approve rather than just jumping in.
 
 !!! claude
     Create a plan to refactor the config loader to only read config values from the yaml file, however, the yaml should support defining parameters in the form of ${value:default} to load environment variables
@@ -394,11 +394,11 @@ This gave me the following plan:
     3. Run the unit tests to ensure the refactoring works as expected.
     4. Run `just lint` to ensure code quality standards are met.
 
-Notice how Claude is now planing to take advantage of our `just` commands to ensure that the linting is correct? Our tooling doesn't just help us, it helps Claude as well! After approving this plan it took a bit of back and forth with Claude but let's look at the changes that were ultimately made.
+Notice how Claude is now planning to take advantage of our `just` commands to ensure that the linting is correct? Our tooling doesn't just help us, it helps Claude as well! After approving this plan, it took a bit of back and forth with Claude, but let's look at the changes that were ultimately made.
 
 ### Config File Changes
 
-Our config file will just need a simple change to follow the new syntax to enable the explicit env var override:
+Our config file will only need a simple change to follow the new syntax and enable the explicit env var override:
 
 ```yaml title="housing-price-orchestrator/src/shared/config/config.yaml" linenums="1" hl_lines="2 13 14"
 default: &default
@@ -424,7 +424,7 @@ local:
 
 The biggest set of changes took place in the config loader.
 
-Firstly we are going to need a few more imports:
+First, we are going to need a few more imports:
 
 ```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="1" hl_lines="3-6"
 from functools import lru_cache
@@ -480,7 +480,7 @@ def resolve_env_vars(data: Any) -> Any:
     return data
 ```
 
-Next we can use a trick with [Pydantic Model Validators](https://pydantic.dev/docs/validation/latest/concepts/validators/#model-validators) to execute this function *before* Pydantic validates the field:
+Next, we can use a trick with [Pydantic Model Validators](https://pydantic.dev/docs/validation/latest/concepts/validators/#model-validators) to execute this function *before* Pydantic validates the field:
 
 ```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="51" hl_lines="4-9"
 class Settings(BaseModel):
@@ -494,7 +494,7 @@ class Settings(BaseModel):
         return data
 ```
 
-Lastly we need to modify our config base class to prevent it from loading values from environment variables directly (and to add our new local environment).
+Lastly, we need to modify our config base class to prevent it from loading values from environment variables directly (and to add our new local environment).
 
 ```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="62" hl_lines="6 21-23"
 class Config(BaseSettings):
@@ -594,14 +594,14 @@ def test_config_fallback_to_default():
         assert config.pricing_model_url == "http://housing-price-model:8080"
 ```
 
-With AI there's no excuse not to have unit tests!
+With AI, there's no excuse not to have unit tests!
 
 !!! tip
-    After these tests are written, prompt Claude to run them (if it doesn't already) to ensure they all pass, if they don't Claude will then debug the tests and figure out why.
+    After these tests are written, prompt Claude to run them (if it doesn't already) to ensure they all pass. If they don't, Claude will then debug the tests and figure out why.
 
 ### Local Environment Wrap Up
 
-In order to use our new local environment we need to final small changes.
+In order to use our new local environment, we need to make a couple final small changes.
 
 Create an `.env` file in the project root with the following contents (this could be a good place to put local secret values as well in the future):
 
@@ -638,7 +638,7 @@ Refactor complete!
 
 ## Dr Claude
 
-While doing this refactor I had to prompt Claude a few times to make sure it followed the conventions of the repo, a good way to enforce this going forward is to create a `CLAUDE.md` file in the project root. This will get injected every time we run Claude so it's best to keep this file small to preserve our context.
+While doing this refactor, I had to prompt Claude a few times to make sure it followed the conventions of the repo. A good way to enforce this going forward is to create a `CLAUDE.md` file in the project root. This will get injected every time we run Claude, so it's best to keep this file small to preserve our context.
 
 Instead of writing this file ourselves...
 
@@ -708,7 +708,7 @@ Hopefully this delve has shown just how useful AI can be to improve the develope
 
 ## Delve Data
 
-* Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project and AI can be a useful tool to improve this
+* Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project
 * Command runner tools like `just` help standardize and simplify project workflows by aliasing complex commands
 * Pre-commit hooks automate code quality checks, ensuring consistent formatting and linting before every commit
 * Text-based diagramming tools like Mermaid integrate naturally with AI workflows and version control
