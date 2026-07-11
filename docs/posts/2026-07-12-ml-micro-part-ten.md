@@ -32,7 +32,7 @@ Greetings data delvers! It has been a while since we last delved into modern ML 
 
 ## DevX
 
-When starting a new project, the Developer Experience (or DevX) is usually not top of mind. The focus is on "ship it" without much thought into how the code will be maintained over time. This leads to many issues that negatively impact the experience of working with the code: poor documentation, cryptic build processes, technical debt, etc. In the era of AI vibe coding, this problem can become even worse with the volume of code being produced. However, just as AI can be a tool to push slop, it can also be very useful in taming the very issues that come from it. Let's dive in and see how.
+When starting a new project, the Developer Experience (or DevX) is usually not top of mind. The focus is on "ship it" without much thought into how the code will be maintained over time. This leads to many issues that negatively impact the experience of working with the code: poor documentation, cryptic build processes, technical debt, missing tests, etc. In the era of AI vibe coding, this problem can become even worse with the volume of code being produced. However, just as AI can be a tool to push slop, it can also be very useful in taming the very issues that come from it. Let's dive in and see how.
 
 ## The Setup
 
@@ -103,7 +103,7 @@ If you want a full breakdown of how to use this script and connect it to Claude 
 !!! note
     One of the benefits the unsloth quant provided was the ability to enable [Multi Token Prediction (MTP)](https://unsloth.ai/docs/models/mtp) with the `--spec-type draft-mtp` flag. This resulted in a pretty significant speed up in token generation for me.
 
-# Just Do It!
+## Just Do It!
 
 Tackling the first problem of having to remember commands we can introduce [just](https://github.com/casey/just) as a command runner tool. Just is inspired by [make](https://www.gnu.org/software/make/) but designed specifically as a command runner, not a build tool meaning it can avoid some of the [complexities of the original make](https://github.com/casey/just#what-are-the-idiosyncrasies-of-make-that-just-avoids). I find it extremely useful to alias commands in projects so I don't have to remember all the syntax. For example, we can add a `justfile` to the root of our project with the following contents:
 
@@ -279,7 +279,429 @@ Now when we run `git commit` our code will be automatically linted and formatted
 !!! note
     This works for Claude as well so it's a good way to ensure any auto generated code is properly formatted too!
 
+Pre-commit requires installation commands in order to use, lets ask Claude to add them to our justfile.
 
+!!! claude
+    Add commands to the justfile for running pre commit hooks, and installing pre commit
+
+This generates something like this, great!
+
+```justfile title="justfile" linenums="65"
+# Pre-commit hooks
+pre-commit-install:
+    @echo "🔧 Installing pre-commit hooks..."
+    pre-commit install
+
+pre-commit:
+    @echo "🚀 Running pre-commit hooks..."
+    pre-commit run --all-files
+```
+
+## The Best Diagramming Tool for AI: Mermaid 🧜‍♀️
+
+Currently there are no architecture diagrams in the repo to show how the different layers fit together, instead of drawing one by hand, let's ask Claude to use [Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams) to create one for us. Mermaid has quickly become my go-to diagramming tool. It has a number of benefits mostly stemming from its markdown inspired syntax, allowing AI to easily write and *read* mermaid diagrams with its context. It also is natively rendered in VSCode and Github. Let's give it a try!
+
+!!! claude
+    In the main readme include a mermaid diagram the details the architecture of the project
+
+This created the following Markdown in the project Readme:
+
+````markdown
+```mermaid
+    graph TD
+        Client[Client] --> Orchestrator[Orchestrator Service]
+        subgraph "Orchestrator Service"
+            Orchestrator --> Service[Pricing Service]
+            Service --> Provider[MLFlow Model Provider]
+        end
+        Provider --> MLFlow[MLFlow Server]
+        MLFlow --- Models[(Model Registry)]
+```
+````
+
+Which renders like so:
+
+```mermaid
+graph TD
+    Client[Client] --> Orchestrator[Orchestrator Service]
+    subgraph "Orchestrator Service"
+        Orchestrator --> Service[Pricing Service]
+        Service --> Provider[MLFlow Model Provider]
+    end
+    Provider --> MLFlow[MLFlow Server]
+    MLFlow --- Models[(Model Registry)]
+```
+
+!!! tip
+    This is a very simple example but I have found mermaid diagrams + AI to be extremely useful for both diagramming and *exploring* codebases. If you are confronted with a new codebase that you don't understand, ask Claude to generate a diagram of it!
+
+## Let's Refactor
+
+Now that we have some documentation in place, let's try out Claude for some refactoring work. The current way config values are loaded is somewhat confusing, they could come from the project `config.yaml` but they could also be overridden by environment variables, let's make this more explicit. Instead of loading config values directly from the environment, let's modify our config loader to only read them from `config.yaml` but explicitly allow overriding certain variables with a `${value:default}` syntax. This gives us more control over which environment variable can and cannot be set by environment variables with an optional default fallback. Importantly, this also makes `config.yaml` the single source of truth for all configuration settings.
+
+Since this is a bit of a larger task lets use the `plan` mode in Claude to have it give us a plan document to approve rather than just jumping in.
+
+!!! claude
+    Create a plan to refactor the config loader to only read config values from the yaml file, however, the yaml should support defining parameters in the form of ${value:default} to load environment variables
+
+This gave me the following plan:
+
+??? abstract "Claude Plan"
+    <h2>Objective</h2>
+    Refactor the configuration loader in `housing-price-orchestrator` to exclusively read configuration values from the `config.yaml` file. To maintain flexibility, the YAML file will support a `${VAR_NAME:default_value}` syntax that dynamically resolves environment variables at runtime.
+
+    <h2>Current State</h2>
+    - The `Config` class in `src/shared/config/config_loader.py` currently uses `pydantic_settings` with multiple sources: `init_settings`, `env_settings`, `dotenv_settings`, `file_secret_settings`, and `YamlConfigSettingsSource`.
+    - This means Pydantic automatically attempts to populate fields from environment variables and `.env` files, bypassing the YAML file for those values.
+
+    <h2>Proposed Changes</h2>
+
+    <h3>1. Restrict Configuration Sources</h3>
+    Modify the `Config` class in `src/shared/config/config_loader.py` to stop automatically loading environment variables.
+    - **Action**: Update `settings_customise_sources` to remove `env_settings` and `dotenv_settings`.
+    - **Result**: Pydantic will now only populate the configuration fields from the YAML file (via `YamlConfigSettingsSource`) and secrets, effectively making the YAML the primary source of truth.
+
+    <h3>2. Implement Environment Variable Resolution via <code>model_validator</code></h3>
+    Add a `model_validator` to the `Settings` class to dynamically parse and resolve the `${VAR:default}` syntax before Pydantic performs its internal validation.
+    - **Action**: Define a `@model_validator(mode='before')` on the `Settings` class.
+    - **Logic**:
+        - The validator will receive the raw dictionary of values parsed from the YAML.
+        - It will recursively traverse the dictionary to find any string values.
+        - It will use a regular expression to identify strings matching the `${VARIABLE_NAME:default_value}` pattern.
+        - It will replace these strings with the actual environment variable value (falling back to the provided default if the environment variable is missing).
+    - **Benefit**: This approach keeps the configuration logic clean and separates the "loading" of data (YAML) from the "resolution" of dynamic values (Environment variables).
+
+    <h3>3. Define Parsing Logic</h3>
+    Within the validator, the following logic will be implemented:
+    - **Regex**: Use `r"\$\{([^:]+)(?::([^}]+))?\}"` to capture the variable name and the optional default.
+    - **Resolution**: Use `os.getenv(var_name, default_value)` to retrieve the final value.
+    - **Recursion**: Ensure that if the YAML contains nested dictionaries or lists, the validator still reaches and resolves placeholders inside them.
+
+    <h3>4. Update <code>config.yaml</code></h3>
+    Update the `config.yaml` file to demonstrate the new interpolation syntax.
+    - **Example**: `pricing_model_url: ${MODEL_URL:http://default:8080}`.
+
+    <h3>5. Verification and Testing</h3>
+    - **Unit Tests**: Create new tests in `tests/unit/` to verify:
+        - **Literal values**: Ensure strings without `${}` are not modified.
+        - **Interpolation**: Verify that a value like `${DB_URL:localhost}` correctly picks up `DB_URL` from `os.environ`.
+        - **Default Fallback**: Verify that if `DB_URL` is missing, the value falls back to `localhost`.
+        - **Nested Resolution**: Ensure placeholders inside nested YAML structures are correctly resolved.
+
+    <h2>Implementation Steps</h2>
+    1. Modify `src/shared/config/config_loader.py` to remove automatic environment settings and add the `model_validator` to the `Settings` class.
+    2. Update `src/shared/config/config.yaml` to use the new `${VAR:default}` syntax for dynamic values.
+    3. Run the unit tests to ensure the refactoring works as expected.
+    4. Run `just lint` to ensure code quality standards are met.
+
+Notice how Claude is now planing to take advantage of our `just` commands to ensure that the linting is correct? Our tooling doesn't just help us, it helps Claude as well! After approving this plan it took a bit of back and forth with Claude but let's look at the changes that were ultimately made.
+
+### Config File Changes
+
+Our config file will just need a simple change to follow the new syntax to enable the explicit env var override:
+
+```yaml title="housing-price-orchestrator/src/shared/config/config.yaml" linenums="1" hl_lines="2 13 14"
+default: &default
+  pricing_model_url: ${MODEL_URL:http://housing-price-model:8080}
+
+dev:
+  <<: *default
+
+qa:
+  <<: *default
+
+prod:
+  <<: *default
+
+local:
+  <<: *default
+```
+
+!!! Note
+    I also added a `local` environment specifically for local configuration.
+
+### Config Loader Changes
+
+The biggest set of changes took place in the config loader.
+
+Firstly we are going to need a few more imports:
+
+```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="1" hl_lines="3-6"
+from functools import lru_cache
+import pathlib
+import os
+import re
+from typing import Tuple, Type, Any
+from pydantic import BaseModel, model_validator
+from pydantic_settings import (
+    BaseSettings,
+    PydanticBaseSettingsSource,
+    SettingsConfigDict,
+    YamlConfigSettingsSource,
+)
+```
+
+Next, Claude generated a recursive environment variables resolver function for us:
+
+```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="15" 
+def resolve_env_vars(data: Any) -> Any:
+    """Recursively resolves environment variable placeholders in the provided data.
+
+    It identifies placeholders in the format ${VAR_NAME:default_value} or ${VAR_NAME}
+    and replaces them with the corresponding environment variable value or the
+    provided default value.
+
+    Args:
+        data: The data structure (dict, list, or string) containing potential
+            placeholders to resolve.
+
+    Returns:
+        The data with all environment variable placeholders resolved.
+    """
+    if isinstance(data, dict):
+        return {k: resolve_env_vars(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [resolve_env_vars(item) for item in data]
+    elif isinstance(data, str):
+        # Matches ${VAR_NAME} or ${VAR_NAME:default_value}
+        pattern = r"\$\{([^:]+)(?::([^}]+))?\}"
+
+        def replace_match(match: re.Match) -> str:
+            var_name = match.group(1)
+            default_value = match.group(2)
+
+            if default_value is not None:
+                return os.getenv(var_name, default_value)
+            else:
+                val = os.getenv(var_name)
+                return val if val is not None else ""
+
+        return re.sub(pattern, replace_match, data)
+    return data
+```
+
+Next we can use a trick with [Pydantic Model Validators](https://pydantic.dev/docs/validation/latest/concepts/validators/#model-validators) to execute this function *before* Pydantic validates the field:
+
+```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="51" hl_lines="4-9"
+class Settings(BaseModel):
+    pricing_model_url: str
+
+    @model_validator(mode="before")
+    @classmethod
+    def resolve_env_vars_validator(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            return resolve_env_vars(data)
+        return data
+```
+
+Lastly we need to modify our config base class to prevent it from loading values from environment variables directly (and to add our new local environment).
+
+```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="62" hl_lines="6 21-23"
+class Config(BaseSettings):
+    default: Settings
+    dev: Settings
+    qa: Settings
+    prod: Settings
+    local: Settings
+    model_config = SettingsConfigDict(
+        yaml_file=pathlib.Path(__file__).parent.resolve() / "config.yaml"
+    )
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: Type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> Tuple[PydanticBaseSettingsSource, ...]:
+        return (
+            init_settings,
+            file_secret_settings,
+            YamlConfigSettingsSource(settings_cls),
+        )
+```
+
+### Config Tests
+
+As part of its plan Claude will generate unit tests for our new loader behavior as well (ensuring we have good test coverage of this new behavior from the beginning):
+
+```python title="housing-price-orchestrator/tests/unit/config/test_config_loader.py" linenums="1"
+import os
+import pytest
+from unittest.mock import patch
+from shared.config.config_loader import load_config_settings
+
+
+@pytest.fixture(autouse=True)
+def clear_config_cache():
+    """Clear the config loader cache before each test."""
+    load_config_settings.cache_clear()
+    yield
+
+
+def test_config_default_values():
+    """Test that configuration loads correctly from YAML with no environment variables set."""
+    # GIVEN
+    # Ensure MODEL_URL is not set
+    with patch.dict(os.environ, {}, clear=True):
+        # WHEN
+        config = load_config_settings("default")
+
+        # THEN
+        assert config.pricing_model_url == "http://housing-price-model:8080"
+
+
+def test_config_with_env_var():
+    """Test that configuration loads correctly from YAML with environment variables set."""
+    # GIVEN
+    with patch.dict(os.environ, {"MODEL_URL": "http://custom-model:9000"}):
+        # WHEN
+        config = load_config_settings("default")
+
+        # THEN
+        assert config.pricing_model_url == "http://custom-model:9000"
+
+
+def test_config_environments():
+    """Test that different environments (dev, qa, prod) load correctly."""
+    # GIVEN
+    with patch.dict(os.environ, {"MODEL_URL": "http://custom-model:9000"}):
+        # WHEN
+        dev_config = load_config_settings("dev")
+        qa_config = load_config_settings("qa")
+        prod_config = load_config_settings("prod")
+
+        # THEN
+        assert dev_config.pricing_model_url == "http://custom-model:9000"
+        assert qa_config.pricing_model_url == "http://custom-model:9000"
+        assert prod_config.pricing_model_url == "http://custom-model:9000"
+
+
+def test_config_fallback_to_default():
+    """Test that configuration falls back to the default value provided in the ${VAR:default} syntax."""
+    # GIVEN
+    # We want to verify that if MODEL_URL is missing, it uses the default.
+    # In config.yaml, the default is http://housing-price-model:8080.
+    # We can't easily change the YAML for one test, but we can check that
+    # when MODEL_URL is NOT in env, it returns the YAML's default.
+    with patch.dict(os.environ, {}, clear=True):
+        # WHEN
+        config = load_config_settings("default")
+
+        # THEN
+        assert config.pricing_model_url == "http://housing-price-model:8080"
+```
+
+With AI there's no excuse not to have unit tests!
+
+!!! tip
+    After these tests are written, prompt Claude to run them (if it doesn't already) to ensure they all pass, if they don't Claude will then debug the tests and figure out why.
+
+### Local Environment Wrap Up
+
+In order to use our new local environment we need to final small changes.
+
+Create an `.env` file in the project root with the following contents (this could be a good place to put local secret values as well in the future):
+
+``` title=".env" linenums="1"
+ENV=local
+```
+
+And update our docker compose to use this variable:
+
+```yaml title="compose.yaml" linenums="1" hl_lines="16"
+services:
+  housing-price-model:
+    build:
+      context: housing-price-model/build
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+  housing-price-orchestrator:
+    build: 
+      context: housing-price-orchestrator
+      additional_contexts:
+        project_root: .
+    environment:
+      - ENV=${ENV}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - housing-price-model
+```
+
+Refactor complete!
+
+## Dr Claude
+
+While doing this refactor I had to prompt Claude a few times to make sure it followed the conventions of the repo, a good way to enforce this going forward is to create a `CLAUDE.md` file in the project root. This will get injected every time we run Claude so it's best to keep this file small to preserve our context.
+
+Instead of writing this file ourselves...
+
+!!! claude
+    Add a CLAUDE.MD file documenting this project including the build and test just commands available, the architecture and directory layout, main repo conventions, and testing standards.
+
+Which created the following:
+
+```markdown title="Claude.md" linenums="1"
+# Project Overview
+A microservices architecture for orchestrating housing price regression models.
+
+## Build and Test Commands
+These commands are available via `just`:
+
+- `just install`: Install all dependencies using `uv sync`.
+- `just update`: Update all dependencies using `uv lock --upgrade`.
+- `just build`: Build workspace packages.
+- `just up`: Spin up Docker containers and attach to logs.
+- `just down`: Tear down Docker containers.
+- `just test`: Run unit and integration tests using `pytest`.
+- `just test-cov`: Run tests with coverage.
+- `just test-html`: Run tests and generate an HTML coverage report.
+- `just lint`: Run `ruff` check.
+- `just lint-fix`: Run `ruff` check and fix issues.
+- `just format`: Format code using `ruff` format.
+- `just format-check`: Check if the code follows formatting rules.
+- `just pre-commit-install`: Install pre-commit hooks.
+- `just pre-commit`: Run all pre-commit hooks.
+- `just check`: Run linting, formatting check, tests, and pre-commit hooks.
+
+## Architecture and Directory Layout
+The project is organized into several main components:
+
+- `housing-price-orchestrator/`: The core service for orchestrating price predictions.
+    - `src/provider`: Handles interaction with MLFlow model providers.
+    - `src/service`: Contains the primary business logic for pricing services.
+    - `src/shared`: Common code shared across the orchestrator, including:
+        - `config`: Configuration loading and management.
+        - `dto`: Data Transfer Objects.
+        - `view`: Request/Response views.
+    - `tests`: Unit and integration tests for the orchestrator service.
+- `housing-price-model/`: Contains the logic for building and serving the ML model.
+- `mlflow-server/`: Infrastructure for serving the MLFlow model.
+
+## Main Repository Conventions
+- **Language**: Python 3.13+
+- **Tooling**: `uv` for package management, `pydantic` for data validation, `ruff` for linting and formatting.
+- **Docstrings**: Use Google-style docstrings for functions and classes.
+- **Configuration**: Use `config.yaml` for environment-specific settings, supporting `${VAR_NAME:default}` syntax for environment variable interpolation.
+- **Typing**: Mandatory type hints for all function signatures and variable definitions.
+
+## Testing Standards
+- **Unit Tests**: Located in `tests/unit/`.
+- **Integration Tests**: Located in `tests/integration/`.
+- **Pattern**: Follow the `GIVEN / WHEN / THEN` structure for test cases.
+- **Mocking**: Use `pytest-mock` for isolating dependencies.
+- **Coverage**: Maintain high coverage as verified by `just test-cov`.
+```
+
+## Wrapping it Up
+
+Hopefully this delve has shown just how useful AI can be to improve the developer experience and do some refactoring along the way!
 
 ## Delve Data
 * There are a number of optimizations described in the `uv` documentation for Docker image builds.
