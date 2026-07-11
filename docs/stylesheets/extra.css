@@ -1,0 +1,23 @@
+.md-typeset .admonition.claude,
+.md-typeset .admonition.claude-code,
+.md-typeset details.claude,
+.md-typeset details.claude-code {
+    border-color: #C15F3C;
+}
+
+.md-typeset .admonition.claude>.admonition-title,
+.md-typeset .admonition.claude-code>.admonition-title,
+.md-typeset details.claude>summary,
+.md-typeset details.claude-code>summary {
+    background-color: rgba(193, 95, 60, 0.1);
+    border-color: #C15F3C;
+}
+
+.md-typeset .admonition.claude>.admonition-title::before,
+.md-typeset .admonition.claude-code>.admonition-title::before,
+.md-typeset details.claude>summary::before,
+.md-typeset details.claude-code>summary::before {
+    background-color: #C15F3C;
+    -webkit-mask-image: var(--md-admonition-icon--claude);
+    mask-image: var(--md-admonition-icon--claude);
+}

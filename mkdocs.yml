@@ -13,6 +13,8 @@ theme:
   name: material
   icon:
     logo: material/pickaxe
+    admonition:
+      claude: simple/claude
   favicon: assets/images/favicon/pickaxe.png
   palette:
 
@@ -97,6 +99,9 @@ markdown_extensions:
   - admonition
 
 use_directory_urls: false
+
+extra_css:
+  - stylesheets/extra.css
 
 extra:
   social:
