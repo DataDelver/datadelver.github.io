@@ -100,7 +100,7 @@ llama-server `
 
 If you want a full breakdown of how to use this script and connect it to Claude Code check out [the previous delve](2026-06-22-local-claude-redux.md)!
 
-!!! Note
+!!! note
     One of the benefits the unsloth quant provided was the ability to enable [Multi Token Prediction (MTP)](https://unsloth.ai/docs/models/mtp) with the `--spec-type draft-mtp` flag. This resulted in a pretty significant speed up in token generation for me.
 
 # Just Do It!
@@ -123,10 +123,10 @@ uv run ruff check .
 All checks passed!
 ```
 
-Now, we could write all of our command aliases by hand, but that would take awhile, instead let's ask AI to do it!
+Now, we could write all of our command aliases by hand, but that would take a while, instead let's ask AI to do it!
 
 !!! claude
-    Create a justfile for this repo with standard command such as installing or updating all packages, building workspace packages, spinning up and tearing down the docker containers, running tests (optionally with coverage or generating an html report), linting, lint fixing, formatting the code and running a format check. Include emoji echo outputs for each command.
+    Create a justfile for this repo with standard commands such as installing or updating all packages, building workspace packages, spinning up and tearing down the docker containers, running tests (optionally with coverage or generating an html report), linting, lint fixing, formatting the code and running a format check. Include emoji echo outputs for each command.
 
 You can iterate back and forth with Claude to configure it how you like it but I ended up with something like this:
 
@@ -243,6 +243,43 @@ Available recipes:
     up                 # Spin up Docker containers
     update             # Update all dependencies
 ```
+
+## Before you Commit to AI: pre-commit!
+
+We now have a bunch of convenient commands for linting and fixing our code, but we still have to remember to run them before committing and pushing, lets fix that with [pre-commit](https://pre-commit.com/). 
+
+Pre-commit does exactly what it sounds like, it executes a hook before `git commit` finishes running, let's ask Claude again to add this to our repo.
+
+!!! claude
+    Set up ruff with precommit https://github.com/astral-sh/ruff-pre-commit
+
+!!! tip
+    I often paste the url to docs straight into my prompts so Claude can reference them for me.
+
+Doing this should generate something like the below output in the project root:
+
+```yaml title=".pre-commit-config.yaml" linenums="1"
+# Lint code
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.15.20
+  hooks:
+    # Run the linter.
+    - id: ruff-check
+      types_or: [ python, pyi ]
+      args: [ --fix ]
+    # Run the formatter.
+    - id: ruff-format
+      types_or: [ python, pyi ]
+```
+
+Now when we run `git commit` our code will be automatically linted and formatted for us!
+
+!!! note
+    This works for Claude as well so it's a good way to ensure any auto generated code is properly formatted too!
+
+
 
 ## Delve Data
 * There are a number of optimizations described in the `uv` documentation for Docker image builds.
