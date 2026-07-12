@@ -18,7 +18,7 @@ links:
     - Part Nine: posts/2025-12-07-ml-micro-part-nine.md
 social:
   cards_layout_options:
-    title: Docker Container Optimization
+    title: Improving DevX with AI
 ---
 
 # Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI
