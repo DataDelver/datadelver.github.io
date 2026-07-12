@@ -8,6 +8,7 @@ The plugin runs on on_page_markdown with priority -60, which is after the blog
 plugin's on_page_markdown (priority -50) so that page.excerpt is already created.
 """
 
+import html
 import re
 from mkdocs.plugins import BasePlugin, event_priority
 
@@ -101,6 +102,6 @@ class ExcerptDescriptionPlugin(BasePlugin):
             description = description[:max_length].rsplit(" ", 1)[0]
             description += "..."
 
-        # Set the description
+        # Set the description (escape HTML special chars for safe meta tag output)
         if description:
-            page.meta["description"] = description
+            page.meta["description"] = html.escape(description, quote=True)
