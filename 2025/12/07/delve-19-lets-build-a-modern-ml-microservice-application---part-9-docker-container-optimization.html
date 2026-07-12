@@ -1471,7 +1471,7 @@
 </span></code></pre></div></td></tr></table></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Notice how we are adding <code>rm -rf /var/lib/apt/lists/*</code> to the end of the install command, this saves us space in the final image. When <code>apt-get update</code> is executed inside the Docker container, the package manager downloads package lists and metadata into /var/lib/apt/lists/. These files are crucial for the installation process but are not needed for running the final application. Removing them frees up significant space. </p>
+<p>Notice how we are adding <code>rm -rf /var/lib/apt/lists/*</code> to the end of the install command, this saves us space in the final image. When <code>apt-get update</code> is executed inside the Docker container, the package manager downloads package lists and metadata into /var/lib/apt/lists/. These files are crucial for the installation process but are not needed for running the final application. Removing them frees up significant space.</p>
 </div>
 <p>This will have the effect of increasing the size of the image but we'll see how to deal with that soon.</p>
 <h2 id="environment-variables">Environment Variables</h2>
