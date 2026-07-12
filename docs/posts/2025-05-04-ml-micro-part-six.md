@@ -1,17 +1,17 @@
 ---
 date: 2025-05-03
 categories:
-    - Software Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - Software Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
-    - Part Five: posts/2025-04-13-ml-micro-part-five.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part Five: posts/2025-04-13-ml-micro-part-five.md
 ---
 
 # Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization
@@ -22,12 +22,13 @@ links:
 
 ## ML Microservices, Deployment through Docker
 
-Hello data delvers! In [part five](2025-04-13-ml-micro-part-five.md) of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!  
+Hello data delvers! In [part five](2025-04-13-ml-micro-part-five.md) of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!
+
 <!-- more -->
 
 ## From Near to Afar, Or How to Leave my Local Machine
 
-Up until this point, we have been executing our application on our local machine with the command line or the built in VSCode runner, but we aren't going to ship our whole local computer to production! We need a simple way to package our application with its dependencies in a way that makes it easy to deploy (either in an on-prem computing environment or with a cloud provider). By this point you've probably heard of [containerization](https://en.wikipedia.org/wiki/Containerization_(computing)), most likely through its most popular implementation: [Docker](https://www.docker.com/). Fortunately for us, Docker is the perfect tool to package our app. It provides a convenient way to package all the Python dependencies our application needs, provide an environment to execute our Fast API application, and deploy the application to our desired computing environment. So let's get started!
+Up until this point, we have been executing our application on our local machine with the command line or the built in VSCode runner, but we aren't going to ship our whole local computer to production! We need a simple way to package our application with its dependencies in a way that makes it easy to deploy (either in an on-prem computing environment or with a cloud provider). By this point you've probably heard of [containerization](<https://en.wikipedia.org/wiki/Containerization_(computing)>), most likely through its most popular implementation: [Docker](https://www.docker.com/). Fortunately for us, Docker is the perfect tool to package our app. It provides a convenient way to package all the Python dependencies our application needs, provide an environment to execute our Fast API application, and deploy the application to our desired computing environment. So let's get started!
 
 Firstly, you will need to install Docker on your machine if you have not done so already. Docker Desktop is the official tooling provided by Docker to achieve this, however [due to some drama about commercial use licensing of Docker Desktop](https://www.servethehome.com/docker-abruptly-starts-charging-many-users-for-docker-desktop/), I actually prefer to use [Rancher Desktop](https://rancherdesktop.io/) as an alternative with a more permissive license. Whichever you prefer, install it and make sure you have the WSL integration enabled if you plan to use it within your WSL environment (if you are on a Windows machine). You can verify that Docker is correctly installed by opening a shell and running the `docker --version` command. You should see something like the below output:
 
@@ -90,9 +91,9 @@ docker run -p 80:80 -e ENV=prod modern-ml-microservices-app
 
 This command does a few things:
 
-* Binds port 80 on the host machine to port 80 within the container, this allows us to easily access the application on the host's network.
-* Sets the `ENV` environment to `prod` to tell our application to run in a production configuration
-* Runs the application
+- Binds port 80 on the host machine to port 80 within the container, this allows us to easily access the application on the host's network.
+- Sets the `ENV` environment to `prod` to tell our application to run in a production configuration
+- Runs the application
 
 With that you should be able to navigate to [http://localhost/docs](http://localhost/docs) and view your running application, now in a docker container!
 
@@ -143,6 +144,7 @@ You can then execute the script from the root of your project like so:
 Congratulations! You now have a fully containerized application! In addition, this concludes the first "leg" of our journey into the labyrinth of ML Microservices. Up until this point we have focused on developing the software engineering foundation to build good microservices whether they use ML or not. For the next leg of our journey we will finally introduce ML and start to discuss some of the ways we can apply what we've covered thus far to building ML powered services! As always full code for this part can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-six)!
 
 ## Delve Data
-* Many challenges exist when deploying Python applications to compute environments other than a local machine
-* Docker provides a convenient way to solve many of these challenges
-* uv provides a pre-built Docker base image that makes deploying Python applications using uv even easier
+
+- Many challenges exist when deploying Python applications to compute environments other than a local machine
+- Docker provides a convenient way to solve many of these challenges
+- uv provides a pre-built Docker base image that makes deploying Python applications using uv even easier

@@ -10,6 +10,18 @@ serve:
     #!/usr/bin/env bash
     mkdocs serve
 
+# Install pre-commit hook
+pre-commit-install:
+    pre-commit install
+
+# Check markdown formatting (dry run)
+lint:
+    mdformat --check docs/
+
+# Fix markdown formatting in place
+lint-fix:
+    mdformat docs/
+
 # Clean the site build
 clean:
     #!/usr/bin/env bash

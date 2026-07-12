@@ -16,26 +16,30 @@ DataDelver is a technical blog focused on Data Science, Machine Learning, and ML
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/DataDelver/datadelver.github.io.git
-   cd datadelver.github.io
-   ```
 
-2. Create and activate a virtual environment (recommended):
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
-   ```
+    ```bash
+    git clone https://github.com/DataDelver/datadelver.github.io.git
+    cd datadelver.github.io
+    ```
 
-3. Install dependencies using uv (recommended):
-   ```bash
-   uv sync
-   ```
+1. Create and activate a virtual environment (recommended):
 
-   Alternatively, you can use pip:
-   ```bash
-   pip install -e .
-   ```
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+    ```
+
+1. Install dependencies using uv (recommended):
+
+    ```bash
+    uv sync
+    ```
+
+    Alternatively, you can use pip:
+
+    ```bash
+    pip install -e .
+    ```
 
 ## Usage
 
@@ -44,34 +48,42 @@ DataDelver is a technical blog focused on Data Science, Machine Learning, and ML
 You can use the `just` command runner for common tasks:
 
 - **Build the site**:
-  ```bash
-  just doc
-  ```
-  This will generate static HTML files in the `site/` directory.
+
+    ```bash
+    just doc
+    ```
+
+    This will generate static HTML files in the `site/` directory.
 
 - **Serve the site locally** (with live reloading):
-  ```bash
-  just serve
-  ```
-  Access the site at `http://localhost:8000`
+
+    ```bash
+    just serve
+    ```
+
+    Access the site at `http://localhost:8000`
 
 - **Clean the build**:
-  ```bash
-  just clean
-  ```
-  Removes the `site/` directory
+
+    ```bash
+    just clean
+    ```
+
+    Removes the `site/` directory
 
 Alternatively, you can use mkdocs directly:
 
 - Build:
-  ```bash
-  mkdocs build
-  ```
+
+    ```bash
+    mkdocs build
+    ```
 
 - Serve:
-  ```bash
-  mkdocs serve
-  ```
+
+    ```bash
+    mkdocs serve
+    ```
 
 ### Writing Posts
 
@@ -114,6 +126,6 @@ While this is a personal blog, contributions and feedback are welcome! Feel free
 
 ## License
 
-Copyright &copy; 2023 - 2026 Chase Greco
+Copyright © 2023 - 2026 Chase Greco
 
 All content is licensed under CC BY-SA 4.0 unless otherwise noted.

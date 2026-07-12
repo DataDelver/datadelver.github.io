@@ -1,12 +1,12 @@
 ---
 date: 2025-09-10
-categories: 
-    - Software Engineering
-tags: 
-    - Tools 
-    - Fun
+categories:
+  - Software Engineering
+tags:
+  - Tools
+  - Fun
 links:
-    - Part One: posts/2024-06-29-pi-fullscreen.md
+  - Part One: posts/2024-06-29-pi-fullscreen.md
 ---
 
 # Delve 16: The Quest for a Full Screen Raspberry Pi Application - Part 2
@@ -17,7 +17,7 @@ links:
 
 ## Full Screen Applications on the Raspberry Pi, Why so Hard AGAIN?
 
-Hello data delvers! I recently revisited my [Raspberry Pi](https://www.raspberrypi.com/) after a long hiatus. As part of this I made sure to update all the packages and OS to the latest version. If you've read my [previous Raspberry Pi delve](2024-06-29-pi-fullscreen.md), you'll know that being able to make applications full screen isn't as straightforward as it should be. Much to my surprise, after updating everything my fullscreen keyboard shortcut broke! 
+Hello data delvers! I recently revisited my [Raspberry Pi](https://www.raspberrypi.com/) after a long hiatus. As part of this I made sure to update all the packages and OS to the latest version. If you've read my [previous Raspberry Pi delve](2024-06-29-pi-fullscreen.md), you'll know that being able to make applications full screen isn't as straightforward as it should be. Much to my surprise, after updating everything my fullscreen keyboard shortcut broke!
 After spending some time internet sleuthing I'd like to share what the fix is with you all!
 
 <!-- more -->
@@ -81,13 +81,13 @@ With some prompting of CoPilot, I discovered the trick is to add a new `<keyboar
 </openbox_config>
 ```
 
-!!!tip
-    A more complete list of configuration options can be found [here](https://github.com/labwc/labwc/blob/master/docs/rc.xml.all).
+!!! tip
 
+    A more complete list of configuration options can be found [here](https://github.com/labwc/labwc/blob/master/docs/rc.xml.all).
 
 After making the above modifications and rebooting my Pi I can make applications fullscreen again!
 
 ## Delve Data
 
-* In late 2024 the Raspberry Pi switched its default compositor from [Wayfire](https://wayfire.org/) to [labwc](https://labwc.github.io/)
-* This requires a new config file located at `~/.config/lawbwc/rc.xml` to define keyboard shortcuts
+- In late 2024 the Raspberry Pi switched its default compositor from [Wayfire](https://wayfire.org/) to [labwc](https://labwc.github.io/)
+- This requires a new config file located at `~/.config/lawbwc/rc.xml` to define keyboard shortcuts

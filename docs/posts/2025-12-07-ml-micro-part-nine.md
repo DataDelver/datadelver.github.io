@@ -1,20 +1,20 @@
 ---
 date: 2025-12-07
 categories:
-    - ML Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - ML Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
-    - Part Five: posts/2025-04-13-ml-micro-part-five.md
-    - Part Six: posts/2025-05-04-ml-micro-part-six.md
-    - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
-    - Part Eight: posts/2025-08-17-ml-micro-part-eight.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part Five: posts/2025-04-13-ml-micro-part-five.md
+  - Part Six: posts/2025-05-04-ml-micro-part-six.md
+  - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
+  - Part Eight: posts/2025-08-17-ml-micro-part-eight.md
 social:
   cards_layout_options:
     title: Docker Container Optimization
@@ -27,6 +27,7 @@ social:
 > "Containerization is the new virtualization." - James Turnbull
 
 Greetings data delvers! In [part eight](2025-08-17-ml-micro-part-eight.md) of this series we deployed our first multi-service system. In this part, we examine more deeply how we are deploying our services with Docker and look for opportunities to make our deployment more optimized and secure.
+
 <!-- more -->
 
 ## Where we Left Off
@@ -121,6 +122,7 @@ CMD ["fastapi", "run", "src/main.py", "--port", "8000"]
 ```
 
 !!! note
+
     The offical Astral docs show installing `uv` from the `latest` tag however I recommend pinning to a specific version instead. This ensures that no breaking changes in `uv` inadvertently break your build.
 
 ## Build Dependencies
@@ -174,7 +176,8 @@ CMD ["fastapi", "run", "src/main.py", "--port", "8000"]
 ```
 
 !!! note
-    Notice how we are adding `rm -rf /var/lib/apt/lists/*` to the end of the install command, this saves us space in the final image. When `apt-get update` is executed inside the Docker container, the package manager downloads package lists and metadata into /var/lib/apt/lists/. These files are crucial for the installation process but are not needed for running the final application. Removing them frees up significant space. 
+
+    Notice how we are adding `rm -rf /var/lib/apt/lists/*` to the end of the install command, this saves us space in the final image. When `apt-get update` is executed inside the Docker container, the package manager downloads package lists and metadata into /var/lib/apt/lists/. These files are crucial for the installation process but are not needed for running the final application. Removing them frees up significant space.
 
 This will have the effect of increasing the size of the image but we'll see how to deal with that soon.
 
@@ -233,9 +236,9 @@ CMD ["fastapi", "run", "src/main.py", "--port", "8000"]
 
 It's also worth explaining the other environment variables we are leveraging:
 
-* [UV_COMPILE_BYTECODE](https://docs.astral.sh/uv/reference/environment/#uv_compile_bytecode) - Setting this ensures that `uv` will compile the bytecode of all Python source files ahead of time, leading to longer container build times but shorter execution times, typically a desired tradeoff in deployed images.
+- [UV_COMPILE_BYTECODE](https://docs.astral.sh/uv/reference/environment/#uv_compile_bytecode) - Setting this ensures that `uv` will compile the bytecode of all Python source files ahead of time, leading to longer container build times but shorter execution times, typically a desired tradeoff in deployed images.
 
-* [UV_LINK_MODE](https://docs.astral.sh/uv/reference/environment/#uv_link_mode) — We can pair setting this variable along with a [caching strategy](https://docs.astral.sh/uv/guides/integration/docker/#caching) described in the `uv` documentation to speed up local builds by reusing the system `uv` cache instead of forcing `uv` to create its own inside the container.
+- [UV_LINK_MODE](https://docs.astral.sh/uv/reference/environment/#uv_link_mode) — We can pair setting this variable along with a [caching strategy](https://docs.astral.sh/uv/guides/integration/docker/#caching) described in the `uv` documentation to speed up local builds by reusing the system `uv` cache instead of forcing `uv` to create its own inside the container.
 
 ## Installing Dependencies
 
@@ -297,6 +300,7 @@ We also want to install dependencies exactly as they exist in the `uv.lock` file
 Notice we are installing project dependencies separately from the source code. This is due to the [Docker build cache](https://docs.docker.com/build/cache/). Each command in the Dockerfile creates a new layer in the final image. These layers are cached by Docker. Whenever a layer changes, it will need to be rebuilt. When this happens, all layers that come *after* that layer will also have to be rebuilt. This means you should always put layers that are more likely to change *after* layers that are less likely to change. In our case, it's more likely we'll change our project's source code while developing it rather than its dependencies. Breaking the install step into two separate layers allows us to reuse the dependency installation layer when rebuilding our Docker image if only the source code has changed, leading to faster local build times.
 
 !!! warning
+
     The official `uv` docs recommend using the `--locked` flag instead of `--frozen` to prevent building with an outdated lockfile; however, this does not work when using `uv` [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/) as we are. This is because `uv` would need access to all `pyproject.toml` files to verify that the lockfile is up to date, not just the individual workspace lockfile. As such, **ensure that your lockfile is up to date by running `uv sync`** before building the image!
 
 ## Everything and the Kitchen Sink
@@ -441,5 +445,6 @@ modern-ml-microservices-housing-price-orchestrator   latest    a28fc433e42d   7 
 `324MB` — smaller than where we started (likely because `uv` is no longer installed in the final image). Congratulations! You now have an image that is both smaller and more secure than our original, while capable of supporting projects with more complex system-dependency requirements. Code for this part can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-nine)!
 
 ## Delve Data
-* There are a number of optimizations described in the `uv` documentation for Docker image builds.
-* Using multi-stage Docker builds, we can support additional build-time dependencies while ensuring they don't increase the size of the overall image.
+
+- There are a number of optimizations described in the `uv` documentation for Docker image builds.
+- Using multi-stage Docker builds, we can support additional build-time dependencies while ensuring they don't increase the size of the overall image.

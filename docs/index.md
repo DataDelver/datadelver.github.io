@@ -1,6 +1,5 @@
 ---
 template: home.html
-
 ---
 
 # Blog

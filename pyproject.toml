@@ -11,6 +11,14 @@ dependencies = [
     "mkdocs-rss-plugin>=1.17.1",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "mdformat>=0.7.21",
+    "mdformat-frontmatter>=2.0.8",
+    "mdformat-mkdocs>=3.0.1",
+    "pre-commit>=4.2.0",
+]
+
 [tool.setuptools.packages.find]
 include = ["plugins*"]
 
