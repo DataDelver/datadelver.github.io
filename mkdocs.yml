@@ -8,6 +8,7 @@ repo_url: https://github.com/DataDelver/datadelver.github.io
 
 watch:
   - overrides/
+  - plugins/
 
 theme:
   name: material
@@ -53,6 +54,7 @@ plugins:
       blog_dir: .
       blog_toc: true
       post_excerpt: required
+  - excerpt_description
   - tags:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search
@@ -62,6 +64,7 @@ plugins:
         background_image: layouts/background.png
         background_color: "#00000033"
         color: "#FFFFFF"
+  - json_ld
   - meta
   - rss:
       match_path: blog/posts/.* 
