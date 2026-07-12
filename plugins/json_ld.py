@@ -7,6 +7,7 @@ Runs on on_post_page so that all metadata (including description from
 excerpt_description plugin) is already available.
 """
 
+import html
 import json
 import os
 from datetime import datetime, timezone
@@ -43,7 +44,8 @@ class JsonLdPlugin(BasePlugin):
         post_url = f"{site_url.rstrip('/')}/{page.url}"
 
         # Get description from meta (set by excerpt_description plugin)
-        description = page.meta.get("description", "")
+        # Unescape HTML entities since json.dumps handles its own escaping
+        description = html.unescape(page.meta.get("description", ""))
 
         # Get date from post config - blog plugin stores date as a DateDict
         # with "created" key (and optionally "updated", etc.)
