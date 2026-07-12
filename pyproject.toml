@@ -19,3 +19,4 @@ preview = true
 
 [project.entry-points."mkdocs.plugins"]
 excerpt_description = "plugins.excerpt_description:ExcerptDescriptionPlugin"
+json_ld = "plugins.json_ld:JsonLdPlugin"

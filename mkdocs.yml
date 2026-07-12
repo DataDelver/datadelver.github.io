@@ -64,6 +64,7 @@ plugins:
         background_image: layouts/background.png
         background_color: "#00000033"
         color: "#FFFFFF"
+  - json_ld
   - meta
   - rss:
       match_path: blog/posts/.* 
