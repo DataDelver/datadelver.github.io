@@ -7,3 +7,5 @@ vendor
 .cache
 .venv
 site
+__pycache__
+*.egg-info

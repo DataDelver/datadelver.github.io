@@ -11,5 +11,11 @@ dependencies = [
     "mkdocs-rss-plugin>=1.17.1",
 ]
 
+[tool.setuptools.packages.find]
+include = ["plugins*"]
+
 [tool.ruff.format]
 preview = true
+
+[project.entry-points."mkdocs.plugins"]
+excerpt_description = "plugins.excerpt_description:ExcerptDescriptionPlugin"
