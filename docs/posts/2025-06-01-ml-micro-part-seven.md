@@ -1,18 +1,18 @@
 ---
 date: 2025-06-01
 categories:
-    - ML Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - ML Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
-    - Part Five: posts/2025-04-13-ml-micro-part-five.md
-    - Part Six: posts/2025-05-04-ml-micro-part-six.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part Five: posts/2025-04-13-ml-micro-part-five.md
+  - Part Six: posts/2025-05-04-ml-micro-part-six.md
 ---
 
 # Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow
@@ -23,20 +23,21 @@ links:
 
 ## Reset and Rescope
 
-Hello data delvers! In [part six](2025-05-04-ml-micro-part-six.md) of this series we containerized our application, making it portable and easy to deploy. For this part we will take a step back. Introduce machine learning (finally!), and explore how we can begin to incorporate machine learning models into our microservice ecosystem!   
+Hello data delvers! In [part six](2025-05-04-ml-micro-part-six.md) of this series we containerized our application, making it portable and easy to deploy. For this part we will take a step back. Introduce machine learning (finally!), and explore how we can begin to incorporate machine learning models into our microservice ecosystem!
+
 <!-- more -->
 
 ## Machine Learning (Finally!)
 
 This series has up until now focused on *core software engineering knowledge*. This is intentional, if you've read [some of my previous delves](2024-04-27-ml-engineer.md), you'll know that I view machine learning grounded in good software engineering practices as essential to extract business value at scale. It is for this reason I wanted to ensure we had laid a sturdy foundation in engineering before introducing the science, but without further ado, let's dive in!
 
-This series will not focus on machine learning fundamentals as there are [plenty of good resources out there already that already cover that](2023-12-23-ml-resources.md), however what I will touch on is how to develop machine learning models with an engineering mindset. To begin, go ahead and create an account on [kaggle](https://www.kaggle.com/). Kaggle is ubiquitous in the data science world as a place to host competitive data science competitions (like the famous [Zillow Prize](https://www.kaggle.com/c/zillow-prize-1)), but it is also an invaluable resource to learn from. For this delve we will be working with the dataset provided by the [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) learning competition so go ahead an sign up to it with your kaggle account and take a quick look at the data it provides as well as some of the submissions others have made to the competition to get a feel for what is working. 
+This series will not focus on machine learning fundamentals as there are [plenty of good resources out there already that already cover that](2023-12-23-ml-resources.md), however what I will touch on is how to develop machine learning models with an engineering mindset. To begin, go ahead and create an account on [kaggle](https://www.kaggle.com/). Kaggle is ubiquitous in the data science world as a place to host competitive data science competitions (like the famous [Zillow Prize](https://www.kaggle.com/c/zillow-prize-1)), but it is also an invaluable resource to learn from. For this delve we will be working with the dataset provided by the [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) learning competition so go ahead an sign up to it with your kaggle account and take a quick look at the data it provides as well as some of the submissions others have made to the competition to get a feel for what is working.
 
 ## Prepare Your Project
 
 Instead of building off our existing codebase we are going to start fresh with a brand new project (don't worry we'll be revisiting our previous codebase in a future delve!). Go ahead and initialize a starter project with `uv init` that will give you a basic file structure that looks something like this:
 
-``` title="uv Starter Project Structure"
+```title="uv Starter Project Structure"
 ├── .git
 ├── .gitignore
 ├── .python-version
@@ -45,7 +46,7 @@ Instead of building off our existing codebase we are going to start fresh with a
 └── pyproject.toml
 ```
 
-You can go ahead a remove the `hello.py` script, we won't be using it. Now, our future project will have multiple different parts. Such as for *training* the model, and *using* the model as part of microservices. As you can probably imagine, the set of Python library dependencies we have for training the model may be different than the Python library dependencies we have when we use the model. However, any libraries we have in common throughout the different parts of the project we probably want to stay the same version.  Previously this was a big headache, we could have different `requirements.txt` files for the different project parts to maintain different sets of dependencies, but making sure that if a dependency was re-used in multiple parts it was the same version? Good luck! Fortunately for us `uv` comes to the rescue here with its concept of [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/). We can have a single uv workspace with one `uv.lock` file but multiple different sub-applications within it with their own dependency lists.
+You can go ahead a remove the `hello.py` script, we won't be using it. Now, our future project will have multiple different parts. Such as for *training* the model, and *using* the model as part of microservices. As you can probably imagine, the set of Python library dependencies we have for training the model may be different than the Python library dependencies we have when we use the model. However, any libraries we have in common throughout the different parts of the project we probably want to stay the same version. Previously this was a big headache, we could have different `requirements.txt` files for the different project parts to maintain different sets of dependencies, but making sure that if a dependency was re-used in multiple parts it was the same version? Good luck! Fortunately for us `uv` comes to the rescue here with its concept of [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/). We can have a single uv workspace with one `uv.lock` file but multiple different sub-applications within it with their own dependency lists.
 
 Let's try it out! Go ahead and create a `housing-price-model` directory to hold our model application. Within it create a new `pyproject.toml` file with the following contents:
 
@@ -75,7 +76,7 @@ members = ["housing-price-model"]
 
 You can also add a project description too if you'd like. We should now have a project directory structure that looks like so:
 
-``` title="Project Structure with uv Workspace"
+```title="Project Structure with uv Workspace"
 ├── .git
 ├── .gitignore
 ├── .python-version
@@ -88,17 +89,18 @@ You can also add a project description too if you'd like. We should now have a p
 Next up within the `housing-price-model` directory create a sub-directory called `data` and place the dataset files from kaggle within it.
 
 !!! tip
+
     It's a good idea to add your `data` directory to your `.gitignore` so the data files don't get checked into github. Not only is it [against the rules of the competition to do so](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/rules), it's generally bad practice to version data files with git, there are better tools we will cover in the future for that. 🙂
 
 Finally, create a another sub-directory called `notebooks` with the `housing-price-model` directory to hold our Jupyter notebooks for modeling. "Jupyter notebooks!?!? I though we weren't supposed to use those?" I might hear you say, and based on my [previous delve](2023-12-10-production-notebooks.md) you wouldn't be wrong in asking the question, however in this case I think Jupyter notebooks are useful for a few reasons:
 
-* We are in the early phase of exploring the data and the problem and in this state the visual nature of the notebooks can be useful
-* Notebooks are extremely useful when trying to teach or explain a concept, which is what I'm trying to do in this delve
-* We'll be converting the model training code out of notebooks in a future delve 😉
+- We are in the early phase of exploring the data and the problem and in this state the visual nature of the notebooks can be useful
+- Notebooks are extremely useful when trying to teach or explain a concept, which is what I'm trying to do in this delve
+- We'll be converting the model training code out of notebooks in a future delve 😉
 
 With that we should have our final project directory structure that looks like this:
 
-``` title="Full Project Structure"
+```title="Full Project Structure"
 ├── .git
 ├── .gitignore
 ├── .python-version
@@ -119,21 +121,23 @@ With that we should have our final project directory structure that looks like t
 
 To start off with we need to install our project dependencies. First off make sure you are in the `housing-price-model` directory in your shell, then you can use `uv add` to install all of these dependencies:
 
-* [pandas](https://pandas.pydata.org/) - Standard library for data manipulation
-* [scikit-learn](https://scikit-learn.org/stable/) - The most popular library for doing machine learning in Python
-* [plotly](https://plotly.com/) - My preferred library for generating data visualizations (there a much better options out there than matplotlib!)
+- [pandas](https://pandas.pydata.org/) - Standard library for data manipulation
+- [scikit-learn](https://scikit-learn.org/stable/) - The most popular library for doing machine learning in Python
+- [plotly](https://plotly.com/) - My preferred library for generating data visualizations (there a much better options out there than matplotlib!)
 
 Also, depending on what environment you want to run your notebooks in there are some optional dependencies as well:
 
-* [jupyterlab](https://jupyter.org/) - The standard web-based notebook interface available from jupyter
-* [anywidget](https://anywidget.dev/en/getting-started/) - An extension for jupyter that enables interactive plots
+- [jupyterlab](https://jupyter.org/) - The standard web-based notebook interface available from jupyter
+- [anywidget](https://anywidget.dev/en/getting-started/) - An extension for jupyter that enables interactive plots
 
 !!! note
+
     I will be using jupyter lab as my notebook execution environment however you can also run notebooks [directly in VSCode](https://code.visualstudio.com/docs/datascience/jupyter-notebooks).
 
 Within the `housing-price-model` directory go ahead an fire up JupyterLab by executing `jupyter lab` in your shell. Within the `notebooks` folder create a new notebook called `train_model.ipynb`.
 
 !!! tip
+
     If you've never used JupyterLab before you can check out their getting started docs [here](https://jupyterlab.readthedocs.io/en/latest/getting_started/overview.html)!
 
 To start off create a new cell to import our dependencies:
@@ -154,6 +158,7 @@ import plotly.express as px
 ```
 
 !!! note
+
     If you'd rather follow along with a completed notebook you can do so [here](https://github.com/DataDelver/modern-ml-microservices/blob/part-seven/housing-price-model/notebooks/train_model.ipynb)!
 
 It's best practice to import all of your libraries at the top of your notebook just like a regular Python script rather than throughout the notebook itself. This way you can quickly tell at a glace the dependencies of the notebook.
@@ -196,6 +201,7 @@ This will give you a visualization that looks something like this:
 ![Sale Price Distribution](../assets/images/figures/delve13/salePriceDist.png)
 
 !!! note
+
     While the image above is a static png file, the true power of Plotly is that it is interactive! Try out the code within the notebook and hover your mouse over the graph, it will give you more details!
 
 In a similar way, we can use plotly to visualize the percentage of null values in each column to identify any columns that are mostly null (it's usually good practice to drop columns that are mostly null as they won't provided much information to the model).
@@ -266,7 +272,7 @@ print(f'Categorical columns: {categorical_columns}')
 The next part of our notebook will focus on feature engineering. It is also where I want to spend a decent amount of time. Feature engineering is in my experience often where the breakdown between Data Scientists and ML Engineers occurs. I think a large part of this is due to how feature engineering is typically presented in tutorials (and indeed many of the notebooks submitted to this competition). It is usually viewed as a separate stage of the pipeline *distinct* from the model itself. In such cases you will typically see pandas being used (the ubiquitous `pd.get_dummies()` for encoding categorical variables for example) to transform the dataset into the features the model utilizes. This creates two issues:
 
 1. Since feature engineering can be any arbitrary python code it can become very complex and very messy
-2. Any feature engineering that is performed will have to be replicated in the environment where the model is used to make predictions
+1. Any feature engineering that is performed will have to be replicated in the environment where the model is used to make predictions
 
 These issues combine to create situations where engineers must translate and replicate feature engineering logic from notebooks to their production serving environments. As I've discussed in previous delves, this process is prone to error and can create a lot of friction. However, there is a better way, and we already have all the tools to do it!
 
@@ -326,6 +332,7 @@ encode_transformer = ColumnTransformer(
 ```
 
 !!! Note
+
     I go into a bit more depth on what these transformations are actually doing in the [companion notebook](https://github.com/DataDelver/modern-ml-microservices/blob/part-seven/housing-price-model/notebooks/train_model.ipynb) so be sure to check it out!
 
 Create our model:
@@ -364,6 +371,7 @@ pipeline.predict(test)
 Notice how we didn't have to transform our data at all before we fed it into the model for predictions? That's the power of attaching our feature engineering directly to the model! Now some poor engineer doesn't have to replicate that logic anywhere and if we wanted to test different versions of the model with different feature engineering logic? No sweat, each version has the correct logic attached to it already. This simple approach of attaching feature engineering logic to models can dramatically reduce friction when deploying them and speed up time to production.
 
 !!! tip
+
     As with any software pattern, bundling feature engineering logic with the model has potential to be misused. (I've seen whole A/B tests orchestrated within bundled feature engineering logic for example). When deciding what logic to bundle with the model a good rule of thumb is if it specific to the training set the model was built on (a median value changes based on the samples in the training set for example) consider bundling it with the model. If the transformation is not related to the training set (choosing which version of the model to use for which customers for example) don't bundle it. This rule can be broken however if computing the feature on-the-fly as data is sent to the model is computationally expensive. As with all things, a balance must be found between convenience and computational practicality.
 
 ## Get in the Flow with MLFlow
@@ -390,9 +398,10 @@ cd $(dirname "$0")
 mlflow server --host 127.0.0.1 --port 9999
 ```
 
-Go ahead execute the script to start MLFlow and check out the server UI, there won't be a whole lot here yet! 
+Go ahead execute the script to start MLFlow and check out the server UI, there won't be a whole lot here yet!
 
 !!! tip
+
     MLFlow will create two directories `mlartifacts` and `mlruns` when it executes. You can choose to add these to the .gitignore so they don't get checked in (and you probably should in production settings) but it means your trained model artifacts will *not* be checked into git.
 
 Next we are going to be modifying our notebook to utilize MLFlow. Since MLFlow is a dependency of modeling, we can add it to the `housing-price-model` application by running `uv add mlflow` in the `housing-price-model` directory as well (importantly the same version of MLFlow will be used).
@@ -469,17 +478,19 @@ print("Random Forest MAE:", mae)
 
 A few thing to note here:
 
-* The model training code is run under a `with mlflow.start_run():` clause, this tells MLFlow this code will be a new `run` under the experiment.
-* Model metrics and figures can be logged along with the model using the `log_metric()` and `log_figures()` functions respectively
-* `infer_signature` can be used to auto-infer a model data contract from the training data
-* The model artifact itself is logged with `log_model()`
+- The model training code is run under a `with mlflow.start_run():` clause, this tells MLFlow this code will be a new `run` under the experiment.
+- Model metrics and figures can be logged along with the model using the `log_metric()` and `log_figures()` functions respectively
+- `infer_signature` can be used to auto-infer a model data contract from the training data
+- The model artifact itself is logged with `log_model()`
 
 !!! tip
+
     If you read the MLFlow documentation you may come across the [autolog](https://mlflow.org/docs/latest/tracking/autolog/) feature. I've always found this feature to be buggy and unrealiable so I prefer to log experiment artifacts explicitly.
 
 Go ahead and run the above code an check out the MLFlow UI. You should see a *Housing Price Prediction* experiment available with the *run* under it (usually with a cute autogenerated name). If you click around you should be able to view the logged metrics and figures as well as the model artifact itself. Subsequent runs will also be available here (provided the are run under the same experiment name), allowing you to easily compare different versions of the model and importantly have a record (ideally backed up on an external server) of all variations trained!
 
 !!! tip
+
     I'm just scratching the surface of MLFlow functionality, I encourage you to check out the [MLFlow Docs](https://mlflow.org/docs/latest/) to see all of the functionality available!
 
 ## Create an API
@@ -517,16 +528,18 @@ docker build -t $2 build
 We can then execute it by running `./model-build.sh runs:/{RUN_ID}/model house-price-model` where `{RUN_ID}` is the Run ID of the model training run, which you can find in the MLFlow UI.
 
 !!! tip
+
     You may need to export the location of the MLFlow tracking server to an environment variable with the following command `export MLFLOW_TRACKING_URI=http://localhost:9999` in order to for it work (or add it to you .bashrc file or equivalent)
 
-This will: 
+This will:
 
 1. Create a new directory called `build`
-2. Create a `Dockerfile` within it that will define the image to host the model and its dependencies
-3. Download the model artifact from the MLFlow server into a sub-directory calld `model_dir`
-4. Build the Docker image and tag it as `house-price-model`
+1. Create a `Dockerfile` within it that will define the image to host the model and its dependencies
+1. Download the model artifact from the MLFlow server into a sub-directory calld `model_dir`
+1. Build the Docker image and tag it as `house-price-model`
 
 !!! note
+
     There is a [mlflow models build-docker](https://mlflow.org/docs/latest/api_reference/cli.html#mlflow-models-build-docker) command that will do this all in one command, but I prefer to use `mlflow models generate-dockerfile` and `docker build` separatly so I can view the intermediate build outputs in case something goes wrong.
 
 It's hard to overstate the magic that just occured. I have seen engineers spend *weeks* trying to get a model artifact, with all its dependencies, with all the right versions bundled together into a container and we just did it with two commands!
@@ -576,6 +589,7 @@ Where each element in the array is the prediction for the corresponding row in t
 Training and deploying models is the heart of MLOps and is often frought with frustation and friction, but by being intentional about the tooling we use to train our models and how we bundle the feature engineering logic they depend on we can greatly reduce the amount of overhead it takes! In the next part of this series we'll take a look at how we can integrate this deployed model into the microservices concepts we have developed before, stay tuned! Code for this part can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-seven)!
 
 ## Delve Data
-* Many challenges exist when training and deploying ML models
-* By leveraging scikit-learn column transformers and pipelines we can greatly reduce the amount of feature engineering translation logic that needs to be done
-* MLFlow provides a convenient framework for both tracking model experimentation and deploying model artifacts as APIs
+
+- Many challenges exist when training and deploying ML models
+- By leveraging scikit-learn column transformers and pipelines we can greatly reduce the amount of feature engineering translation logic that needs to be done
+- MLFlow provides a convenient framework for both tracking model experimentation and deploying model artifacts as APIs

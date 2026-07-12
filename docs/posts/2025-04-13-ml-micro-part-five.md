@@ -1,16 +1,16 @@
 ---
 date: 2025-04-13
 categories:
-    - Software Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - Software Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
 ---
 
 # Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing
@@ -21,12 +21,14 @@ links:
 
 ## ML Microservices, Keep Calm and Run Your Tests
 
-Hello data delvers! In [part four](2025-03-25-ml-micro-part-four.md) of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.  
+Hello data delvers! In [part four](2025-03-25-ml-micro-part-four.md) of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.
+
 <!-- more -->
 
 As the complexity of the application grows, so too does the difficulty in verifying that it is behaving as expected. Right now, it is fairly straightforward to test our application. We can bring up the swagger docs, and try a few sample requests to make sure everything is working. However, we can imagine as we add more and more functionality to our app, it will become more tedious to do this type of *manual* testing every time we make a change to verify nothing has broken. Once more, if something does break, this testing may make it difficult to determine where in our application the break actually occurred (unless we have very, very helpful error messages). A better approach would be to have a set of *automated* tests that run whenever we make a change to verify nothing has broken. It is this type of testing that I would like to focus on for the subject of this delve.
 
 !!! info
+
     There are [many types of software testing](https://www.geeksforgeeks.org/types-software-testing/). For this delve we will be focusing on small subset of testing strategies. Other forms of testing may be covered in future delves.
 
 ## Let's Get Testy
@@ -36,6 +38,7 @@ To begin let's talk about how we might go about writing tests for our applicatio
 The next question you may be asking is "Where to begin writing your unit tests?". This is more personal preference but I like to start at the lowest layers of my application and work my way up. For us that means starting at the *Data Layer*, though it can be valid to start in the reverse order as well.
 
 !!! note
+
     Another valid question to ask is "When should I write my tests?". In this series we are following what I'd call the "conventional" or "typical" route of testing in which we already have working code and we are writing tests to ensure that is it behaving as expected. However, there is an alternative software development philosophy known as [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) that advocates for the opposite flow: That of writing the tests for a new piece of functionality first, then writing the code that passes the test. Test Driven Development has a lot of advantages, namely forcing the discussion around the desired functionality before any code to implement that functionality has been written. It is worth exploring this approach more and seeing if it aligns better with your own development style than the typical route. It's also worth mentioning that these two approaches are not mutually exclusive and can be mixed and matched as needed.
 
 So if we follow this bottom up approach to testing we should begin at the *Data Layer* of our application with the `MetProvider` class. In order to do this we will need to install a few more dependencies. Namely [pytest](https://docs.pytest.org/en/stable/), [pytest-mock](https://pytest-mock.readthedocs.io/en/latest/index.html), and [pytest-httpx](https://github.com/Colin-b/pytest_httpx).
@@ -43,6 +46,7 @@ So if we follow this bottom up approach to testing we should begin at the *Data 
 pytest is the most popular Python unit testing framework, the other two packages are extensions that will make it a bit easier to work with our codebase.
 
 !!! tip
+
     When installing these dependencies notice that we only need them for running our tests or more generally *development* activities. We don't need them for actually executing the functionality of our application itself. In this case we can take advantage of a feature of `uv` know as [development dependencies](https://docs.astral.sh/uv/concepts/projects/dependencies/#development-dependencies) to mark these libraries as development only dependencies. This is done by adding the `--dev` flag when installing them. For example `uv add --dev pytest`. It is recommended to install these dependencies in this way.
 
 With our development dependencies installed we then need to add a bit of configuration to our `pyproject.toml` file to tell pytest where our tests will be located.
@@ -192,14 +196,15 @@ class MetProvider:
 
 We have four methods to test:
 
-* `get_objects()`
-* `get_object()`
-* `get_departments()`
-* `search()`
+- `get_objects()`
+- `get_object()`
+- `get_departments()`
+- `search()`
 
-Each should get a corresponding unit test.  We can go ahead a create a file to hold our tests located at `tests/unit/provider/test_met_provider.py`. Take note of the directory structure. We locate the tests in the `tests` folder as we configured in the `pyproject.toml`, then under a folder called `unit` (since this is a unit test), then finally we mirror the directory structure of the `src` folder so that the corresponding test will be located in a folder hierarchy structure identical as the script it is testing. This is not required but I find it makes it easier to understand were to look in the source code if a test fails.
+Each should get a corresponding unit test. We can go ahead a create a file to hold our tests located at `tests/unit/provider/test_met_provider.py`. Take note of the directory structure. We locate the tests in the `tests` folder as we configured in the `pyproject.toml`, then under a folder called `unit` (since this is a unit test), then finally we mirror the directory structure of the `src` folder so that the corresponding test will be located in a folder hierarchy structure identical as the script it is testing. This is not required but I find it makes it easier to understand were to look in the source code if a test fails.
 
 !!! note
+
     Unlike the `src` folder where every directory needed an empty `__init__.py` file within it to mark it as a Python module, there is no need to do this for `tests` directories.
 
 Let's write a test!
@@ -222,13 +227,14 @@ def test_get_objects() -> None:
 
 When writing tests I like to follow a structure made popular by the [Behavior Driven Development](https://dannorth.net/introducing-bdd/) testing philosophy. Each test case has three sections:
 
-* **Given** - Initial set of conditions
-* **When** - The test action occurs
-* **Then** - Validate that the desired behavior has happened
+- **Given** - Initial set of conditions
+- **When** - The test action occurs
+- **Then** - Validate that the desired behavior has happened
 
 In this way you can write a test case as a simple sentence. For example the above test could be written as "Given a Met Provider connected to the Met API, when I call the get objects method, then I should get 495,439 results back." Now, in writing the test case in this way you might already see the problem with this test. As of right now, when I call this route on the Met API I get 495,439 results, but what happens if the Met adds another work to their collection? I would then get 495,440 results back and this test would *fail* even though nothing is wrong with the code. This demonstrates an important principle of unit testing, that tests should be written in such a way that they test the unit in *isolation* and should not be dependent on the state of any external system to the unit in order for the test to succeed. So how can we address this?
 
 !!! note
+
     This quality of independence from external systems is not always prohibited and is even desired for types of testing other than unit testing.
 
 Well, what if instead of calling the real Met API we could have a dummy API instead, and even better, we could control the output of this dummy API to make it deterministic so we could write test cases against it? In that way we could ensure that the Met API for this use case will *always* return the same number of results, which means if the test fails there is something wrong with the logic of the provider itself, which is exactly what we want to test! As you may guess, this is entirely possible, this process of creating dummy objects for the purposes of testing is called *mocking* and we can use the pytest extensions we previously installed to create our mock Met API. To do this we use `httpx-mock`. We can create a Mocked provider to use in our tests like so:
@@ -418,11 +424,13 @@ def test_search(provider_with_mock_api: MetProvider) -> None:
 Note that we set `is_optional` to `True` for our mocked responses in the fixture, this is because not every mock response will be used for every test.
 
 !!! tip
+
     I find code generation tools like [GitHub Copilot](https://github.com/features/copilot) particularly good at generating test cases. I encourage you to try them out, they have saved me a lot of time!
 
 With our provider methods all tested we can move on to the *Business Logic Layer* and test our `SearchService` class.
 
 ## Mock all the Things!
+
 Our search service just has one method to test `search_by_title`. As a reminder, this is what the source code looks like:
 
 ```python title="src/service/search_service.py" linenums="1"
@@ -574,7 +582,8 @@ One other benefit of this type of mock is we can also make assertions if methods
 This test covers the case where we have results to return but noticed that the `SearchService` should raise as `ValueError` in the case that no results are found. How can we test this behavior as well?
 
 !!! note
-    You will sometimes hear the terms "Happy Path" and "Sad Path" used in the context of these types of tests.  In this example the happy path is the case where things go "right" and we have results to return and the sad path is where things go "wrong" and we raise an exception. Ideally you should cover both happy and sad paths in your test cases with each path being it's own test case.
+
+    You will sometimes hear the terms "Happy Path" and "Sad Path" used in the context of these types of tests. In this example the happy path is the case where things go "right" and we have results to return and the sad path is where things go "wrong" and we raise an exception. Ideally you should cover both happy and sad paths in your test cases with each path being it's own test case.
 
 It turns out pytest has a `raises` function that can be used in a context manager to implement this exact type of test:
 
@@ -750,6 +759,7 @@ Required test coverage of 60.0% reached. Total coverage: 96.30%
 ```
 
 !!! tip
+
     You can also use the [Run with Test Coverage](https://code.visualstudio.com/docs/debugtest/testing#_test-coverage) option in the VSCode testing panel to get a nice visual display of coverage!
 
 We are doing pretty good, but it looks like we are missing a few lines in the met provider. Taking a look we can see those lines are related to optional parameters that can get passed in. Let's add some tests to our `test_met_provider.py` script to fix this.
@@ -835,7 +845,7 @@ TOTAL                                  108      0   100%
 Required test coverage of 60.0% reached. Total coverage: 100.00%
 ```
 
-Nice 100%! Don't let this lull you into a false sense of security though, 100% coverage does not necessarily mean you have good tests or that there are no bugs. As with all metrics they are simply a tool for you to use, not a target. In practice I rarely get to 100% coverage on more complex codebases (though generally above 80% is a good place to shoot for). 
+Nice 100%! Don't let this lull you into a false sense of security though, 100% coverage does not necessarily mean you have good tests or that there are no bugs. As with all metrics they are simply a tool for you to use, not a target. In practice I rarely get to 100% coverage on more complex codebases (though generally above 80% is a good place to shoot for).
 
 With that we have successfully unit tested our code, but we aren't done yet!
 
@@ -915,7 +925,7 @@ def test_search_no_results(search_service: SearchService, mocker: MockerFixture,
     assert response.json() == {'detail': 'No results found.'}
 ```
 
-Let's break this down. We still don't want to hit the real Met API so we still need our `provider_with_mock_api` fixture, but now we want to create a `SearchService` instance that uses it, which we do in the `search_service` fixture. In this way we will execute all the layers of the app up until the API call and be able to validate that they are working as expected. For the sad path we also have to provide a slightly different response that returns no results to trigger the error condition. 
+Let's break this down. We still don't want to hit the real Met API so we still need our `provider_with_mock_api` fixture, but now we want to create a `SearchService` instance that uses it, which we do in the `search_service` fixture. In this way we will execute all the layers of the app up until the API call and be able to validate that they are working as expected. For the sad path we also have to provide a slightly different response that returns no results to trigger the error condition.
 
 Now, you may have noticed that I didn't copy paste the `provider_with_mock_api` fixture here, how can this be? Well, pytest provides a special file called `conftest.py` that gets run before the test suite is executed (not before every test). It's the perfect place to put shared fixtures we want to use in different test scripts. Go ahead and move the `provider_with_mock_api` fixture to a file called `tests/conftest.py` like so:
 
@@ -990,7 +1000,8 @@ Now we can use this fixture in all of our tests!
 This wraps up our brief delve into the world of automated software testing! We just scratched the surface of what is possible here but hopefully it gives you enough to get started! In the future we may cover other types of testing, let me know in the comments below if that's something you'd like to see! Full code for this part is available [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-five)!
 
 ## Delve Data
-* There are many types of software testing strategies available to validate that sofware is behaving as expected
-* Unit testing seeks to test each piece of the application in isolation
-* Integration testing seeks to test how each piece of the application works together
-* Tools like pytest and its extensions help automate this testing process
+
+- There are many types of software testing strategies available to validate that sofware is behaving as expected
+- Unit testing seeks to test each piece of the application in isolation
+- Integration testing seeks to test how each piece of the application works together
+- Tools like pytest and its extensions help automate this testing process

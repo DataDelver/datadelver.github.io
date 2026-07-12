@@ -1,11 +1,11 @@
 ---
 date: 2025-01-26
 categories:
-    - Software Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - Software Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 ---
 
 # Delve 6: Let's Build a Modern ML Microservice Application - Part 1
@@ -52,7 +52,7 @@ Open up a new Terminal in VSCode a do a quick Python Hello World to verify every
 
 ![Python Hello World](../assets/images/figures/delve6/PythonHelloWorld.png)
 
-One thing to note here, there are plenty of good resources out there to learn Python, [https://www.learnpython.org](https://www.learnpython.org) is unironically a good one, so for this series I'm going to assume you have some basic Python knowledge already but I'll point out specifics that I find valuable. 
+One thing to note here, there are plenty of good resources out there to learn Python, [https://www.learnpython.org](https://www.learnpython.org) is unironically a good one, so for this series I'm going to assume you have some basic Python knowledge already but I'll point out specifics that I find valuable.
 
 ## Moving in the Digging Equipment
 
@@ -86,7 +86,7 @@ line-length = 120
 quote-style = "single"
 ```
 
-One of the things I like about Ruff is it has several [configuration options](https://docs.astral.sh/ruff/configuration/) that you can adjust to suit your preferences. For example, I like to use single quotes `'` for denoting strings in Python and have a max line length of 120 characters. You can tweak these settings to your desire but they should be consistent across your projects and teams. 
+One of the things I like about Ruff is it has several [configuration options](https://docs.astral.sh/ruff/configuration/) that you can adjust to suit your preferences. For example, I like to use single quotes `'` for denoting strings in Python and have a max line length of 120 characters. You can tweak these settings to your desire but they should be consistent across your projects and teams.
 
 Next we can work with our Python code directly. We can start by deleting `hello.py`, we won't be using it. We it comes to managing your source code there are a few different philosophies, however I subscribe to the idea that source code should be kept in a separate directory for project files. This becomes important as the project base grows and the complexity of the code increases. To that end create a directory called `src` and a file called `main.py` within it. This we become the main script for our application, but what will our application do?
 
@@ -107,6 +107,7 @@ WHEN: That artwork is found in the collection
 
 THEN: Get the url to the primary image of the artwork and return it
 ```
+
 **Side Note:** This Given, When, Then formulation comes from [Behavior Driven Development](https://en.wikipedia.org/wiki/Behavior-driven_development) something we'll be touching on in the future.
 
 Sounds simple enough, so then the question becomes how do we make these API calls in our Python code? Again, if you had asked me this question previously I would have said the [Requests](https://docs.python-requests.org/en/latest/index.html) library was your go to standard for doing this. However recently, the [HTTPX](https://www.python-httpx.org/) library has been gaining steam as a faster, more efficient replacement and is the one I will be using.
@@ -116,9 +117,9 @@ Firstly, we need to add this library as a dependency of our project. Fortunately
 uv has just simplified a great number of steps for us it has:
 
 1. Created a virtual environment for our project with the project's specified version of Python (3.13 in our case) so that all the dependencies of your project stay separate from your system's Python dependencies
-2. Installed the specified dependency into the newly created virtual environment
-3. Added the dependency to the project's `pyproject.toml` file
-4. Created a `uv.lock` file to hold all of that dependency's dependencies.
+1. Installed the specified dependency into the newly created virtual environment
+1. Added the dependency to the project's `pyproject.toml` file
+1. Created a `uv.lock` file to hold all of that dependency's dependencies.
 
 All that to say, uv is great and that process used to take several different commands with several different tools to pull off.
 
@@ -271,13 +272,13 @@ You now have an API! Notice a few other things here as well. Remember those type
 
 ## Reaching a Respite
 
- Before we wrap, make sure you commit your code and push it to your own remote Git repository for safe keeping (I tend to use [GitHub](https://github.com/) though there are plenty of other suitable options as well). In this delve we've covered a lot of ground already! We've set up our main development environment, installed our necessary tooling, built a simple application, and turned it into an API. Believe it or not, the core flow of this application of taking an input from an API call, sending it to a different API to get some data, and finally sending it to a third API to get the final result and sending it back after some postprocessing is the same exact flow we will be using with our ML powered applications as well. Though that exploration will come in a future delve.
+Before we wrap, make sure you commit your code and push it to your own remote Git repository for safe keeping (I tend to use [GitHub](https://github.com/) though there are plenty of other suitable options as well). In this delve we've covered a lot of ground already! We've set up our main development environment, installed our necessary tooling, built a simple application, and turned it into an API. Believe it or not, the core flow of this application of taking an input from an API call, sending it to a different API to get some data, and finally sending it to a third API to get the final result and sending it back after some postprocessing is the same exact flow we will be using with our ML powered applications as well. Though that exploration will come in a future delve.
 
- That concludes our delve for today, be on the lookout for a part two where we will harden our codebase and reorganize it into something that is more scalable and enterprise ready! A full copy of the code can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-one). Looking forward to seeing you all at the next one!
+That concludes our delve for today, be on the lookout for a part two where we will harden our codebase and reorganize it into something that is more scalable and enterprise ready! A full copy of the code can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-one). Looking forward to seeing you all at the next one!
 
 ## Delve Data
 
-* The use of ML does not preclude us from benefiting from software engineering best practices, on the contrary, we should embrace them
-* *nix operating systems are generally preferred for Python development, though [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) is a very good option for Windows machines
-* In recent years, several new tools have emerged that have streamlined the Python development process
-* The microservice architecture lends itself well to ML application development
+- The use of ML does not preclude us from benefiting from software engineering best practices, on the contrary, we should embrace them
+- \*nix operating systems are generally preferred for Python development, though [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) is a very good option for Windows machines
+- In recent years, several new tools have emerged that have streamlined the Python development process
+- The microservice architecture lends itself well to ML application development

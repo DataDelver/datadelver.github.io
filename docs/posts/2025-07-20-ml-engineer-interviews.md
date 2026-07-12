@@ -1,10 +1,10 @@
 ---
 date: 2025-07-20
 categories:
-    - ML Engineering
-tags: 
-    - Opinion
-    - Resource 
+  - ML Engineering
+tags:
+  - Opinion
+  - Resource
 ---
 
 # Delve 14: Reflections on a Job Quest
@@ -16,6 +16,7 @@ tags:
 ## A New Chapter
 
 Hello data delvers! I recently successfully wrapped up a journey to find a new job! Along the way, I had the opportunity to interview at several different companies, experience many different styles of interviews, and explore different types of roles. For this delve, I intend to distill some thoughts about this process and share some lessons learned in the hopes they may be useful to others either looking to break into this field or find their next opportunity within it. If that sounds of interest stick around!
+
 <!-- more -->
 
 ## Beginning the Quest
@@ -24,15 +25,15 @@ To kick off my job hunt I first had to decide the criteria I was looking for in 
 
 Must Have:
 
-* Fully Remote
-* Staff+ Title
-* Engineering-Focused Position
+- Fully Remote
+- Staff+ Title
+- Engineering-Focused Position
 
 Nice to Have:
 
-* "Founding" Role
-* Large scope
-* Flexible PTO
+- "Founding" Role
+- Large scope
+- Flexible PTO
 
 With your set of criteria in hand, begin applying to jobs that meet them! I primarily relied on [LinkedIn](https://www.linkedin.com) for my job search, though there are other job boards available, particularly if you are interested in startup roles. It's also not a bad idea to set up [job alerts on LinkedIn](https://www.linkedin.com/help/linkedin/answer/a511279/job-alerts-on-linkedin?lang=en) so you can be notified of new roles as they are posted.
 
@@ -74,7 +75,7 @@ A more common variant of the Leetcode interview I encountered was a NumPy optimi
 
 ### Notebook Critique
 
-This was actually one of my favorite styles of technical interview. The premise was given as "Here's a notebook one of our data scientists wrote, how would you improve and productionize the code within it?". I really liked this type of interview because I think it well represented an actual task one would do on the job (Interviewers take note!). In order to prep for this style of interview I found [Kaggle](https://www.kaggle.com/) to be an excellent resource. Enter a competition, take a look at the other submissions, and try to improve their code. 
+This was actually one of my favorite styles of technical interview. The premise was given as "Here's a notebook one of our data scientists wrote, how would you improve and productionize the code within it?". I really liked this type of interview because I think it well represented an actual task one would do on the job (Interviewers take note!). In order to prep for this style of interview I found [Kaggle](https://www.kaggle.com/) to be an excellent resource. Enter a competition, take a look at the other submissions, and try to improve their code.
 
 ### Data Science Fundamentals
 
@@ -88,7 +89,7 @@ Rounding out the technical interviews is system design. Typically you are presen
 
 If you make it through the initial round of technical interviews you will also typically be asked to do non-technical interviews as well. In contrast to technical interviews, these interviews emphasize how you collaborate with others and your "soft" skills. The subject matter can be diverse but usually focuses on either past experiences "Tell me a time when..." or how to collaborate with others solving a business problem. The main categories of interviews of this type I encountered included:
 
-### Behavioral/Hiring Manager 
+### Behavioral/Hiring Manager
 
 These are typically conducted by the Hiring Manger and usually focused on your past experiences. It's good to have a set of stories prepared for different types of situations such as learning something new, navigating a conflict with a co-worker, collaborating with business partners, etc. The stories don't always have to be completely positive either, having examples of "Looking back I would have done this differently because of X" can be useful to demonstrate your own self-introspection and growth. The [STAR Method](https://interviewkickstart.com/blogs/career-advice/situational-scenario-based-interview-questions-answers) can be particularly useful here.
 
@@ -102,16 +103,16 @@ The final type of interview I encountered in this category was a Stakeholder int
 
 ## Ask Questions
 
-Did I mention ask questions? An important aspect of interviewing is that you are interviewing your potential employer just as much as they are interviewing you. Most interviews leave time at the end for questions, use it! I usually like to ask similar questions to all the people I was interviewing with to get different perspectives on the same topic within the company such as "What is the biggest challenge you see someone in this role tackling?" or "What are you most excited about?". You'll (hopefully) be spending a decent amount of time with these people, you want to make sure they are people you want to spend time with! 
+Did I mention ask questions? An important aspect of interviewing is that you are interviewing your potential employer just as much as they are interviewing you. Most interviews leave time at the end for questions, use it! I usually like to ask similar questions to all the people I was interviewing with to get different perspectives on the same topic within the company such as "What is the biggest challenge you see someone in this role tackling?" or "What are you most excited about?". You'll (hopefully) be spending a decent amount of time with these people, you want to make sure they are people you want to spend time with!
 
 ## The Offer
 
 If your interviewing is successful you will have one, or possibly multiple, offers to consider. When considering an offer there are many things to consider such as:
 
-* Compensation
-* Work/Life Balance
-* Company Culture
-* Nature of the Work
+- Compensation
+- Work/Life Balance
+- Company Culture
+- Nature of the Work
 
 How these stack rank is up to you, the one piece of advice I'd give at this stage is to be respectful and honest. Both you and your potential employer have probably put in a considerable amount of time to get to this stage, they are invested in you by this point, you don't want to give them a bad impression and ruin the opportunity. For example, do not try to counter on one of the above points if it will not make a difference in you accepting the offer or not. If you decide not to accept an offer, do not lead the potential employer on. If you do decline, be very gracious that you were given the opportunity, even though you are declining now, you may find that you may cross paths with them again in the future.
 
@@ -121,13 +122,14 @@ The journey to find a new job can be both exciting and stressful. My final words
 
 ## Additional Reading
 
-* [(Opinionated) Guide to ML Engineer Job Hunting](https://www.yuan-meng.com/posts/mle_interviews/) - An article from Yuan Meng on his experience hunting for an MLE role, provides a good additional perspective on the types of interviews encountered
-* [Preparing for Your Full Loop Interview at Meta](https://www.metacareers.com/ML-prep-onsite) - A guide from the Meta MLE group on their interview process, good reference for what to expect at FAANG level roles
+- [(Opinionated) Guide to ML Engineer Job Hunting](https://www.yuan-meng.com/posts/mle_interviews/) - An article from Yuan Meng on his experience hunting for an MLE role, provides a good additional perspective on the types of interviews encountered
+- [Preparing for Your Full Loop Interview at Meta](https://www.metacareers.com/ML-prep-onsite) - A guide from the Meta MLE group on their interview process, good reference for what to expect at FAANG level roles
 
 ## Delve Data
-* Searching for a Machine Learning Engineer Role can be both exciting and stressful
-* Define what type of role you are looking for, write down a list of the attributes you'd like it to have
-* Work on developing a profile that will get you past the resume screens
-* Identify and close your gaps on both Technical and Non-Technical Interviews
-* Be respectful when negotiating and declining offers
-* Don't get discouraged!
+
+- Searching for a Machine Learning Engineer Role can be both exciting and stressful
+- Define what type of role you are looking for, write down a list of the attributes you'd like it to have
+- Work on developing a profile that will get you past the resume screens
+- Identify and close your gaps on both Technical and Non-Technical Interviews
+- Be respectful when negotiating and declining offers
+- Don't get discouraged!

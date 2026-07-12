@@ -1,12 +1,12 @@
 ---
 date: 2025-03-15
 categories:
-    - Meta
-tags: 
-    - Tools
+  - Meta
+tags:
+  - Tools
 links:
-    - Setting up a blog: https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/
-    - Creating a custom homepage: https://a3bagged.github.io/theme-test/custom-homepage/
+  - Setting up a blog: https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/
+  - Creating a custom homepage: https://a3bagged.github.io/theme-test/custom-homepage/
 ---
 
 # Delve 9: Migrating from Jekyll to Material for MkDocs
@@ -31,7 +31,7 @@ We can see this stagnation if we look at commits to the Jekyll project as well o
 
 ![Jekyll Commits over Time](../assets/images/figures/delve9/JekyllCommits.png)
 
-We can see that commits peaked around 2016 and then declined to the point where there are hardly any at all. The last major release of the project was over a year ago and it has only received minor updates since then. Despite this Jekyll is still the [recommended static site generator for GitHub Pages](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll) which is why I built the site using it in the first place. This in it of itself would not be an issue if the project was stable, however there have been several occasions where the build of this blog would break due to some Ruby dependency requiring debugging just to publish my latest article, not great.  In addition, as someone who has never really professionally worked with Ruby, the unfamiliar toolchain also made extending the framework to add additional functionality difficult, leading to my interest in finding an alternative static site engine. 
+We can see that commits peaked around 2016 and then declined to the point where there are hardly any at all. The last major release of the project was over a year ago and it has only received minor updates since then. Despite this Jekyll is still the [recommended static site generator for GitHub Pages](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll) which is why I built the site using it in the first place. This in it of itself would not be an issue if the project was stable, however there have been several occasions where the build of this blog would break due to some Ruby dependency requiring debugging just to publish my latest article, not great. In addition, as someone who has never really professionally worked with Ruby, the unfamiliar toolchain also made extending the framework to add additional functionality difficult, leading to my interest in finding an alternative static site engine.
 
 ## Material for MkDocs, Made of the Right Stuff
 
@@ -61,8 +61,8 @@ To kick things off I started by reading the [basic blog tutorial](https://squidf
 ```
 
 !!! note
-    For my site which is primarily a blog I followed this [blog only](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#blog-only) section of the setup guide to have all of my posts directly under the `docs/posts` path.
 
+    For my site which is primarily a blog I followed this [blog only](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#blog-only) section of the setup guide to have all of my posts directly under the `docs/posts` path.
 
 Some other nice things here is since Material is a Python package we can use [uv](https://docs.astral.sh/uv/) and a `pyproject.toml` file to manage our dependencies!
 
@@ -133,13 +133,14 @@ My name is Chase Greco, I'm currently a machine learning engineer with 5+ years 
 
 A few things to point out:
 
-* The post metadata is much more simplified
-* An explicit date now needs to be added to the metadata
-* `categories` metadata now needs to be represented as a list
-* The `title` and `banner` needed to be moved to the main body of the post
-* A `<!-- more -->` comment needed to be added to facilitate marking a cutoff for the post excerpt
+- The post metadata is much more simplified
+- An explicit date now needs to be added to the metadata
+- `categories` metadata now needs to be represented as a list
+- The `title` and `banner` needed to be moved to the main body of the post
+- A `<!-- more -->` comment needed to be added to facilitate marking a cutoff for the post excerpt
 
 !!! note
+
     For posts that contained links to other posts on this site Material provides a [convenient syntax for post links](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#linking-from-and-to-posts). All of the links needed to be modified to this format to make them work.
 
 ### Adding Tags
@@ -151,13 +152,14 @@ Many of my posts also utilized tags. Fortunately Material has a [plugin which su
 Material also provides a [capability for adding an author to each post](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#adding-authors). If you'd like to use this feature an author avatar image is *required*.
 
 !!! tip
+
     Instead of adding the author field to every post metadata, if you'd like all your posts to have the same author you can use the [Material Meta Plugin](https://squidfunk.github.io/mkdocs-material/plugins/meta/) to apply the desired author tag to the entire posts directory by creating a `.meta.yml` file in your `posts` directory with the following contents:
 
     ```yaml
     authors:
     - chase # (1)!
     ```
-    
+
     1. Replace with your author name
 
 ### Adding Comments
@@ -184,10 +186,10 @@ use_directory_urls: false
 
 This adds `.html` to the end of post urls but Jeykll by default included other information in post urls like categories. For example:
 
-| Engine     | URL                                                                                                                                                  |
-| ---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Jekyll     | [https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html](https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html)                   |
-| Material   | [https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html](https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html) |
+| Engine   | URL                                                                                                                                                  |
+| -------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Jekyll   | [https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html](https://www.datadelver.com/meta/2023/11/06/hello-labyrinth.html)                   |
+| Material | [https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html](https://www.datadelver.com/2023/11/06/delve-0-hello-labyrinth-world.html) |
 
 We can handle this by utilizing the [mkdocs-redirects plugin](https://github.com/mkdocs/mkdocs-redirects) to manually redirect these Jekyll url formats to the new Material ones. The trick is we have to link to the old url **as if a Markdown file existed at that location**.
 
@@ -206,6 +208,7 @@ Using this approach we can redirect all of the old urls to the new format, prese
 One final thing I wanted to modify for my blog was the homepage, the default landing page simply displays the list of posts, however I wanted to add a header image. In researching how this could be achieved I found this [excellent tutorial](https://a3bagged.github.io/theme-test/custom-homepage/) by A3Bagged which covers this exact topic.
 
 !!! note
+
     If you still want to display blog posts on your home page you will need to copy the contents of the [blog template](https://github.com/squidfunk/mkdocs-material/blob/master/material/templates/blog.html) and add it to the bottom of your `home.html` override.
 
 ## Publishing to Github
@@ -260,8 +263,8 @@ With the above modifications publishing to GitHub pages worked flawlessly!
 Overall, the migration process was pretty smooth. One thing I did notice is the Material documentation sometimes conflicts particularly between the [tutorials](https://squidfunk.github.io/mkdocs-material/tutorials/blogs/basic/) and the [setup guides](https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/). I've found a good rule of thumb is to:
 
 1. Prefer the [plugins](https://squidfunk.github.io/mkdocs-material/plugins/) section for up to date documentation
-2. Use the [setup](https://squidfunk.github.io/mkdocs-material/setup/) section to get context on how to use the plugins
-3. Use the [getting started](https://squidfunk.github.io/mkdocs-material/getting-started/) section sparingly, it seems to be the most out of date
+1. Use the [setup](https://squidfunk.github.io/mkdocs-material/setup/) section to get context on how to use the plugins
+1. Use the [getting started](https://squidfunk.github.io/mkdocs-material/getting-started/) section sparingly, it seems to be the most out of date
 
 I also didn't fully cover all of the plugins I used for this blog as I think the already existing plugin documentation does a good job of covering it. I encourage you to look at the [source code for this site](https://github.com/DataDelver/datadelver.github.io) if you are curious how I set anything up though!
 
@@ -269,5 +272,5 @@ I'm very happy I made the jump to Material, I like how the site looks now and am
 
 ## Delve Data
 
-* [Jekyll](https://jekyllrb.com/) has historically been the go-to solution for generating static websites to host on GitHub Pages, but has lost steam as of late
-* [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) provides a more modern, Python-based alternative for generating static websites
+- [Jekyll](https://jekyllrb.com/) has historically been the go-to solution for generating static websites to host on GitHub Pages, but has lost steam as of late
+- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) provides a more modern, Python-based alternative for generating static websites

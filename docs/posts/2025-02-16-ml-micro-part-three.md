@@ -1,11 +1,11 @@
 ---
 date: 2025-02-16
 categories:
-    - Software Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - Software Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 ---
 
 # Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers
@@ -418,4 +418,4 @@ Congratulations! You now have a fully 3 layered application that will be flexibl
 
 ## Delve Data
 
-* Breaking our application into three layers *Data*, *Business Logic*, and *Interface* allows us to separate concerns within our codebase and make it more flexible and robust. 
+- Breaking our application into three layers *Data*, *Business Logic*, and *Interface* allows us to separate concerns within our codebase and make it more flexible and robust.

@@ -1,21 +1,21 @@
 ---
 date: 2026-07-11
 categories:
-    - ML Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - ML Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
-    - Part Five: posts/2025-04-13-ml-micro-part-five.md
-    - Part Six: posts/2025-05-04-ml-micro-part-six.md
-    - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
-    - Part Eight: posts/2025-08-17-ml-micro-part-eight.md
-    - Part Nine: posts/2025-12-07-ml-micro-part-nine.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part Five: posts/2025-04-13-ml-micro-part-five.md
+  - Part Six: posts/2025-05-04-ml-micro-part-six.md
+  - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
+  - Part Eight: posts/2025-08-17-ml-micro-part-eight.md
+  - Part Nine: posts/2025-12-07-ml-micro-part-nine.md
 social:
   cards_layout_options:
     title: Improving DevX with AI
@@ -28,6 +28,7 @@ social:
 > "Code is read much more often than it is written." - Guido van Rossum
 
 Greetings data delvers! It has been a while since we last delved into modern ML microservices. In [part nine](2025-12-07-ml-micro-part-nine.md) of this series we looked at optimizing our docker container setup. Since then, AI of course has become a much more prominent tool in the software engineering space. While there has been much commentary about how AI can lead to developer burnout, for this delve I want to take a look at how AI can actually improve the developer experience!
+
 <!-- more -->
 
 ## DevX
@@ -38,9 +39,9 @@ When starting a new project, the Developer Experience (or DevX) is usually not t
 
 I'm starting with the [part nine](https://github.com/DataDelver/modern-ml-microservices/tree/part-nine) state of my Modern ML Microservices repo. While I hope this repo is pretty straightforward it has a few drawbacks:
 
-* Lack of clear instructions on how to run the project - You have to remember all of the `uv` and `pytest` commands to run everything
-* No automated linting - While we have ruff available, we need to remember to run it
-* Sparse README - Pretty self-explanatory.
+- Lack of clear instructions on how to run the project - You have to remember all of the `uv` and `pytest` commands to run everything
+- No automated linting - While we have ruff available, we need to remember to run it
+- Sparse README - Pretty self-explanatory.
 
 This mirrors what I typically find neglected in most projects. Since none of these issues are on the critical path to getting the software functional, they are deprioritized. A perfect candidate for improvement with AI.
 
@@ -101,6 +102,7 @@ llama-server `
 If you want a full breakdown of how to use this script and connect it to Claude Code check out [the previous delve](2026-06-22-local-claude-redux.md)!
 
 !!! note
+
     One of the benefits the unsloth quant provided was the ability to enable [Multi Token Prediction (MTP)](https://unsloth.ai/docs/models/mtp) with the `--spec-type draft-mtp` flag. This resulted in a pretty significant speed up in token generation for me.
 
 ## Just Do It!
@@ -126,6 +128,7 @@ All checks passed!
 There are many aliases we could add like this that would be useful, however writing all of these by hand would take a while. Instead, let's ask AI to do it!
 
 !!! claude
+
     Create a justfile for this repo with standard commands such as installing or updating all packages, building workspace packages, spinning up and tearing down the docker containers, running tests (optionally with coverage or generating an html report), linting, lint fixing, formatting the code and running a format check. Include emoji echo outputs for each command.
 
 You can iterate back and forth with Claude to configure it how you like it, but I ended up with something like this:
@@ -249,9 +252,11 @@ We now have a bunch of convenient commands for linting and fixing our code, but 
 Pre-commit does exactly what it sounds like. It executes a hook before `git commit` finishes running. Let's ask Claude again to add this to our repo.
 
 !!! claude
+
     Set up ruff with precommit https://github.com/astral-sh/ruff-pre-commit
 
 !!! tip
+
     I often paste the url to docs straight into my prompts so Claude can reference them for me.
 
 Doing this should generate something like the following in the project root:
@@ -275,11 +280,13 @@ repos:
 Now when we run `git commit` our code will be automatically linted and formatted for us!
 
 !!! note
+
     This works for Claude as well so it's a good way to ensure any auto generated code is properly formatted too!
 
 Pre-commit requires installation commands in order to use it. Let's ask Claude to add them to our justfile.
 
 !!! claude
+
     Add commands to the justfile for running pre commit hooks, and installing pre commit
 
 This generates something like the following:
@@ -300,6 +307,7 @@ pre-commit:
 Currently there are no architecture diagrams in the repo to show how the different layers fit together. Instead of drawing one by hand, let's ask Claude to use [Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams) to create one for us. Mermaid has quickly become my go-to diagramming tool. It has a number of benefits mostly stemming from its markdown-inspired syntax, allowing AI to easily write and *read* mermaid diagrams within its context. It is also natively rendered in VSCode and GitHub. Let's give it a try!
 
 !!! claude
+
     In the main readme include a mermaid diagram that details the architecture of the project
 
 This created the following Markdown in the project Readme:
@@ -331,6 +339,7 @@ graph TD
 ```
 
 !!! tip
+
     This is a very simple example, but I have found mermaid diagrams + AI to be extremely useful for both diagramming and *exploring* codebases. If you are confronted with an unfamiliar codebase, ask Claude to generate a diagram. It is a fast way to build mental context.
 
 ## Let's Refactor
@@ -340,11 +349,13 @@ Now that we have some documentation in place, let's try out Claude for some refa
 Since this is a bit of a larger task, let's use the `plan` mode in Claude to have it give us a plan document to approve rather than just jumping in.
 
 !!! claude
+
     Create a plan to refactor the config loader to only read config values from the yaml file, however, the yaml should support defining parameters in the form of ${value:default} to load environment variables
 
 This gave me the following plan:
 
 ??? abstract "Claude Plan"
+
     <h2>Objective</h2>
     Refactor the configuration loader in `housing-price-orchestrator` to exclusively read configuration values from the `config.yaml` file. To maintain flexibility, the YAML file will support a `${VAR_NAME:default_value}` syntax that dynamically resolves environment variables at runtime.
 
@@ -416,6 +427,7 @@ local:
 ```
 
 !!! Note
+
     I also added a `local` environment specifically for local configuration.
 
 ### Config Loader Changes
@@ -441,7 +453,7 @@ from pydantic_settings import (
 
 Next, Claude generated a recursive environment variables resolver function for us:
 
-```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="15" 
+```python title="housing-price-orchestrator/src/shared/config/config_loader.py" linenums="15"
 def resolve_env_vars(data: Any) -> Any:
     """Recursively resolves environment variable placeholders in the provided data.
 
@@ -595,6 +607,7 @@ def test_config_fallback_to_default():
 With AI, there's no excuse not to have unit tests!
 
 !!! tip
+
     After these tests are written, prompt Claude to run them (if it doesn't already) to ensure they all pass. If they don't, Claude will then debug the tests and figure out why.
 
 ### Local Environment Wrap Up
@@ -603,7 +616,7 @@ In order to use our new local environment, we need to make a couple final small 
 
 Create an `.env` file in the project root with the following contents (this could be a good place to put local secret values as well in the future):
 
-``` title=".env" linenums="1"
+```title=".env" linenums="1"
 ENV=local
 ```
 
@@ -641,6 +654,7 @@ While doing this refactor, I had to prompt Claude a few times to make sure it fo
 Instead of writing this file ourselves...
 
 !!! claude
+
     Add a CLAUDE.MD file documenting this project including the build and test just commands available, the architecture and directory layout, main repo conventions, and testing standards.
 
 Which created the following:
@@ -702,13 +716,14 @@ The project is organized into several main components:
 Hopefully this delve has shown just how useful AI can be to improve the developer experience and do some refactoring along the way! Full code available for this part [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-ten)!
 
 !!! note
-    Just for fun I asked Claude to improve the project Readme after writing this, you can see the results [here](https://github.com/DataDelver/modern-ml-microservices/blob/part-ten/README.md)! 
+
+    Just for fun I asked Claude to improve the project Readme after writing this, you can see the results [here](https://github.com/DataDelver/modern-ml-microservices/blob/part-ten/README.md)!
 
 ## Delve Data
 
-* Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project
-* Command runner tools like `just` help standardize and simplify project workflows by aliasing complex commands
-* Pre-commit hooks automate code quality checks, ensuring consistent formatting and linting before every commit
-* Text-based diagramming tools like Mermaid integrate naturally with AI workflows and version control
-* AI-assisted refactoring benefits from clear project documentation and established tooling conventions
-* A `CLAUDE.md` file helps enforce project standards and improves AI-assisted development over time
+- Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project
+- Command runner tools like `just` help standardize and simplify project workflows by aliasing complex commands
+- Pre-commit hooks automate code quality checks, ensuring consistent formatting and linting before every commit
+- Text-based diagramming tools like Mermaid integrate naturally with AI workflows and version control
+- AI-assisted refactoring benefits from clear project documentation and established tooling conventions
+- A `CLAUDE.md` file helps enforce project standards and improves AI-assisted development over time

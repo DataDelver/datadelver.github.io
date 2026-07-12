@@ -1,9 +1,9 @@
 ---
 date: 2025-10-07
-categories: 
-    - Data Science
-tags: 
-    - Opinion
+categories:
+  - Data Science
+tags:
+  - Opinion
 ---
 
 # Delve 17: Data Science, An Industry Perspective
@@ -36,9 +36,9 @@ These types of mistakes often go unnoticed when times are good, however, if your
 
 You may have noticed that I mentioned that being a data scientist in industry means delivering business value whether the solution requires machine learning or not. Non-technical stakeholders are often quick to jump to whatever the latest trends be, whether that be neural networks, automl, or generative AI. It is your responsibility as a practitioner to determine what is the *simplest* solution that achieves the desired *business outcome*. Another example:
 
-Early in my career I was asked to develop a method for detecting anomolous data points. "I know how to do that!" I thought to myself as I broke out my isolation forrest models and autoencoders. However, after spending some time tinkering with modeling I decided to plot the distribution of the data points I was working with (something I should have done to begin with), to my surprise the key feature in the dataset had a normal distribution, detecting anomalies was a simple as determining if the key feature was more than two standard deviations away from the mean. 
+Early in my career I was asked to develop a method for detecting anomolous data points. "I know how to do that!" I thought to myself as I broke out my isolation forrest models and autoencoders. However, after spending some time tinkering with modeling I decided to plot the distribution of the data points I was working with (something I should have done to begin with), to my surprise the key feature in the dataset had a normal distribution, detecting anomalies was a simple as determining if the key feature was more than two standard deviations away from the mean.
 
-This also had the added benefit of being much easier to explain to my stakeholders that had never even heard of an isolation forrest before, let alone understood how it worked. Ironically, this same type of situation has popped up multiple times in my career. The takeaway here is simple, explainable approaches, that meet the business objective are always better than more complex ones, **even if they perform worse**.  If you need to slice a stick of butter, you could use a chainsaw, but why would you when a butter knife will work just as well?
+This also had the added benefit of being much easier to explain to my stakeholders that had never even heard of an isolation forrest before, let alone understood how it worked. Ironically, this same type of situation has popped up multiple times in my career. The takeaway here is simple, explainable approaches, that meet the business objective are always better than more complex ones, **even if they perform worse**. If you need to slice a stick of butter, you could use a chainsaw, but why would you when a butter knife will work just as well?
 
 With all the latest hype around GenAI and LLMs I have observed a trend of business leaders mandating that AI should be used in "everything", even in situations where it doesn't make sense. GenAI is definitely a valuable tool, but it is not a panacea that invalidates all other approaches, don't jump to using it to solve problems when a simple logistic regression is good enough.
 
@@ -49,7 +49,7 @@ This is a hard lesson to accept at times, there's an inherent draw to using the 
 Industry often follows tight delivery times, with quick iterations and a focus on delivering minimum viable products. This is in sharp contrast to the academic process, taking months or even years to validate approaches with rigor. Once more, in academia you are often working with the most cutting-edge algorithms and techniques, whereas in industry you often fall back to tried-and-true methods. That isn't to say you can't try something new and flashy but my recommendation is to always try a simple technique first before jumping to the latest and greatest approach, this has two main benefits:
 
 1. The simple approach is usually faster meaning you can get to an MVP sooner and start realizing value on a shorter timeline
-2. The simple approach now becomes your *baseline* to compare any further developments against
+1. The simple approach now becomes your *baseline* to compare any further developments against
 
 It is that second benefit that I find can be particularly beneficial for your own career. If you can go to your stakeholders and say "I solved *X* and increased our metrics by *Y%* over the baseline", it is a much more compelling reference point when your annual review comes up than just "I solved *X*". Do your future self a favor and create a baseline!
 
@@ -61,7 +61,7 @@ In a similar vein, the data in industry is *dynamic*, customer preferences chang
 
 ## The End Result
 
-Finally, the work output is very different between these two worlds. As an academic I was expected to produce papers, present research, and develop prototypes. However, as a practitioner in industry, I produce products, APIs, and systems. These systems are not frozen artifacts either, they must change and evolve with new requirements, shifting customer trends, and the emergence of new technologies. I find this constant change exhilarating, but by its very nature, it forces a different prioritization of time. Ultimately in academia I was successful when I prioritized rigorous validation and research, but in industry I am successful when I can move fast, deliver positive impacts to the business, and do it in a way that is sustainable over time. 
+Finally, the work output is very different between these two worlds. As an academic I was expected to produce papers, present research, and develop prototypes. However, as a practitioner in industry, I produce products, APIs, and systems. These systems are not frozen artifacts either, they must change and evolve with new requirements, shifting customer trends, and the emergence of new technologies. I find this constant change exhilarating, but by its very nature, it forces a different prioritization of time. Ultimately in academia I was successful when I prioritized rigorous validation and research, but in industry I am successful when I can move fast, deliver positive impacts to the business, and do it in a way that is sustainable over time.
 
 ## Closing Thoughts
 
@@ -69,8 +69,8 @@ Academia and industry are both areas where Data Science thrives. However, the fo
 
 ## Delve Data
 
-* The focus of academia and industry in Data Science is very different
-* Academia emphasizes exploration and rigor whereas industry prioritizes speed and impact
-* Prefer *simple*, *explainable* approaches in industry
-* Real-world data is often very messy
-* The goal is to build sustainable products that deliver **business value**
+- The focus of academia and industry in Data Science is very different
+- Academia emphasizes exploration and rigor whereas industry prioritizes speed and impact
+- Prefer *simple*, *explainable* approaches in industry
+- Real-world data is often very messy
+- The goal is to build sustainable products that deliver **business value**

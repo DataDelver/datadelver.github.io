@@ -1,10 +1,10 @@
 ---
 date: 2024-06-29
-categories: 
-    - Software Engineering
-tags: 
-    - Tools 
-    - Fun
+categories:
+  - Software Engineering
+tags:
+  - Tools
+  - Fun
 ---
 
 # Delve 5: The Quest for a Full Screen Raspberry Pi Application
@@ -33,6 +33,7 @@ A few months go by and I recently got the itch to tinker with my Raspberry Pi ag
 toggle_maximize = <super> KEY_F
 toggle_fullscreen = <super> <shift> KEY_F
 ```
+
 Excitedly, I modified my configuration file to add the shortcuts for the above actions and rebooted my Pi. Upon rebooting, I opened a terminal and executed the shortcut and "Tada!", my application was now full screen again!
 
 Why this functionality was removed in the new distribution by default I can't say, it also seems to be conspicuously undocumented in the official sources, but I'm glad to have it back. It's my hope that this delve will help others stuck with the same issue overcome it faster than I did!
@@ -43,5 +44,5 @@ As a side note, I have to check out some of the other shortcuts mentioned in tha
 
 ## Delve Data
 
-* The Alt+F11 full screen shortcut was removed in the Debian 12 "Bookworm" distribution of the Raspberry Pi OS
-* The solution is to add a new shortcut to the `wayfire.ini` file
+- The Alt+F11 full screen shortcut was removed in the Debian 12 "Bookworm" distribution of the Raspberry Pi OS
+- The solution is to add a new shortcut to the `wayfire.ini` file

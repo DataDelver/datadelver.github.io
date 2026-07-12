@@ -1,9 +1,9 @@
 ---
 date: 2025-11-30
-categories: 
-    - Data Science
-tags: 
-    - Opinion
+categories:
+  - Data Science
+tags:
+  - Opinion
 social:
   cards_layout_options:
     title: The Challenges of AI in Industry
@@ -33,8 +33,8 @@ This next most likely token flow also explains why AI systems *hallucinate*. Whe
 
 Given these drawbacks, enterprises often fail to realize value from AI when they task it with solving problems where hallucination poses too great a risk or when the problem could be solved with a much simpler approach. I have seen misinformed executives mandate that teams must use AI in "everything". However, this perspective is fundamentally flawed as AI cannot, in its current form, solve everything. It also doesn't invalidate decades of other approaches, it is simply another tool in the toolbox. For example, if you have a dataset where you'd like to recognize phone numbers within it you *could* prompt an LLM to solve this problem and it most likely would, though it would be:
 
-* Expensive to operate
-* Still prone to the occasional hallucination
+- Expensive to operate
+- Still prone to the occasional hallucination
 
 Or you could simply write a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) that captures all common phone number formats. The regular expression approach has the added benefit of eliminating the risk of hallucination!
 
@@ -46,7 +46,7 @@ Thus, the first challenge of leveraging AI in your work is to determine if you *
 
 Often, the first barrier to an organization leveraging AI is the data quality of the organization itself. This is not a new challenge—[Garbage In, Garbage Out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out) has been in the computer science vernacular since at least the 1950s. However, AI especially depends on high quality data to be successful, and it is not in itself a substitute for poor data quality within an organization. I have observed executives essentially trying to "short-cut" to AI without putting in any of the foundational effort needed to support it. What is needed to support AI is the same good data quality as was needed for ML & statistics before it, ignoring the effort to get it right will result in projects that under deliver or ultimately fail.
 
-To overcome this challenge, organizations should establish *Data Governance* by defining clear roles and processes for data ownership (who can modify data and when), as well as implementing strict data validation rules as far upstream as possible to ensure data consistency across the organization rather than in isolated fragments. 
+To overcome this challenge, organizations should establish *Data Governance* by defining clear roles and processes for data ownership (who can modify data and when), as well as implementing strict data validation rules as far upstream as possible to ensure data consistency across the organization rather than in isolated fragments.
 
 The second challenge related to organizational data is the architecture surrounding it. My former colleague [Yafet Tamene](https://www.linkedin.com/posts/yafet-t_ai-engineering-technicalleadership-activity-7373326534171992064-v1mI?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA9YmdgBd6NlJg9MMvIqR7iUMylWOMZd4O0), now a Principal MLE at Microsoft put it well when he stated:
 
@@ -90,9 +90,9 @@ Finally, a legitimate concern for many individuals leveraging AI is becoming ove
 
 Some strategies you could employ include:
 
-* Always produce the initial draft of work yourself and then ask AI to optimize or refine it. This forces you to attempt a solution yourself before relying on AI.
-* Reverse engineer the output, particularly when learning new skills. Instead of using AI output verbatim, ask the AI *why* it produced a specific output and cross-reference it with other non-AI sources to gain deeper understanding.
-* Delegate tasks to AI, not skills. Use AI for solving repetitive, low-value tasks (the ones it is good at!) but do the complex, high-value tasks yourself that require the skills of your career.
+- Always produce the initial draft of work yourself and then ask AI to optimize or refine it. This forces you to attempt a solution yourself before relying on AI.
+- Reverse engineer the output, particularly when learning new skills. Instead of using AI output verbatim, ask the AI *why* it produced a specific output and cross-reference it with other non-AI sources to gain deeper understanding.
+- Delegate tasks to AI, not skills. Use AI for solving repetitive, low-value tasks (the ones it is good at!) but do the complex, high-value tasks yourself that require the skills of your career.
 
 Ultimately, it is up to you to determine where your boundary with AI is, but remember you are responsible for how the output is utilized, so take steps to use it responsibly.
 
@@ -104,6 +104,6 @@ With these challenges addressed you are ready to innovate responsibly with AI!
 
 ## Delve Data
 
-* Leveraging AI effectively comes with several challenges both to organizations and individuals
-* Organizations should focus on effective data governance before attempting to leverage AI
-* Individuals should treat AI as a collaborative partner and keep themselves "in-the-loop" in the development cycle
+- Leveraging AI effectively comes with several challenges both to organizations and individuals
+- Organizations should focus on effective data governance before attempting to leverage AI
+- Individuals should treat AI as a collaborative partner and keep themselves "in-the-loop" in the development cycle

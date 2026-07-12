@@ -1,10 +1,10 @@
 ---
 date: 2026-02-22
 categories:
-    - AI
-tags: 
-    - Tools
-    - Tutorial
+  - AI
+tags:
+  - Tools
+  - Tutorial
 social:
   cards_layout_options:
     title: A Local Claude Code
@@ -17,6 +17,7 @@ social:
 > "The right tool doesn't just make a job easier; it changes how you think about the problem." - Gemini 3
 
 Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own productivity increase is by leveraging AI as a pair programmer. Up until this point, I have primarily relied on Github Copilot as my AI assistant. However, I recently gave Claude Code a try at work and was pleasantly surprised at its ability to go beyond what I had seen from Copilot and really "pair" with me. Based on these results, I resolved to set it up on my own machine to use for my personal projects. However, not wanting to spend money on tokens I wanted to be able to run an LLM locally and connect it to Claude Code. Fortunately with the latest release of Ollama this is a pretty straightforward thing to do!
+
 <!-- more -->
 
 ## Ollama, Oh Llama?
@@ -37,11 +38,12 @@ The next step is to choose which LLM you want to use!
 
 There are many different LLMs you may choose based on your available hardware. Some of the most popular currently include:
 
-* [devstral-small-2](https://ollama.com/library/devstral-small-2) - Generally considered a good baseline if you have a decent amount of RAM (25GB) and a GPU available.
-* [qwen3-coder](https://ollama.com/library/qwen3-coder) - Another strong model but more resource intensive (32GB+ RAM), generally considered one of the best models currently available.
-* [flash:q8_0](https://ollama.com/library/glm-4.7-flash:q8_0) - A model prioritizing speed and low latency with quantized weights.
+- [devstral-small-2](https://ollama.com/library/devstral-small-2) - Generally considered a good baseline if you have a decent amount of RAM (25GB) and a GPU available.
+- [qwen3-coder](https://ollama.com/library/qwen3-coder) - Another strong model but more resource intensive (32GB+ RAM), generally considered one of the best models currently available.
+- [flash:q8_0](https://ollama.com/library/glm-4.7-flash:q8_0) - A model prioritizing speed and low latency with quantized weights.
 
-!!! note 
+!!! note
+
     Konstantin Taletskiy gave a very detailed breakdown of several different models you could consider in a great blog post [here](https://taletskiy.com/blogs/ollama-claude-code/)!
 
 Once you've decided which LLM you prefer you can install it in a new terminal by running:
@@ -92,9 +94,9 @@ With that, you should be good to open up the Claude Code extension and get codin
 
 ## Delve Data
 
-* Running LLMs locally with Ollama provides a cost-effective alternative to cloud-based AI services.
-* Ollama supports a variety of models with different resource requirements and performance characteristics.
-* Claude Code can be configured to use a local Ollama instance instead of cloud APIs.
-* Increasing the context window (e.g., to 32768 tokens) improves Claude Code's ability to handle complex codebases.
-* The Claude Code VS Code extension provides seamless IDE integration for local LLM usage.
-* Using local LLMs with Claude Code enables private, offline AI-assisted development.
+- Running LLMs locally with Ollama provides a cost-effective alternative to cloud-based AI services.
+- Ollama supports a variety of models with different resource requirements and performance characteristics.
+- Claude Code can be configured to use a local Ollama instance instead of cloud APIs.
+- Increasing the context window (e.g., to 32768 tokens) improves Claude Code's ability to handle complex codebases.
+- The Claude Code VS Code extension provides seamless IDE integration for local LLM usage.
+- Using local LLMs with Claude Code enables private, offline AI-assisted development.

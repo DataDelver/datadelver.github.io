@@ -1,7 +1,7 @@
 ---
 date: 2023-11-06
-categories: 
-    - Meta
+categories:
+  - Meta
 ---
 
 # Delve 0: Hello Labyrinth (World)!
@@ -12,7 +12,7 @@ categories:
 
 ## Entering the Labyrinth
 
-Welcome to my blog data delver! I'm so glad you found your way here!  If you're like me, when you first started out with data science and machine learning, you may have been feeling overwhelmed. With so many different concepts to learn it may have seemed as if there was an insurmountable labyrinth of information ahead of you, with no clear path towards mastery and practical application.  Fear not! For you have found a resource which shall aid you in your own quest to navigate the maze.
+Welcome to my blog data delver! I'm so glad you found your way here! If you're like me, when you first started out with data science and machine learning, you may have been feeling overwhelmed. With so many different concepts to learn it may have seemed as if there was an insurmountable labyrinth of information ahead of you, with no clear path towards mastery and practical application. Fear not! For you have found a resource which shall aid you in your own quest to navigate the maze.
 
 <!-- more -->
 
@@ -25,5 +25,6 @@ The purpose of this blog is to document my own "delves" into this labyrinth and 
 My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience. I love exploring all things machine learning with a particular emphasis on practical application and "making things real". When I'm not writing code, I enjoy swing dancing, reading, and playing video games.
 
 ## Delve Data
-* Welcome to my blog!
-* Stay tuned for more posts on data science, machine learning, and MLOps!
+
+- Welcome to my blog!
+- Stay tuned for more posts on data science, machine learning, and MLOps!

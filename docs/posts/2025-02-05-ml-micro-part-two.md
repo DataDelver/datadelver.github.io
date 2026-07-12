@@ -1,11 +1,11 @@
 ---
 date: 2025-02-05
 categories:
-    - Software Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - Software Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 ---
 
 # Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer
@@ -58,8 +58,8 @@ What's going on? Remember how in part one we moved all of our Python source code
 
 We need to add two additional arguments:
 
-* The `cwd` argument tells the configuration to change the current working directory to the `src` folder relative to the workspace folder.
-* The `PYTHONPATH` argument appends the current working directory to the `PYTHONPATH` environment variable, this will ensure that imports within our project codebase will work correctly.
+- The `cwd` argument tells the configuration to change the current working directory to the `src` folder relative to the workspace folder.
+- The `PYTHONPATH` argument appends the current working directory to the `PYTHONPATH` environment variable, this will ensure that imports within our project codebase will work correctly.
 
 Go ahead and save that configuration and run again, your FastAPI application should run now! I also encourage you to play around with starting a debugging session, setting a few breakpoints and following the execution of the code. Reading the full [debugging guide](https://code.visualstudio.com/docs/editor/debugging) for VSCode will give you an idea of the options you have available to you.
 
@@ -105,8 +105,8 @@ def search(title: str) -> str:
 Now, while there isn't a lot going on in this file right now, I'd argue from an application scalability perspective it's already too complicated. It may seem outlandish to argue that functionally 8 lines of code is too complicated but I'm not arguing from a number of *lines* perspective but from a *scope* perspective. Right now this single file contains all of our business logic, that's fine while our business logic is simple, but what happens as we want to add more complexity and processing steps to our application? The way our application is structured right now we just keep adding more complexity to this single file. This is analogous to the workflow I've seen many times with data scientists creating ever larger *uber* Jupyter notebooks that contain all of their logic. In the same way maintaining a notebook with hundreds of lines of code is unmaintainable, so too is maintaining a single file application. In this delve I intend to refactor this application into something that is more maintainable and scalable without increasing the complexity of the application so we can focus purely on the refactor. To that end we can break our application into 3 main pieces of functionality:
 
 1. We make API requests to external systems to provide *data* to our application
-2. We encapsulate some *business logic* (In this case call the search API to retrieve an Object, then call the Objects API to retrieve an image) within our service
-3. We provide an *interface* (API) to allow external customers to interact with our application
+1. We encapsulate some *business logic* (In this case call the search API to retrieve an Object, then call the Objects API to retrieve an image) within our service
+1. We provide an *interface* (API) to allow external customers to interact with our application
 
 Intuitively as you may suspect, these are the three layers we will break our application into. If any of you are familiar with the concept of [Multitier Architecture](https://en.wikipedia.org/wiki/Multitier_architecture), this is very similar to the three tier architecture often discussed in works of that nature, but zoomed into the scope of our service itself. For this delve we are going to focus on the first of these three layers, the Data Layer.
 
@@ -114,15 +114,15 @@ Intuitively as you may suspect, these are the three layers we will break our app
 
 The Data Layer, as the name implies, is all about *data*. Functionally, that means we have two objectives we must complete at this layer:
 
-* Be able to request data from other components (both internal to the application like a database or external to the application like other services)
-* Be able to represent the requested data within the application
+- Be able to request data from other components (both internal to the application like a database or external to the application like other services)
+- Be able to represent the requested data within the application
 
 Starting with the first objective, looking at the [Metropolitan Museum of Art API](https://metmuseum.github.io/) that we are leveraging we can see there are four different operations we can perform:
 
-* **Objects** - A listing of all valid Object IDs available for access.
-* **Object** - A record for an object, containing all open access data about that object, including its image (if the image is available under Open Access)
-* **Departments** - A listing of all valid departments, with their department ID and the department display name
-* **Search** - A listing of all Object IDs for objects that contain the search query within the object's data
+- **Objects** - A listing of all valid Object IDs available for access.
+- **Object** - A record for an object, containing all open access data about that object, including its image (if the image is available under Open Access)
+- **Departments** - A listing of all valid departments, with their department ID and the department display name
+- **Search** - A listing of all Object IDs for objects that contain the search query within the object's data
 
 Though currently we are only using the **Object** and **Search** operations. In order to represent these operations without our code, we can lean into our OOP principles and create a client *class* with four *methods*, one for each operation.
 
@@ -209,7 +209,7 @@ class MetProvider:
         return r.json()
 ```
 
-We we can already see the benefits of creating a separate class to handle calling the API. The Met API requires that department IDs be joined by a `|` character, we can hide that implementation detail at this layer and instead allow the user to pass in a much more natural and pythonic list of integers. Similarly, we can pass in a `datetime` object and allow this layer to put it in the proper format for this API. In this way we can hide the *specific* details of the API and allow the user to work with much more natural and easy to use Python objects. 
+We we can already see the benefits of creating a separate class to handle calling the API. The Met API requires that department IDs be joined by a `|` character, we can hide that implementation detail at this layer and instead allow the user to pass in a much more natural and pythonic list of integers. Similarly, we can pass in a `datetime` object and allow this layer to put it in the proper format for this API. In this way we can hide the *specific* details of the API and allow the user to work with much more natural and easy to use Python objects.
 
 We can similarly flesh out the rest of the operations in our provider class:
 
@@ -672,6 +672,6 @@ That wraps up our build of the data layer of our application! It may seem like a
 
 ## Delve Data
 
-* As the complexity of our application increases, a single `main.py` file application will become messy
-* Adopting a three layer architecture for our application's code can help us to manage this complexity
-* The first of these layers, the *Data Layer* is responsible for requesting data from other components and representing the requested data within the application
+- As the complexity of our application increases, a single `main.py` file application will become messy
+- Adopting a three layer architecture for our application's code can help us to manage this complexity
+- The first of these layers, the *Data Layer* is responsible for requesting data from other components and representing the requested data within the application

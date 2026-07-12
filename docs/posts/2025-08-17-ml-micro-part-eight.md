@@ -1,30 +1,31 @@
 ---
 date: 2025-08-17
 categories:
-    - ML Engineering
-tags: 
-    - Series 
-    - Tutorial
-    - Modern ML Microservices
+  - ML Engineering
+tags:
+  - Series
+  - Tutorial
+  - Modern ML Microservices
 links:
-    - Part One: posts/2025-01-26-ml-micro-part-one.md
-    - Part Two: posts/2025-02-05-ml-micro-part-two.md
-    - Part Three: posts/2025-02-16-ml-micro-part-three.md
-    - Part Four: posts/2025-03-25-ml-micro-part-four.md
-    - Part Five: posts/2025-04-13-ml-micro-part-five.md
-    - Part Six: posts/2025-05-04-ml-micro-part-six.md
-    - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
+  - Part One: posts/2025-01-26-ml-micro-part-one.md
+  - Part Two: posts/2025-02-05-ml-micro-part-two.md
+  - Part Three: posts/2025-02-16-ml-micro-part-three.md
+  - Part Four: posts/2025-03-25-ml-micro-part-four.md
+  - Part Five: posts/2025-04-13-ml-micro-part-five.md
+  - Part Six: posts/2025-05-04-ml-micro-part-six.md
+  - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
 ---
 
 # Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service
 
 ![Banner](../assets/images/banners/delve15.png)
 
-> "Only a small fraction of real-world ML systems is composed of the ML code... The required surrounding infrastructure is vast and complex." - Hidden Technical Debt in Machine Learning Systems, Sculley et al. 
+> "Only a small fraction of real-world ML systems is composed of the ML code... The required surrounding infrastructure is vast and complex." - Hidden Technical Debt in Machine Learning Systems, Sculley et al.
 
 ## Machine Learning Services as a System
 
 Greetings data delvers! In [part seven](2025-06-01-ml-micro-part-seven.md) of this series we finally deployed a model! For this part we'll examine how to utilize our model as part of a larger microservice ecosystem!
+
 <!-- more -->
 
 ## A Larger System
@@ -225,9 +226,9 @@ And a sample response:
 
 While this gets the job done it isn't the most interpretable API contract. Imagine if you were a front end developer and you were asked to produce a request that looked like that to call that backend, you'd probably scream. In addition, while MLFlow is great for getting a model API up and running the validation it does on the data being passed in is minimal. Go ahead and modify the request to put in a value that doesn't exist in the training data for one of the fields like `"Dummy"` and send it to the API, you probably still get a price prediction back! What's happening here is the model is just treating that field as `null` for the purposes of making a prediction. This probably isn't the behavior that we want since it could lead to silent bugs in our code. Finally, the output of our API is not very informative either, `"predictions"` is pretty vague as to what the output is supposed to mean. So in summary the things we'd like to change about our API are:
 
-* Have a more natural REST contract for our API
-* Have stricter validation on the data being passed into our API
-* Have a more clear response
+- Have a more natural REST contract for our API
+- Have stricter validation on the data being passed into our API
+- Have a more clear response
 
 In order to achieve this we are going to lean on the microservice codebase we built before to orchestrate calls to our model API!
 
@@ -241,10 +242,10 @@ The system we have currently built is an example of loose coupling between our c
 
 This provides a number of benefits:
 
-* Centralized control over workflows ensures consistency across all invocations of the workflow
-* It becomes easier to implement more complex workflows which becomes particularly common when working with ML services
-* Error handling and recovery becomes easier to manage (If we are using multiple expensive models we won't want to retry the whole flow if only one model fails)
-* We now have one convenient place to perform all of our logging and tracing
+- Centralized control over workflows ensures consistency across all invocations of the workflow
+- It becomes easier to implement more complex workflows which becomes particularly common when working with ML services
+- Error handling and recovery becomes easier to manage (If we are using multiple expensive models we won't want to retry the whole flow if only one model fails)
+- We now have one convenient place to perform all of our logging and tracing
 
 In the context of our simple ecosystem this pattern would look like this:
 
@@ -253,6 +254,7 @@ In the context of our simple ecosystem this pattern would look like this:
 ![Orchestrator Service](../assets/images/figures/delve15/ML_Ecosystem-Orchestrator.png)
 
 !!! Note
+
     The **Orchestrator Pattern** is often contrasted with the **Choreography Pattern** in microservice architectural design. In the Choreography Pattern, each service communicates asynchronously by emitting events that other services consume to produce a workflow.
 
     *Figure 4: The Choreography Pattern*
@@ -293,7 +295,7 @@ members = ["housing-price-model", "housing-price-orchestrator"]
 
 Finally, our orchestrator is going to be in the style of the service we built in [part six](2025-05-04-ml-micro-part-six.md) so we can go ahead and give it a similar directory structure with a `src` and `tests` directory, each with their respective sub-directories. Our final directory structure should look something like this:
 
-``` title="Full Project Structure"
+```title="Full Project Structure"
 ├── .git
 ├── .gitignore
 ├── .python-version
@@ -316,6 +318,7 @@ Finally, our orchestrator is going to be in the style of the service we built in
 ```
 
 !!! Tip
+
     For the rest of this delve we will be doing a speed-run of the first 6 parts to build an orchestrator service. It's a good idea to review the corresponding part if at any point the steps seem unclear.
 
 ## Building the Orchestrator: The Data Layer
@@ -405,8 +408,8 @@ class MLFlowModelProvider:
 
 A few notes here:
 
-* We add an optional `httpx.Client` in the constructor, this allows us to reuse the same client connection multiple times rather than creating a new connection each time (as is the default httpx behavior). Functionally this changes nothing about the code but can provide a nice performance bump.
-* This provider knows nothing about the specifics of our model but instead takes in a pandas dataframe and produces a generic response. This is intentional, as it allows us to **reuse this provider for any MLFlow model**. 
+- We add an optional `httpx.Client` in the constructor, this allows us to reuse the same client connection multiple times rather than creating a new connection each time (as is the default httpx behavior). Functionally this changes nothing about the code but can provide a nice performance bump.
+- This provider knows nothing about the specifics of our model but instead takes in a pandas dataframe and produces a generic response. This is intentional, as it allows us to **reuse this provider for any MLFlow model**.
 
 That wraps up our data layer, onto the next one!
 
@@ -436,9 +439,10 @@ class PricePredictionRequest(ViewBase):
 ```
 
 !!! Tip
+
     This data model is **massive**. Instead of modeling it all by hand this was actually a very good use case for Generative AI. I used the Copilot chat feature of VSCode to prompt Copilot to generate a data model given a sample input row as well as the `data_description.txt` file from Kaggle. It did a great job with minimal tweaking. Much better than writing all the code by hand!
 
-One subtle thing to note is the `serialization_alias` on this model. The input csv of our model had the columns in PascalCase as well as non standard formats such as starting with numbers. When we send this data to the model those field names must match. However, in our orchestrator REST API contact, we'd like to use standard JSON camelCase and avoid non-standard formats. This is what the `serialization_alias` allows us to do! We can use the standard `alias_generator` of our `ViewBase` class to validate the JSON we parse to our model, but use a separate `serialization_alias` when sending the data to our MLFlow API. 
+One subtle thing to note is the `serialization_alias` on this model. The input csv of our model had the columns in PascalCase as well as non standard formats such as starting with numbers. When we send this data to the model those field names must match. However, in our orchestrator REST API contact, we'd like to use standard JSON camelCase and avoid non-standard formats. This is what the `serialization_alias` allows us to do! We can use the standard `alias_generator` of our `ViewBase` class to validate the JSON we parse to our model, but use a separate `serialization_alias` when sending the data to our MLFlow API.
 
 This view only models a single request, we can also model a batch prediction view as well, which is just a list of individual requests:
 
@@ -601,9 +605,9 @@ def batch_predict(price_prediction_requests: PricePredictionBatchRequest) -> Pri
 
 A few notes:
 
-* We are using the same config loader pattern as in previous delves to hold the url of the model API
-* We instantiate the `httpx.Client` globally so it can be re-used across multiple invocations
-* We are including a version number: `v1` as part of our url, this insures if we need to make a breaking change to our API in the future we can clearly denote which contract version our route supports
+- We are using the same config loader pattern as in previous delves to hold the url of the model API
+- We instantiate the `httpx.Client` globally so it can be re-used across multiple invocations
+- We are including a version number: `v1` as part of our url, this insures if we need to make a breaking change to our API in the future we can clearly denote which contract version our route supports
 
 ## Building the Orchestrator: Testing
 
@@ -739,6 +743,7 @@ def test_predict_http_error(mocker):
 A full collection of tests can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-eight/housing-price-orchestrator/tests)!
 
 !!! tip
+
     Writing tests is another area where GenAI shines, I utilized Github Copilot to generate these tests with a bit of prompting.
 
 With our code now tested let's Dockerize it so it can be deployed!
@@ -782,7 +787,7 @@ ENTRYPOINT []
 CMD ["fastapi", "run", "src/main.py", "--port", "8000"]
 ```
 
-You may have noticed this `from=project_root` section of the mounts. What's going on here? This has to do with the Docker build context. Our `uv.lock` file is in the root of the project. However, our Dockerfile is nested underneath the `housing-price-orchestrator` directory. We'd like to use this directory as the Docker build context so that all of the `COPY` commands work correctly, but this excludes the `uv.lock` file. Fortunately Docker has the concept of [additional contexts](https://docs.docker.com/reference/compose-file/build/#additional_contexts) to support including additional directories as part of the build which is what we are leveraging here. We create the `project_root` context as part of our `compose.yaml`: 
+You may have noticed this `from=project_root` section of the mounts. What's going on here? This has to do with the Docker build context. Our `uv.lock` file is in the root of the project. However, our Dockerfile is nested underneath the `housing-price-orchestrator` directory. We'd like to use this directory as the Docker build context so that all of the `COPY` commands work correctly, but this excludes the `uv.lock` file. Fortunately Docker has the concept of [additional contexts](https://docs.docker.com/reference/compose-file/build/#additional_contexts) to support including additional directories as part of the build which is what we are leveraging here. We create the `project_root` context as part of our `compose.yaml`:
 
 ```yaml title="compose.yaml" linenums="1"
 services:
@@ -808,6 +813,7 @@ services:
 ```
 
 !!! note
+
     The build for the price model container has been changed as well, instead of referencing an already built image, the image is built as part of the `docker compose` command, this is personal preference, either approach is acceptable.
 
 Compose also lets us specify the dependency between the orchestrator service and the model service, ensuring the price model is spun up first before the orchestrator.
@@ -986,6 +992,7 @@ Much nicer! I'll leave trying out the batch endpoint to you 🙂
 With the creation of the orchestrator service we have now created what I consider an MVP production system. There is still more functionality to add (and more delves to complete!), but this system now has the core functionality of a user-friendly API for producing model predictions as well as a tested code base. Subsequent delves will expand on this core to cover additional use cases and add more quality of life features. Congratulations on making it this far! Code for this part can be found [here](https://github.com/DataDelver/modern-ml-microservices/tree/part-eight)!
 
 ## Delve Data
-* Exposing MLFlow model APIs directly comes with several drawbacks
-* Utilizing the Microservice Orchestration Pattern can get us around these drawbacks
-* Using a combination of uv workspaces and Docker compose we can easily create this multi-service setup in one codebase
+
+- Exposing MLFlow model APIs directly comes with several drawbacks
+- Utilizing the Microservice Orchestration Pattern can get us around these drawbacks
+- Using a combination of uv workspaces and Docker compose we can easily create this multi-service setup in one codebase
