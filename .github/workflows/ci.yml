@@ -38,4 +38,7 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
 
+      - name: Install local package (plugins)
+        run: uv pip install -e .
+
       - run: uv run mkdocs gh-deploy --force
