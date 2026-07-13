@@ -33,6 +33,7 @@ Current custom plugins (in `plugins/`):
 | `json_ld`             | [json_ld.py](plugins/json_ld.py)                         | Injects JSON-LD structured data                |
 | `lazy_images`         | [lazy_images.py](plugins/lazy_images.py)                 | Adds `loading="lazy"` to non-hero images       |
 | `related_posts`       | [related_posts.py](plugins/related_posts.py)             | Shows related posts sidebar                    |
+| `series_nav`          | [series_nav.py](plugins/series_nav.py)                   | Auto-generates series nav from shared tags     |
 
 ## Pre-commit Hooks
 

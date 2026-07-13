@@ -6,10 +6,6 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
-links:
-  - Part One: posts/2025-01-26-ml-micro-part-one.md
-  - Part Two: posts/2025-02-05-ml-micro-part-two.md
-  - Part Three: posts/2025-02-16-ml-micro-part-three.md
 ---
 
 # Delve 10: Let's Build a Modern ML Microservice Application - Part 4, Configuration

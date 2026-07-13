@@ -6,14 +6,6 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
-links:
-  - Part One: posts/2025-01-26-ml-micro-part-one.md
-  - Part Two: posts/2025-02-05-ml-micro-part-two.md
-  - Part Three: posts/2025-02-16-ml-micro-part-three.md
-  - Part Four: posts/2025-03-25-ml-micro-part-four.md
-  - Part Five: posts/2025-04-13-ml-micro-part-five.md
-  - Part Six: posts/2025-05-04-ml-micro-part-six.md
-  - Part Seven: posts/2025-06-01-ml-micro-part-seven.md
 ---
 
 # Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service
