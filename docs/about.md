@@ -1,6 +1,6 @@
 # About
 
-![Avatar](assets/images/avatar/avatar.png)
+![Avatar](assets/images/avatar/avatar.webp)
 
 Welcome to my blog data delver! I'm so glad you found your way here!
 My name is Chase Greco, I'm currently a machine learning engineer with 5+ years of industry experience.

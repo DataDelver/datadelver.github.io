@@ -34,7 +34,7 @@ As we began to explore in our last delve in this series, the model code alone is
 
 *Figure 1: A Basic ML Ecosystem*
 
-![Basic ML Ecosystem](../assets/images/figures/delve15/ML_Ecosystem-Basic.png)
+![Basic ML Ecosystem](../assets/images/figures/delve15/ML_Ecosystem-Basic.webp)
 
 This system is pretty simple but has some drawbacks when we examine it from the client's perspective. Let's take a look at a a sample API request to see what I mean:
 
@@ -238,7 +238,7 @@ The system we have currently built is an example of loose coupling between our c
 
 *Figure 2: The Orchestrator Pattern*
 
-![Orchestrator Pattern](../assets/images/figures/delve15/ML_Ecosystem-OrchestratorPattern.png)
+![Orchestrator Pattern](../assets/images/figures/delve15/ML_Ecosystem-OrchestratorPattern.webp)
 
 This provides a number of benefits:
 
@@ -251,7 +251,7 @@ In the context of our simple ecosystem this pattern would look like this:
 
 *Figure 3: A Basic ML Ecosystem with an Orchestrator Service*
 
-![Orchestrator Service](../assets/images/figures/delve15/ML_Ecosystem-Orchestrator.png)
+![Orchestrator Service](../assets/images/figures/delve15/ML_Ecosystem-Orchestrator.webp)
 
 !!! Note
 
@@ -259,7 +259,7 @@ In the context of our simple ecosystem this pattern would look like this:
 
     *Figure 4: The Choreography Pattern*
 
-    ![Choreography Pattern](../assets/images/figures/delve15/ML_Ecosystem-ChoreographyPattern.png)
+    ![Choreography Pattern](../assets/images/figures/delve15/ML_Ecosystem-ChoreographyPattern.webp)
 
     In practice, both patterns are utilized and we may examine this pattern in future delves as well.
 

@@ -78,7 +78,7 @@ You can then launch claude with your model of choice:
 
 `claude --model <model_name>`
 
-![Claude-Code-CLI](../assets/images/figures/delve21/Claude_Code_CLI.png)
+![Claude-Code-CLI](../assets/images/figures/delve21/Claude_Code_CLI.webp)
 
 Congratulations! You now have a fully-local Claude Code instance!
 
@@ -90,7 +90,7 @@ You will also need to go into the extension settings and set your selected model
 
 With that, you should be good to open up the Claude Code extension and get coding!
 
-![Claude-Code-Plugin](../assets/images/figures/delve21/Claude_Code_Plugin.png)
+![Claude-Code-Plugin](../assets/images/figures/delve21/Claude_Code_Plugin.webp)
 
 ## Delve Data
 
