@@ -198,7 +198,7 @@ fig.show()
 
 This will give you a visualization that looks something like this:
 
-![Sale Price Distribution](../assets/images/figures/delve13/salePriceDist.png)
+![Sale Price Distribution](../assets/images/figures/delve13/salePriceDist.webp)
 
 !!! note
 
@@ -229,7 +229,7 @@ fig.show()
 
 This will give you the following plot:
 
-![Column Null Percentage](../assets/images/figures/delve13/nullPercent.png)
+![Column Null Percentage](../assets/images/figures/delve13/nullPercent.webp)
 
 We can then drop columns with a high percentage of nulls using pandas:
 

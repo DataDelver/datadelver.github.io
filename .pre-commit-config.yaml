@@ -9,9 +9,9 @@ repos:
 
   - repo: local
     hooks:
-      - id: convert-banners
-        name: Convert banner PNGs to WebP
-        entry: python hooks/convert_banners.py
+      - id: convert-images
+        name: Convert PNG images to WebP
+        entry: python hooks/convert_images.py
         language: python
         types: [image]
         pass_filenames: false

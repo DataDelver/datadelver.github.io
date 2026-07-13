@@ -23,7 +23,7 @@ theme:
     logo: material/pickaxe
     admonition:
       claude: simple/claude
-  favicon: assets/images/favicon/pickaxe.png
+  favicon: assets/images/favicon/pickaxe.webp
   palette:
 
     # Palette toggle for automatic mode
@@ -74,6 +74,7 @@ plugins:
         background_color: "#00000033"
         color: "#FFFFFF"
   - json_ld
+  - lazy_images
   - meta
   - rss:
       match_path: blog/posts/.* 

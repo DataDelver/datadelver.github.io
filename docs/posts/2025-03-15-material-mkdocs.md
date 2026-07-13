@@ -29,7 +29,7 @@ We can see this stagnation if we look at commits to the Jekyll project as well o
 
 *Figure 1: Jekyll Commits over Time*
 
-![Jekyll Commits over Time](../assets/images/figures/delve9/JekyllCommits.png)
+![Jekyll Commits over Time](../assets/images/figures/delve9/JekyllCommits.webp)
 
 We can see that commits peaked around 2016 and then declined to the point where there are hardly any at all. The last major release of the project was over a year ago and it has only received minor updates since then. Despite this Jekyll is still the [recommended static site generator for GitHub Pages](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll) which is why I built the site using it in the first place. This in it of itself would not be an issue if the project was stable, however there have been several occasions where the build of this blog would break due to some Ruby dependency requiring debugging just to publish my latest article, not great. In addition, as someone who has never really professionally worked with Ruby, the unfamiliar toolchain also made extending the framework to add additional functionality difficult, leading to my interest in finding an alternative static site engine.
 
@@ -39,7 +39,7 @@ My inspiration for migrating came when I was browsing some of the articles in my
 
 *Figure 2: Material for MkDocs Commits over Time*
 
-![Material Commits over Time](../assets/images/figures/delve9/MaterialCommits.png)
+![Material Commits over Time](../assets/images/figures/delve9/MaterialCommits.webp)
 
 Finally, it uses Python as its backend which means it's much easier for me to extend and work with. All of these reasons led me to decide to take the plunge and migrate.
 

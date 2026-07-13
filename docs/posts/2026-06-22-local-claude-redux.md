@@ -269,7 +269,7 @@ With Claude configured, open up a shell and type:
 claude
 ```
 
-![Claude-Code-CLI](../assets/images/figures/delve22/Claude_Code_CLI.png)
+![Claude-Code-CLI](../assets/images/figures/delve22/Claude_Code_CLI.webp)
 
 Congratulations! You now have a fully-local Claude Code instance backed by llama.cpp!
 
@@ -277,7 +277,7 @@ Congratulations! You now have a fully-local Claude Code instance backed by llama
 
 The [Claude Code VS Code Plugin](https://code.claude.com/docs/en/vs-code) still works provided you follow the [steps for using third party providers](https://code.claude.com/docs/en/vs-code#use-third-party-providers), namely, disabling the login prompt.
 
-![Claude-Code-Plugin](../assets/images/figures/delve22/Claude_Code_Plugin.png)
+![Claude-Code-Plugin](../assets/images/figures/delve22/Claude_Code_Plugin.webp)
 
 With that, you should be good to open up the Claude Code extension and get coding!
 
