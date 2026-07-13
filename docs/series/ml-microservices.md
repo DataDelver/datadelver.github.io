@@ -1,5 +1,6 @@
 ---
 description: A comprehensive ongoing series on building modern ML microservice applications
+template: series.html
 ---
 
 # Modern ML Microservices Series
@@ -8,14 +9,6 @@ A comprehensive guide to building ML applications using modern microservices pri
 
 ## About This Series
 
-This is an **ongoing series** that explores the full lifecycle of ML microservice development — from environment setup through production deployment and beyond. Each post builds on the previous ones, so it's best to start from the beginning.
-
-## All Posts
-
-View all posts in this series, automatically updated as new parts are published:
-
-[**Browse all "Modern ML Microservices" posts →**](../tags.md#tag:modern-ml-microservices)
+This is an **ongoing series** that explores the full lifecycle of ML microservice development, from environment setup through production deployment and beyond. Each post builds on the previous ones, so it's best to start from the beginning.
 
 ______________________________________________________________________
-
-> *New posts are added regularly. Check back for the latest updates.*
