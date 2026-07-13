@@ -21,7 +21,7 @@ from mkdocs.plugins import BasePlugin, event_priority
 
 
 def _to_iso_date(value) -> str | None:
-    """Convert a date value to ISO 8601 format (YYYY-MM-DD)."""
+    """Convert a date value to ISO 8601 date format (YYYY-MM-DD)."""
     if isinstance(value, datetime):
         return value.strftime("%Y-%m-%d")
     if isinstance(value, str):
@@ -31,6 +31,17 @@ def _to_iso_date(value) -> str | None:
                 return datetime.strptime(value, fmt).strftime("%Y-%m-%d")
             except ValueError:
                 continue
+    return None
+
+
+def _to_iso_datetime(value) -> str | None:
+    """Convert a date value to full ISO 8601 datetime with timezone (YYYY-MM-DDTHH:MM:SS+00:00).
+
+    Google's Rich Results Tool prefers full datetime over date-only values.
+    """
+    date_str = _to_iso_date(value)
+    if date_str:
+        return f"{date_str}T00:00:00+00:00"
     return None
 
 
@@ -140,15 +151,15 @@ def _build_blog_posting_schema(page, config, site_url: str, output: str) -> dict
         post_date = page.config.date
         if hasattr(post_date, "get"):
             created = post_date.get("created")
-            date_published = _to_iso_date(created)
+            date_published = _to_iso_datetime(created)
             updated = post_date.get("updated")
             if updated:
-                date_modified = _to_iso_date(updated)
+                date_modified = _to_iso_datetime(updated)
 
     try:
         mtime = os.path.getmtime(page.file.abs_src_path)
-        file_date = datetime.fromtimestamp(mtime, tz=timezone.utc).strftime("%Y-%m-%d")
-        date_modified = file_date
+        file_dt = datetime.fromtimestamp(mtime, tz=timezone.utc)
+        date_modified = file_dt.strftime("%Y-%m-%dT%H:%M:%S+00:00")
     except OSError:
         pass
 
@@ -162,12 +173,17 @@ def _build_blog_posting_schema(page, config, site_url: str, output: str) -> dict
                 "@type": "Person",
                 "name": author.name,
             }
-            if author.url:
-                author_data["@id"] = author.url
+            author_data["url"] = (
+                author.url if author.url else f"{site_url.rstrip('/')}/about"
+            )
             authors.append(author_data)
 
     if not authors and config.site_author:
-        authors = [{"@type": "Person", "name": config.site_author}]
+        authors = [{
+            "@type": "Person",
+            "name": config.site_author,
+            "url": f"{site_url.rstrip('/')}/about",
+        }]
 
     image_url = None
     og_image_start = output.find('property="og:image"')
