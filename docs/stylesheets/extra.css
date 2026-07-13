@@ -71,7 +71,7 @@ body::after {
     flex-shrink: 0;
     width: 2.4rem;
     height: 2.4rem;
-    color: var(--md-typeset-a-color);
+    color: var(--md-default-fg-color--light);
     transition: color 0.25s;
 }
 
