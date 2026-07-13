@@ -66,6 +66,9 @@ plugins:
       post_readtime: true
   - excerpt_description
   - related_posts
+  - series_nav:
+      series_tags:
+        - "Modern ML Microservices"
   - tags:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search

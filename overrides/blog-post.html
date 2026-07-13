@@ -101,7 +101,35 @@
                 </nav>
               </li>
             </ul>
-            {% if page.config.links %}
+            {% if series_nav %}
+              <ul class="md-post__meta md-nav__list">
+                <li class="md-nav__item md-nav__item--section">
+                  <div class="md-post__title">
+                    <span class="md-ellipsis">
+                      {{ series_nav.series_name }}
+                    </span>
+                  </div>
+                  <nav class="md-nav">
+                    <ul class="md-nav__list">
+                      {% for post in series_nav.posts %}
+                      <li class="md-nav__item">
+                        <a href="{{ post.url | url }}" class="md-nav__link">
+                          {% if post.file.src_path == page.file.src_path %}
+                          {% include ".icons/material/bookmark.svg" %}
+                          {% else %}
+                          {% include ".icons/material/circle-small.svg" %}
+                          {% endif %}
+                          <span class="md-ellipsis">
+                            Part {{ loop.index }}: {{ post.title }}
+                          </span>
+                        </a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </nav>
+                </li>
+              </ul>
+            {% elif page.config.links %}
               <ul class="md-post__meta md-nav__list">
                 <li class="md-nav__item md-nav__item--section">
                   <div class="md-post__title">
