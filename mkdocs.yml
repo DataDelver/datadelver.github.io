@@ -51,6 +51,7 @@ theme:
       accent: deep purple
   
   features:
+    - back_to_top
     - content.code.copy
     - content.code.select
     - content.code.annotate
