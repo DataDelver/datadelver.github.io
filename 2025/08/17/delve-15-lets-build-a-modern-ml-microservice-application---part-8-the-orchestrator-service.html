@@ -27,7 +27,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../../../assets/images/favicon/pickaxe.png">
+      <link rel="icon" href="../../../assets/images/favicon/pickaxe.webp">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -1030,7 +1030,7 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="../../../assets/images/avatar/avatar.png" alt="Chase Greco">
+                      <img src="../../../assets/images/avatar/avatar.webp" alt="Chase Greco">
                     </span>
                     <span class="md-profile__description">
                       <strong>
@@ -1347,7 +1347,7 @@
 <h2 id="a-larger-system">A Larger System</h2>
 <p>As we began to explore in our last delve in this series, the model code alone is just a small part of overall codebase. In this delve we will expand our codebase beyond simply serving the model as an API, but instead look to leverage that API as part of a larger system, but first let's take a look at the system we produced in our last delve:</p>
 <p><em>Figure 1: A Basic ML Ecosystem</em></p>
-<p><img alt="Basic ML Ecosystem" src="../../../assets/images/figures/delve15/ML_Ecosystem-Basic.png" /></p>
+<p><img loading="lazy" alt="Basic ML Ecosystem" src="../../../assets/images/figures/delve15/ML_Ecosystem-Basic.webp" /></p>
 <p>This system is pretty simple but has some drawbacks when we examine it from the client's perspective. Let's take a look at a a sample API request to see what I mean:</p>
 <div class="language-json highlight"><span class="filename">MLFlow Model API Request</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;dataframe_split&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1540,7 +1540,7 @@
 <h2 id="the-orchestrator-service">The Orchestrator Service</h2>
 <p>The system we have currently built is an example of loose coupling between our client and backend model service. In this setup, both are independent services that could be deployed on their own. This is generally what is desired in a cloud microservice architecture, however the challenge comes in when independent services need to communicate to preform a task (in this case predict the price of a house). We could embed our business logic into our client application itself (validating the inputs, wrangling the request and response JSON, etc.) and this would work for a simple setup. However, what if in the future we have multiple different use cases for our price prediction model each with their own "clients"? Now we would have to replicate our business logic in multiple places which is not ideal. Or, what if we had multiple different models we want to apply as part of our logic (one to predict the price of a house, another to predict its insurance cost, etc.), now to process one house our clients must make calls out to multiple models each with their own contracts, yuck! In either case the solution is to introduce a new dedicated service (the orchestrator service) to control the sequence of API calls needed to perform the task, as well as perform any necessary business logic surrounding the calls. In this way, the orchestrator now becomes responsible for ensuring the workflow to complete the task is executed correctly and consistently each time, rather than relying on each client to remain consistent with each other.</p>
 <p><em>Figure 2: The Orchestrator Pattern</em></p>
-<p><img alt="Orchestrator Pattern" src="../../../assets/images/figures/delve15/ML_Ecosystem-OrchestratorPattern.png" /></p>
+<p><img loading="lazy" alt="Orchestrator Pattern" src="../../../assets/images/figures/delve15/ML_Ecosystem-OrchestratorPattern.webp" /></p>
 <p>This provides a number of benefits:</p>
 <ul>
 <li>Centralized control over workflows ensures consistency across all invocations of the workflow</li>
@@ -1550,12 +1550,12 @@
 </ul>
 <p>In the context of our simple ecosystem this pattern would look like this:</p>
 <p><em>Figure 3: A Basic ML Ecosystem with an Orchestrator Service</em></p>
-<p><img alt="Orchestrator Service" src="../../../assets/images/figures/delve15/ML_Ecosystem-Orchestrator.png" /></p>
+<p><img loading="lazy" alt="Orchestrator Service" src="../../../assets/images/figures/delve15/ML_Ecosystem-Orchestrator.webp" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <strong>Orchestrator Pattern</strong> is often contrasted with the <strong>Choreography Pattern</strong> in microservice architectural design. In the Choreography Pattern, each service communicates asynchronously by emitting events that other services consume to produce a workflow.</p>
 <p><em>Figure 4: The Choreography Pattern</em></p>
-<p><img alt="Choreography Pattern" src="../../../assets/images/figures/delve15/ML_Ecosystem-ChoreographyPattern.png" /></p>
+<p><img loading="lazy" alt="Choreography Pattern" src="../../../assets/images/figures/delve15/ML_Ecosystem-ChoreographyPattern.webp" /></p>
 <p>In practice, both patterns are utilized and we may examine this pattern in future delves as well.</p>
 </div>
 <p>With the theory out of the way, let's write some code!</p>

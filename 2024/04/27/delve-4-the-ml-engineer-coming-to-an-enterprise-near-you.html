@@ -27,7 +27,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../../../assets/images/favicon/pickaxe.png">
+      <link rel="icon" href="../../../assets/images/favicon/pickaxe.webp">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -1047,7 +1047,7 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="../../../assets/images/avatar/avatar.png" alt="Chase Greco">
+                      <img src="../../../assets/images/avatar/avatar.webp" alt="Chase Greco">
                     </span>
                     <span class="md-profile__description">
                       <strong>
@@ -1177,7 +1177,7 @@
 <h2 id="traditional-enterprise-big-data-role-organization">Traditional Enterprise Big Data Role Organization</h2>
 <p>Taking these roles, enterprises in my experience typically arrange them in the follow way:</p>
 <p><em>Figure 1: A Typical Enterprise Big Data Role Organization</em></p>
-<p><img alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/TraditionalRoleArchitecture.png" /></p>
+<p><img loading="lazy" alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/TraditionalRoleArchitecture.webp" /></p>
 <p>The centralized component is the data lake. Data engineers focus on hydrating the lake with the data required by the data scientists and analysts. The scientists and analysts in turn leverage the data to produce their work artifacts. This setup is extremely effective at producing models and reports that can be used to inform business decisions and deliver business value however there is a catch: What if instead of a data scientist or analyst communicating their results to a business stakeholder, we want the stakeholder to interact with the output of their work product directly, or even have an external customer interact with it?</p>
 <p>It is at this point this organization breaks down. How do we take an ML model and turn it into something that our front end applications can consume? What happens if we need the data in real time rather than in a batch ETL job that runs every 30 mins? How can we scale to have every one of our customers interacting with this model at the same time?</p>
 <p>For those of you that have read some of my previous delves, this is what I call the "Production Problem". Suddenly an ad-hoc report is no longer enough, the model needs the support of engineers to deliver business value.</p>
@@ -1191,14 +1191,14 @@
 <p>The machine learning engineer, sometimes called an MLOps engineer, is the missing piece of this puzzle. Unlike data engineers, they are more familiar with conventional software engineering, and capable of turning analytic insights and models into services that can be consumed by the larger enterprise as well as having the ML knowledge and experience to interface with data scientists and understand the inference requirements of their models.</p>
 <p>In one of my favorite articles on this subject, <a href="https://www.oreilly.com/radar/data-engineers-vs-data-scientists/">Data Engineers vs. Data Scientists</a>, author Jesse Anderson presents a juxtaposition between the skill sets of data scientists and engineers in the following graphic:</p>
 <p><em>Figure 2: Diagram illustrating the core competencies of data scientists and data engineers and their overlapping skills. Image Credit: Jessie Anderson</em></p>
-<p><img alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/BDIFigure1.png" /></p>
+<p><img loading="lazy" alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/BDIFigure1.webp" /></p>
 <p>He then presents the machine learning engineer as the middle ground between these two extremes:</p>
 <p><em>Figure 3: Diagram illustrating where a machine learning engineer fits with a data scientist and data engineer. Image Credit: Jessie Anderson</em></p>
-<p><img alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/BDIFigure2.png" /></p>
+<p><img loading="lazy" alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/BDIFigure2.webp" /></p>
 <p>While I adore this visualization and agree with many of the points raised in the article, particularly about how to correctly staff resources surrounding ML (Business leaders: Don't hire a bunch of data scientists and expect "magic" to happen without engineering support!), when I think about my own career as someone who calls themselves a machine learning engineer this narrative of the data engineer who cross trains on data science side to end up as a hybrid between the two roles doesn't particularly resonate with me. While it is tantalizingly elegant to place the machine learning engineer between a data scientist and data engineer I have found that the types of problems I tend to work on and solve day to day have much more in common with conventional software engineering than those I typically see data engineers work on, with some additional data science complexity added on top.</p>
 <p>If I adopt the same overlapping skill diagram I find the following to be a much better representation of the type of work I do:</p>
 <p><em>Figure 4: Diagram illustrating where a machine learning engineer fits with a data scientist and software engineer.</em></p>
-<p><img alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/MLEngineerSkills.png" /></p>
+<p><img loading="lazy" alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/MLEngineerSkills.webp" /></p>
 <h2 id="a-software-engineer-with-data-science-know-how">A Software Engineer with Data Science Know-How</h2>
 <p>When I think about the types of problems that I solve as an ML engineer they are usually formulated as something like this:</p>
 <p><em>In response to an event (http request, or streaming event), fetch some data and send it to a model for inference and publish the result (either as an http response, or to a downstream event consumer).</em></p>
@@ -1212,7 +1212,7 @@
 <li>A <em>ML Engineer</em> produces <em>Models as a Service</em> the output of which is consumed by <em>Other Engineering Teams</em></li>
 </ul>
 <p><em>Figure 5: Diagram illustrating the differences in work product and consumers between Data Engineers and ML Engineers</em></p>
-<p><img alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/RoleOutputs.png" /></p>
+<p><img loading="lazy" alt="Traditional Enterprise Role Organization" src="../../../assets/images/figures/delve4/RoleOutputs.webp" /></p>
 <p>As you can see illustrated above, based on the who the end consumer of their work product is, it makes sense that data engineers and ml engineers would have different skill sets and strengths. The real value-add of the ML engineer is the ability to take the output of the data scientist (models) and turn it into a <em>product</em>, that is a service that <em>other</em> engineering teams can consume. Many ML engineers also have the data science know-how to build ML models themselves, which presents an opportunity for a shift within the industry.</p>
 <h2 id="the-future-of-ml-engineers-and-mlops">The Future of ML Engineers and "MLOps"</h2>
 <p>With the barrier to entry for building ML models continuing to become lower, the task of training a model that once took a highly specialized data scientist months of effort complete is often now being reduced to a matter of calling <code>model.fit()</code> in whatever ML library of choice you'd like to use. Even the highly complex Large Language Models (LLMs) that have taken the world by storm over the past year are often being exposed behind <a href="https://openai.com/blog/openai-api">convenient APIs that any ML engineer should be able to reasonably utilize</a> (creating a whole sub domain of MLOps know as LLMOps). This poses the question then, instead of having a data scientist spend much time and effort producing a model in the form of a Jupyter notebook and then have the ML engineer translate it into "production", wouldn't it be more efficient to have the ML engineer write the code from the start?</p>

@@ -27,7 +27,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../../../assets/images/favicon/pickaxe.png">
+      <link rel="icon" href="../../../assets/images/favicon/pickaxe.webp">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -1036,7 +1036,7 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="../../../assets/images/avatar/avatar.png" alt="Chase Greco">
+                      <img src="../../../assets/images/avatar/avatar.webp" alt="Chase Greco">
                     </span>
                     <span class="md-profile__description">
                       <strong>
@@ -1205,12 +1205,12 @@
 <p>The Jekyll project has been around for quite some time (it was originally released in 2008!), and during that time it became the most popular static site generator out there. However, much like its namesake Dr. Jekyll it has developed an ugly side. Jekyll comes from a time when Ruby on Rails ruled the web, however according to the most recent <a href="https://survey.stackoverflow.co/2024/technology#most-popular-technologies-language-prof">Stack Overflow Developer Survey</a> only 5.2% of respondents use Ruby, compared to languages like Python or Javascript which both are over 50% usage.</p>
 <p>We can see this stagnation if we look at commits to the Jekyll project as well on Github:</p>
 <p><em>Figure 1: Jekyll Commits over Time</em></p>
-<p><img alt="Jekyll Commits over Time" src="../../../assets/images/figures/delve9/JekyllCommits.png" /></p>
+<p><img loading="lazy" alt="Jekyll Commits over Time" src="../../../assets/images/figures/delve9/JekyllCommits.webp" /></p>
 <p>We can see that commits peaked around 2016 and then declined to the point where there are hardly any at all. The last major release of the project was over a year ago and it has only received minor updates since then. Despite this Jekyll is still the <a href="https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll">recommended static site generator for GitHub Pages</a> which is why I built the site using it in the first place. This in it of itself would not be an issue if the project was stable, however there have been several occasions where the build of this blog would break due to some Ruby dependency requiring debugging just to publish my latest article, not great. In addition, as someone who has never really professionally worked with Ruby, the unfamiliar toolchain also made extending the framework to add additional functionality difficult, leading to my interest in finding an alternative static site engine.</p>
 <h2 id="material-for-mkdocs-made-of-the-right-stuff">Material for MkDocs, Made of the Right Stuff</h2>
 <p>My inspiration for migrating came when I was browsing some of the articles in my favorite Python newsletter <a href="https://pycoders.com/">PyCoders Weekly</a> and came across <a href="https://blog.jonathanchun.com/2025/02/16/to-type-or-not-to-type/">one that was using a slick UI</a> (It's a good read by the way). At the bottom of the article was a link stating "Made with Material for MkDocs". Following the link brought me to the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> project and I was instantly impressed with what they had put together. It builds on top of the already popular <a href="https://www.mkdocs.org/">MkDocs</a> project to provide a clean, modern theme inspired by material design principles. In addition, unlike Jekyll it has pretty active development community and is used by some very popular projects to generate their websites like <a href="https://docs.astral.sh/uv/">uv</a> and <a href="https://fastapi.tiangolo.com/">FastAPI</a>.</p>
 <p><em>Figure 2: Material for MkDocs Commits over Time</em></p>
-<p><img alt="Material Commits over Time" src="../../../assets/images/figures/delve9/MaterialCommits.png" /></p>
+<p><img loading="lazy" alt="Material Commits over Time" src="../../../assets/images/figures/delve9/MaterialCommits.webp" /></p>
 <p>Finally, it uses Python as its backend which means it's much easier for me to extend and work with. All of these reasons led me to decide to take the plunge and migrate.</p>
 <h2 id="migrating-from-jekyll-to-material">Migrating from Jekyll to Material</h2>
 <p>To kick things off I started by reading the <a href="https://squidfunk.github.io/mkdocs-material/tutorials/blogs/basic/">basic blog tutorial</a> documentation on the Material website. This is a good starting point but as I came to learn, it simplifies some things so it's not an end-all-be-all resource. Fundamentally, both Jekyll and Material use Markdown documents to provide the content for the generated pages, so with some minor adjustments to our folder structure we can get the content of the site to render. This involved migrating to the following directory structure:</p>
