@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="&quot;More than the act of testing, the act of designing tests is one of the best bug preventers known.&quot; - Boris Beizer ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values...">
+        <meta name="description" content="ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we&#x27;ll cover a critical element to building scalable systems: Testing.">
       
       
         <meta name="author" content="Chase Greco">
@@ -28,7 +28,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
       
       <link rel="icon" href="../../../assets/images/favicon/pickaxe.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -79,7 +79,7 @@
   
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing - DataDelver" />
-<meta property="og:description" content="&quot;More than the act of testing, the act of designing tests is one of the best bug preventers known.&quot; - Boris Beizer ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values..." />
+<meta property="og:description" content="ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we&#x27;ll cover a critical element to building scalable systems: Testing." />
 <meta property="og:image" content="https://www.datadelver.com/assets/images/social/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
@@ -87,10 +87,10 @@
 <meta property="og:url" content="https://www.datadelver.com/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:title" content="Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing - DataDelver" />
-<meta property="twitter:description" content="&quot;More than the act of testing, the act of designing tests is one of the best bug preventers known.&quot; - Boris Beizer ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values..." />
+<meta property="twitter:description" content="ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we&#x27;ll cover a critical element to building scalable systems: Testing." />
 <meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.png" />
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html"},"url":"https://www.datadelver.com/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html","description":"\"More than the act of testing, the act of designing tests is one of the best bug preventers known.\" - Boris Beizer ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values...","datePublished":"2025-04-13","dateModified":"2026-07-13","author":{"@type":"Person","name":"Chase Greco"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/social/material.png"}},"image":["https://www.datadelver.com/assets/images/social/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.png"],"articleSection":["Software Engineering"],"timeRequired":"PT24M"}</script></head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html"},"url":"https://www.datadelver.com/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html","description":"ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our application to include a configuration file to make it easy to switch configuration values per development environment. In this part we'll cover a critical element to building scalable systems: Testing.","datePublished":"2025-04-13","dateModified":"2026-07-13","author":{"@type":"Person","name":"Chase Greco"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/social/material.png"}},"image":["https://www.datadelver.com/assets/images/social/2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.png"],"articleSection":["Software Engineering"],"timeRequired":"PT24M"}</script></head>
   
   
     
@@ -333,6 +333,88 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../series/ml-microservices.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern ML Microservices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../../about.html" class="md-nav__link">
         
@@ -396,10 +478,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -417,8 +499,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -570,10 +652,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -591,8 +673,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2793,6 +2875,105 @@
     })
 </script>
 
+
+        <!-- Related Posts -->
+        
+        <hr>
+        <h2 id="related-posts">Related Posts</h2>
+        <div class="related-posts">
+          
+          
+          <div class="related-post">
+            <a href="../../01/26/delve-6-lets-build-a-modern-ml-microservice-application---part-1.html" class="related-post__link">
+              <h3 class="related-post__title">Delve 6: Let's Build a Modern ML Microservice Application - Part 1</h3>
+              <div class="related-post__meta">
+                <time datetime="2025-01-26 00:00:00+00:00">
+                  January 26, 2025
+                </time>
+                
+                · 14 14 min read
+                
+              </div>
+              
+              <p class="related-post__excerpt">A New Year, A New Start Hello data delvers! Happy New Year! I hope you all have been well! It's been some time since our last delve (sorry!) but I...</p>
+              
+            </a>
+          </div>
+          
+          
+          <div class="related-post">
+            <a href="../../02/05/delve-7-lets-build-a-modern-ml-microservice-application---part-2-the-data-layer.html" class="related-post__link">
+              <h3 class="related-post__title">Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer</h3>
+              <div class="related-post__meta">
+                <time datetime="2025-02-05 00:00:00+00:00">
+                  February 5, 2025
+                </time>
+                
+                · 19 19 min read
+                
+              </div>
+              
+              <p class="related-post__excerpt">ML Microservices, the Second Hello data delvers! In part one of this series we left off creating a basic application that allowed us to search for...</p>
+              
+            </a>
+          </div>
+          
+          
+          <div class="related-post">
+            <a href="../../02/16/delve-8-lets-build-a-modern-ml-microservice-application---part-3-the-business-logic-and-interface-layers.html" class="related-post__link">
+              <h3 class="related-post__title">Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers</h3>
+              <div class="related-post__meta">
+                <time datetime="2025-02-16 00:00:00+00:00">
+                  February 16, 2025
+                </time>
+                
+                · 10 10 min read
+                
+              </div>
+              
+              <p class="related-post__excerpt">ML Microservices, Completing the Layers Hello data delvers! In part two of this series we refactored to create a separate data layer of our...</p>
+              
+            </a>
+          </div>
+          
+          
+          <div class="related-post">
+            <a href="../../03/25/delve-10-lets-build-a-modern-ml-microservice-application---part-4-configuration.html" class="related-post__link">
+              <h3 class="related-post__title">Delve 10: Let's Build a Modern ML Microservice Application - Part 4, Configuration</h3>
+              <div class="related-post__meta">
+                <time datetime="2025-03-25 00:00:00+00:00">
+                  March 25, 2025
+                </time>
+                
+                · 10 10 min read
+                
+              </div>
+              
+              <p class="related-post__excerpt">ML Microservices, The Great Env-scape Hello data delvers! In part three of this series we refactored our application into three separate layers,...</p>
+              
+            </a>
+          </div>
+          
+          
+          <div class="related-post">
+            <a href="../../05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html" class="related-post__link">
+              <h3 class="related-post__title">Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization</h3>
+              <div class="related-post__meta">
+                <time datetime="2025-05-03 00:00:00+00:00">
+                  May 3, 2025
+                </time>
+                
+                · 6 6 min read
+                
+              </div>
+              
+              <p class="related-post__excerpt">ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it...</p>
+              
+            </a>
+          </div>
+          
+        </div>
+        
       
     </article>
   </div>
@@ -2863,10 +3044,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
