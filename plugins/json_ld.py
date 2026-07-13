@@ -34,6 +34,27 @@ def _to_iso_date(value) -> str | None:
     return None
 
 
+def _get_site_logo_url(config, site_url: str) -> str:
+    """Get a valid logo URL for the site.
+
+    Priority:
+    1. theme.logo if it points to a file path (not a material icon)
+    2. Fallback to avatar image
+    """
+    theme = config.get("theme", {})
+    logo = theme.get("logo", "")
+
+    # If logo is a file path (not a material icon reference), use it
+    if logo and not logo.startswith("material/") and not logo.startswith("fontawesome/"):
+        # Ensure it's a proper URL
+        if logo.startswith("/"):
+            return f"{site_url.rstrip('/')}{logo}"
+        return f"{site_url.rstrip('/')}/assets{logo}" if not logo.startswith("assets") else f"{site_url.rstrip('/')}/{logo}"
+
+    # Fallback: use avatar image (512x512, meets Google's 300x300 minimum)
+    return f"{site_url.rstrip('/')}/assets/images/avatar/avatar.webp"
+
+
 class JsonLdPlugin(BasePlugin):
     """Inject JSON-LD structured data (BlogPosting, WebSite, BreadcrumbList, Person) into pages."""
 
@@ -65,6 +86,9 @@ class JsonLdPlugin(BasePlugin):
             }
             if config.site_description:
                 website_schema["description"] = config.site_description
+            # Add logo to WebSite schema (recommended by Google for sitelinks search)
+            logo_url = _get_site_logo_url(config, site_url)
+            website_schema["logo"] = logo_url
             website_schema["potentialAction"] = {
                 "@type": "SearchAction",
                 "target": {
@@ -176,7 +200,7 @@ def _build_blog_posting_schema(page, config, site_url: str, output: str) -> dict
         schema["author"] = authors if len(authors) > 1 else authors[0]
 
     if config.site_name:
-        logo_url = f"{site_url.rstrip('/')}/assets/images/social/{config.theme.get('name', 'material')}.png"
+        logo_url = _get_site_logo_url(config, site_url)
         schema["publisher"] = {
             "@type": "Organization",
             "name": config.site_name,
