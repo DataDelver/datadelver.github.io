@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "datadelver"
 version = "0.1.0"
@@ -6,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click==8.2.1",
-    "mkdocs-material[imaging]>=9.6.7",
+    "mkdocs-material[imaging]>=9.7.6",
     "mkdocs-redirects>=1.2.2",
     "mkdocs-rss-plugin>=1.17.1",
 ]
@@ -28,3 +32,4 @@ preview = true
 [project.entry-points."mkdocs.plugins"]
 excerpt_description = "plugins.excerpt_description:ExcerptDescriptionPlugin"
 json_ld = "plugins.json_ld:JsonLdPlugin"
+related_posts = "plugins.related_posts:RelatedPostsPlugin"

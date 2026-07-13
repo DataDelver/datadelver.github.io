@@ -63,6 +63,7 @@ plugins:
       post_excerpt: required
       post_readtime: true
   - excerpt_description
+  - related_posts
   - tags:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search
