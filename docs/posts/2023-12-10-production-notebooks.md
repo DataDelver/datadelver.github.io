@@ -8,7 +8,7 @@ tags:
 
 # Delve 1: The (Hidden) Danger of Notebooks in Production
 
-![Banner](../assets/images/banners/delve1.png)
+![Banner](../assets/images/banners/delve1.webp)
 
 > "Coming together is a beginning. Keeping together is progress. Working together is success." - Henry Ford
 

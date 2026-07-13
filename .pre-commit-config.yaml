@@ -6,3 +6,14 @@ repos:
         additional_dependencies:
           - mdformat-frontmatter>=2.0.8
           - mdformat-mkdocs>=3.0.1
+
+  - repo: local
+    hooks:
+      - id: convert-banners
+        name: Convert banner PNGs to WebP
+        entry: python hooks/convert_banners.py
+        language: python
+        types: [image]
+        pass_filenames: false
+        additional_dependencies:
+          - Pillow

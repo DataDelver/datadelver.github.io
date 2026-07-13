@@ -12,7 +12,7 @@ social:
 
 # Delve 21: A Local Claude Code
 
-![Banner](../assets/images/banners/delve21.png)
+![Banner](../assets/images/banners/delve21.webp)
 
 > "The right tool doesn't just make a job easier; it changes how you think about the problem." - Gemini 3
 

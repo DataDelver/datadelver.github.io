@@ -11,7 +11,7 @@ links:
 
 # Delve 16: The Quest for a Full Screen Raspberry Pi Application - Part 2
 
-![Banner](../assets/images/banners/delve16.png)
+![Banner](../assets/images/banners/delve16.webp)
 
 > "The only constant in life is change." - Heraclitus
 

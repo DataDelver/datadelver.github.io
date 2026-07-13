@@ -9,7 +9,7 @@ tags:
 
 # Delve 5: The Quest for a Full Screen Raspberry Pi Application
 
-![Banner](../assets/images/banners/delve5.png)
+![Banner](../assets/images/banners/delve5.webp)
 
 > "All life is problem solving." - Karl Popper
 

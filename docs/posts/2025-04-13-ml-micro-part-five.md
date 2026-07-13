@@ -15,7 +15,7 @@ links:
 
 # Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing
 
-![Banner](../assets/images/banners/delve11.png)
+![Banner](../assets/images/banners/delve11.webp)
 
 > "More than the act of testing, the act of designing tests is one of the best bug preventers known." - Boris Beizer
 

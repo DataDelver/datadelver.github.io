@@ -14,7 +14,7 @@ links:
 
 # Delve 10: Let's Build a Modern ML Microservice Application - Part 4, Configuration
 
-![Banner](../assets/images/banners/delve10.png)
+![Banner](../assets/images/banners/delve10.webp)
 
 > "The measure of intelligence is the ability to change." - Albert Einstein
 

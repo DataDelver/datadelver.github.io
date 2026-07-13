@@ -10,7 +10,7 @@ tags:
 
 # Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers
 
-![Banner](../assets/images/banners/delve8.png)
+![Banner](../assets/images/banners/delve8.webp)
 
 > "For every minute spent organizing, an hour is earned." - Benjamin Franklin
 
