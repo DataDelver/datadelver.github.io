@@ -241,3 +241,33 @@ body::after {
     -webkit-mask-image: var(--md-admonition-icon--claude);
     mask-image: var(--md-admonition-icon--claude);
 }
+
+/* Home Hero Banner */
+.home-hero {
+    background-image: url('/assets/images/banners/home.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.home-hero__inner {
+    margin: auto;
+    padding-top: 50vh;
+}
+
+.home-hero__content {
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(51, 51, 51, 0.3333333333);
+    font-size: x-large;
+}
+
+[data-md-color-scheme="default"] .home-hero {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+[data-md-color-scheme="slate"] .home-hero {
+    background-color: rgba(0, 0, 0, 0.5);
+}
