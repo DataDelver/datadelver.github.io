@@ -177,29 +177,30 @@
 
         <!-- Related Posts -->
         {% if related_posts %}
-        <hr>
-        <h2 id="related-posts">Related Posts</h2>
-        <div class="related-posts">
-          {% for item in related_posts %}
-          {% set post = item.page %}
-          <div class="related-post">
-            <a href="{{ post.url | url }}" class="related-post__link">
-              <h3 class="related-post__title">{{ post.title }}</h3>
-              <div class="related-post__meta">
-                <time datetime="{{ post.config.date.created }}">
-                  {{ post.config.date.created | date }}
-                </time>
-                {% if post.config.readtime %}
-                · {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
+        <section class="md-post__related md-typeset">
+          <h2 class="md-post__related-heading">Related Delves</h2>
+          <div class="md-post__related-grid">
+            {% for item in related_posts %}
+            {% set post = item.page %}
+            <div class="md-post__related-card">
+              <a href="{{ post.url | url }}" class="md-post__related-link">
+                <span class="md-post__related-title">{{ post.title }}</span>
+                <span class="md-post__related-date">
+                  <time datetime="{{ post.config.date.created }}">
+                    {{ post.config.date.created | date }}
+                  </time>
+                  {% if post.config.readtime %}
+                  · {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
+                  {% endif %}
+                </span>
+                {% if item.excerpt %}
+                <p class="md-post__related-excerpt">{{ item.excerpt | truncate(120) }}</p>
                 {% endif %}
-              </div>
-              {% if item.excerpt %}
-              <p class="related-post__excerpt">{{ item.excerpt | truncate(150) }}</p>
-              {% endif %}
-            </a>
+              </a>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
-        </div>
+        </section>
         {% endif %}
       {% endblock %}
     </article>
