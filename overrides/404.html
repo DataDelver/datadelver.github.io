@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% block content %}
+  <h1>404 - Page Not Found</h1>
+  <p>
+    Looks like this page got lost in the data labyrinth. 
+    The content you're looking for doesn't exist or has been moved.
+  </p>
+  <p>
+    <a href="{{ config.site_url }}" class="md-button md-button--primary">
+      Back to the surface
+    </a>
+  </p>
+{% endblock %}
