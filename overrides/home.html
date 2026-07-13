@@ -3,13 +3,20 @@
 {% block tabs %}
 {{ super() }}
 
-<!-- The big featured header  -->
+<!-- The big featured header -->
 <header class="home-hero">
+    <div class="home-hero__overlay"></div>
     <div class="home-hero__inner">
-        <div class="home-hero__content">
-            <h1>DataDelver</h1>
-            Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
-        </div>
+        <h1 class="home-hero__title">DataDelver</h1>
+        <p class="home-hero__tagline">Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.</p>
+    </div>
+    <!-- Featured Series Callout -->
+    <div class="home-hero__cta">
+        <a href="series/ml-microservices.html" class="home-hero__cta-link">
+            <span class="home-hero__cta-label">Featured Series</span>
+            <span class="home-hero__cta-title">Modern ML Microservices</span>
+            <span class="home-hero__cta-arrow">{% include ".icons/material/arrow-right.svg" %}</span>
+        </a>
     </div>
 </header>
 {% endblock %}
