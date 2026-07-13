@@ -1,3 +1,27 @@
+/* Reading Progress Bar */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: var(--progress-width, 0%);
+    background: linear-gradient(90deg, #6c63ff, #ff6584);
+    z-index: 300;
+    transition: width 0.1s ease;
+    pointer-events: none;
+}
+
+/* Dark theme */
+body[data-md-color-scheme="slate"]::after {
+    background: linear-gradient(90deg, #a78bfa, #f472b6);
+}
+
+/* Hide the original DOM element */
+.md-progress {
+    display: none !important;
+}
+
 .md-typeset .admonition.claude,
 .md-typeset .admonition.claude-code,
 .md-typeset details.claude,
