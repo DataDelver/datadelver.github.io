@@ -91,15 +91,16 @@ class RelatedPostsPlugin(BasePlugin):
             if shared:
                 related.append((len(shared), post))
 
-        # Sort by number of shared tags (descending), then by date (descending)
-        def sort_key(item):
-            count, post = item
-            date_str = ""
+        # Sort by date (descending), then by shared tags (descending)
+        # Python's sort is stable, so the second sort preserves date order for equal counts
+        def date_key(item):
+            post = item[1]
             if hasattr(post, "config") and hasattr(post.config, "date"):
-                date_str = post.config.date.created
-            return (-count, date_str)
+                return post.config.date.created
+            return ""
 
-        related.sort(key=sort_key)
+        related.sort(key=date_key, reverse=True)
+        related.sort(key=lambda item: -item[0])
 
         # Limit to 5 related posts, and attach excerpt description to each
         context["related_posts"] = []

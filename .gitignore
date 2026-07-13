@@ -9,3 +9,4 @@ vendor
 site
 __pycache__
 *.egg-info
+scratch

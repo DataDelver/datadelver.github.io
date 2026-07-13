@@ -1,6 +1,7 @@
 {%- extends "main.html" %}
 {% import "partials/nav-item.html" as item with context %}
 {% block container %}
+  {% include "partials/top.html" %}
   <div class="md-content md-content--post" data-md-component="content">
     <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
       <div class="md-sidebar__scrollwrap">
@@ -130,31 +131,76 @@
       {% block content %}
         {% include "partials/content.html" %}
 
+        <!-- Post Navigation -->
+        {% if page.previous_page or page.next_page %}
+        <nav class="md-post__navigation md-typeset">
+          <div class="md-post__nav">
+            {% if page.previous_page %}
+            <div class="md-post__nav--prev">
+              <a href="{{ page.previous_page.url | url }}" class="md-post__nav-link">
+                <div class="md-post__nav-icon">
+                  {% include ".icons/material/arrow-left.svg" %}
+                </div>
+                <div class="md-post__nav-label">
+                  <span class="md-post__nav-direction">Previous Delve</span>
+                  <span class="md-post__nav-title">{{ page.previous_page.title }}</span>
+                  <span class="md-post__nav-date">
+                    <time datetime="{{ page.previous_page.config.date.created }}">
+                      {{ page.previous_page.config.date.created | date }}
+                    </time>
+                  </span>
+                </div>
+              </a>
+            </div>
+            {% endif %}
+            {% if page.next_page %}
+            <div class="md-post__nav--next">
+              <a href="{{ page.next_page.url | url }}" class="md-post__nav-link">
+                <div class="md-post__nav-label">
+                  <span class="md-post__nav-direction">Next Delve</span>
+                  <span class="md-post__nav-title">{{ page.next_page.title }}</span>
+                  <span class="md-post__nav-date">
+                    <time datetime="{{ page.next_page.config.date.created }}">
+                      {{ page.next_page.config.date.created | date }}
+                    </time>
+                  </span>
+                </div>
+                <div class="md-post__nav-icon">
+                  {% include ".icons/material/arrow-right.svg" %}
+                </div>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </nav>
+        {% endif %}
+
         <!-- Related Posts -->
         {% if related_posts %}
-        <hr>
-        <h2 id="related-posts">Related Posts</h2>
-        <div class="related-posts">
-          {% for item in related_posts %}
-          {% set post = item.page %}
-          <div class="related-post">
-            <a href="{{ post.url | url }}" class="related-post__link">
-              <h3 class="related-post__title">{{ post.title }}</h3>
-              <div class="related-post__meta">
-                <time datetime="{{ post.config.date.created }}">
-                  {{ post.config.date.created | date }}
-                </time>
-                {% if post.config.readtime %}
-                · {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
+        <section class="md-post__related md-typeset">
+          <h2 class="md-post__related-heading">Related Delves</h2>
+          <div class="md-post__related-grid">
+            {% for item in related_posts %}
+            {% set post = item.page %}
+            <div class="md-post__related-card">
+              <a href="{{ post.url | url }}" class="md-post__related-link">
+                <span class="md-post__related-title">{{ post.title }}</span>
+                <span class="md-post__related-date">
+                  <time datetime="{{ post.config.date.created }}">
+                    {{ post.config.date.created | date }}
+                  </time>
+                  {% if post.config.readtime %}
+                  · {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
+                  {% endif %}
+                </span>
+                {% if item.excerpt %}
+                <p class="md-post__related-excerpt">{{ item.excerpt | truncate(120) }}</p>
                 {% endif %}
-              </div>
-              {% if item.excerpt %}
-              <p class="related-post__excerpt">{{ item.excerpt | truncate(150) }}</p>
-              {% endif %}
-            </a>
+              </a>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
-        </div>
+        </section>
         {% endif %}
       {% endblock %}
     </article>

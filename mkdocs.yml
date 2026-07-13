@@ -51,6 +51,7 @@ theme:
       accent: deep purple
   
   features:
+    - back_to_top
     - content.code.copy
     - content.code.select
     - content.code.annotate
@@ -119,6 +120,9 @@ use_directory_urls: false
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
 
 extra:
   social:
