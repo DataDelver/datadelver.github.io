@@ -137,6 +137,23 @@ body::after {
     }
 }
 
+/* 404 page button – matches back-to-top button styling */
+.md-button.md-top-button {
+    background-color: var(--md-default-bg-color) !important;
+    border-radius: 1.6rem;
+    box-shadow: var(--md-shadow-z2);
+    color: var(--md-default-fg-color--light) !important;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    text-transform: uppercase;
+    transition: color 125ms, background-color 125ms;
+}
+
+.md-button.md-top-button:hover {
+    background-color: var(--md-accent-fg-color) !important;
+    color: var(--md-accent-bg-color) !important;
+}
+
 .md-typeset .admonition.claude>.admonition-title::before,
 .md-typeset .admonition.claude-code>.admonition-title::before,
 .md-typeset details.claude>summary::before,
