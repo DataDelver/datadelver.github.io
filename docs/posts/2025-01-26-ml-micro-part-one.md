@@ -10,7 +10,7 @@ tags:
 
 # Delve 6: Let's Build a Modern ML Microservice Application - Part 1
 
-![Banner](../assets/images/banners/delve6.png)
+![Banner](../assets/images/banners/delve6.webp)
 
 > "The beginning is the most important part of the work." - Plato
 

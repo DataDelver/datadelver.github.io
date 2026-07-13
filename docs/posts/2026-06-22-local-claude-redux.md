@@ -12,7 +12,7 @@ social:
 
 # Delve 22: A Local Claude Code Redux
 
-![Banner](../assets/images/banners/delve22.png)
+![Banner](../assets/images/banners/delve22.webp)
 
 > "It is not the strongest or the most intelligent who will survive but those who can best manage change." - Charles Darwin
 

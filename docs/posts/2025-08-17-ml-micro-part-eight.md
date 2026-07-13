@@ -18,7 +18,7 @@ links:
 
 # Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service
 
-![Banner](../assets/images/banners/delve15.png)
+![Banner](../assets/images/banners/delve15.webp)
 
 > "Only a small fraction of real-world ML systems is composed of the ML code... The required surrounding infrastructure is vast and complex." - Hidden Technical Debt in Machine Learning Systems, Sculley et al.
 

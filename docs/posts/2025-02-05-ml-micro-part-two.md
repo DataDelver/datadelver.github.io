@@ -10,7 +10,7 @@ tags:
 
 # Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer
 
-![Banner](../assets/images/banners/delve7.png)
+![Banner](../assets/images/banners/delve7.webp)
 
 > "Data is not just the new oil, it's also the new soil." - David McCandless
 

@@ -17,7 +17,7 @@ links:
 
 # Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow
 
-![Banner](../assets/images/banners/delve13.png)
+![Banner](../assets/images/banners/delve13.webp)
 
 > "Machine learning models are only as good as their deployment strategy. An unused model is just a fancy equation." - Chat GPT
 

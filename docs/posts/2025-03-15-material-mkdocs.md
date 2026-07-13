@@ -11,7 +11,7 @@ links:
 
 # Delve 9: Migrating from Jekyll to Material for MkDocs
 
-![Banner](../assets/images/banners/delve9.png)
+![Banner](../assets/images/banners/delve9.webp)
 
 > "Good tools make good work." - Unknown
 
@@ -75,7 +75,7 @@ title:  "Delve 0: Hello Labyrinth (World)!"
 author: Chase
 categories: Meta
 banner: 
-    image: "/assets/images/banners/delve0.png"
+    image: "/assets/images/banners/delve0.webp"
 ---
 
 > It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
@@ -108,7 +108,7 @@ categories:
 
 # Delve 0: Hello Labyrinth (World)!
 
-![Banner](../assets/images/banners/delve0.png)
+![Banner](../assets/images/banners/delve0.webp)
 
 > It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
 

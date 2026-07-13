@@ -8,7 +8,7 @@ tags:
 
 # Delve 4: The ML Engineer, Coming to an Enterprise Near You
 
-![Banner](../assets/images/banners/delve4.png)
+![Banner](../assets/images/banners/delve4.webp)
 
 > "Life is like riding a bicycle. To keep your balance, you must keep moving." - Albert Einstein
 

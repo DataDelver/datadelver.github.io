@@ -16,7 +16,7 @@ links:
 
 # Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization
 
-![Banner](../assets/images/banners/delve12.png)
+![Banner](../assets/images/banners/delve12.webp)
 
 > "This containers revolution is changing the basic act of software consumption. It’s redefining this much more lightweight, portable unit, or atom, that is much easier to manage… It’s a gateway to dynamic management and dynamic systems." - Craig McLuckie
 

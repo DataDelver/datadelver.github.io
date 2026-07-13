@@ -6,7 +6,7 @@ categories:
 
 # Delve 0: Hello Labyrinth (World)!
 
-![Banner](../assets/images/banners/delve0.png)
+![Banner](../assets/images/banners/delve0.webp)
 
 > It seemed so daunting, "I need to make this model work!", "Running this in a notebook isn't good enough, we need to drive live site traffic against this!", "All of this data is bad!".
 

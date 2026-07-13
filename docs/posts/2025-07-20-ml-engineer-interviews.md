@@ -9,7 +9,7 @@ tags:
 
 # Delve 14: Reflections on a Job Quest
 
-![Banner](../assets/images/banners/delve14.png)
+![Banner](../assets/images/banners/delve14.webp)
 
 > "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work." - Steve Jobs
 

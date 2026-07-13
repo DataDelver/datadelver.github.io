@@ -9,7 +9,7 @@ tags:
 
 # Delve 2: My Recommended Machine Learning & Data Science Resources!
 
-![Banner](../assets/images/banners/delve2.png)
+![Banner](../assets/images/banners/delve2.webp)
 
 > "If I have seen further than others, it is by standing upon the shoulders of giants." - Isaac Newton
 

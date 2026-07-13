@@ -23,7 +23,7 @@ social:
 
 # Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI
 
-![Banner](../assets/images/banners/delve23.png)
+![Banner](../assets/images/banners/delve23.webp)
 
 > "Code is read much more often than it is written." - Guido van Rossum
 

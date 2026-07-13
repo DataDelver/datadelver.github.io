@@ -22,7 +22,7 @@ social:
 
 # Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization
 
-![Banner](../assets/images/banners/delve19.png)
+![Banner](../assets/images/banners/delve19.webp)
 
 > "Containerization is the new virtualization." - James Turnbull
 
