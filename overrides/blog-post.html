@@ -145,7 +145,7 @@
                   {{ post.config.date.created | date }}
                 </time>
                 {% if post.config.readtime %}
-                · {{ post.config.readtime }} {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
+                · {{ lang.t("readtime.other") | replace("#", post.config.readtime) if post.config.readtime != 1 else lang.t("readtime.one") }}
                 {% endif %}
               </div>
               {% if item.excerpt %}
