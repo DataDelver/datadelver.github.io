@@ -4,6 +4,9 @@ Computes related posts by finding other blog posts that share tags with the curr
 post, weighted by the number of shared tags. Adds `related_posts` to the page context
 so the blog-post.html template can render them.
 
+Also collects posts filtered by a specific tag for series pages, exposed as
+`series_posts` in the template context.
+
 Excerpts are taken from `page.meta["description"]`, which is populated by the
 `excerpt_description` plugin. This avoids all HTML parsing issues.
 """
@@ -13,6 +16,8 @@ from mkdocs.plugins import BasePlugin, event_priority
 from html import unescape
 
 log = logging.getLogger("mkdocs.plugins.related_posts")
+
+SERIES_TAG = "Modern ML Microservices"
 
 
 def _get_excerpt_description(page):
@@ -50,24 +55,54 @@ def _get_tags(page):
     return tags
 
 
+def _collect_all_posts(context):
+    """Collect all blog posts from the context pages list."""
+    all_posts = []
+    for file_item in context["pages"]:
+        if hasattr(file_item, "page") and file_item.page is not None:
+            p = file_item.page
+            if hasattr(p, "excerpt") and p.excerpt is not None:
+                all_posts.append(p)
+    return all_posts
+
+
+def _sort_posts_by_date(posts, reverse=True):
+    """Sort posts by created date."""
+    def date_key(post):
+        if hasattr(post, "config") and hasattr(post.config, "date"):
+            return post.config.date.created
+        return ""
+    return sorted(posts, key=date_key, reverse=reverse)
+
+
+def _build_post_meta(post):
+    """Build a post metadata dict for template rendering."""
+    return {
+        "page": post,
+        "excerpt": _get_excerpt_description(post),
+    }
+
+
 class RelatedPostsPlugin(BasePlugin):
     """Add related posts to blog post pages based on shared tags."""
 
     @event_priority(-10)
     def on_page_context(self, context, *, page, config, nav):
         """Collect all blog posts and compute related posts for the current page."""
-        # Only process blog post pages
+        all_posts = _collect_all_posts(context)
+
+        # Always compute series posts for any page that might need them
+        # Sort chronologically (oldest first) so readers follow the series in order
+        series_posts = [
+            _build_post_meta(post)
+            for post in _sort_posts_by_date(all_posts, reverse=False)
+            if SERIES_TAG in _get_tags(post)
+        ]
+        context["series_posts"] = series_posts
+
+        # Only compute related posts for blog post pages
         if not hasattr(page, "excerpt") or page.excerpt is None:
             return
-
-        # Collect all blog posts from the pages list
-        # context["pages"] contains File objects, so we access file.page
-        all_posts = []
-        for file_item in context["pages"]:
-            if hasattr(file_item, "page") and file_item.page is not None:
-                p = file_item.page
-                if hasattr(p, "excerpt") and p.excerpt is not None:
-                    all_posts.append(p)
 
         # Get current page's tags
         current_tags = _get_tags(page)
@@ -91,7 +126,7 @@ class RelatedPostsPlugin(BasePlugin):
             if shared:
                 related.append((len(shared), post))
 
-        # Sort by date (descending), then by shared tags (descending)
+        # Sort by date (descending), then by shared tag count (descending)
         # Python's sort is stable, so the second sort preserves date order for equal counts
         def date_key(item):
             post = item[1]
@@ -103,10 +138,4 @@ class RelatedPostsPlugin(BasePlugin):
         related.sort(key=lambda item: -item[0])
 
         # Limit to 5 related posts, and attach excerpt description to each
-        context["related_posts"] = []
-        for _, post in related[:5]:
-            post_meta = {
-                "page": post,
-                "excerpt": _get_excerpt_description(post),
-            }
-            context["related_posts"].append(post_meta)
+        context["related_posts"] = [_build_post_meta(post) for _, post in related[:5]]
