@@ -16,6 +16,9 @@ from mkdocs.plugins import BasePlugin, event_priority
 # Regex to strip YAML front matter (everything from --- to ---)
 YAML_FRONT_MATTER = re.compile(r"^---\s*\n(.*?)^---\s*\n", re.MULTILINE | re.DOTALL)
 
+# Regex to strip leading blockquote lines (epigraph quotes)
+MD_LEADING_BLOCKQUOTE = re.compile(r"(?:^>\s?.*\n?)+", re.MULTILINE)
+
 # Regex patterns for stripping markdown formatting
 MD_BOLD = re.compile(r"\*\*(.*?)\*\*")
 MD_ITALIC = re.compile(r"\*(.*?)\*")
@@ -51,6 +54,8 @@ def strip_markdown(text: str) -> str:
     text = MD_HRULE.sub("", text)
     # Remove HTML tags
     text = re.sub(r"<[^>]+>", "", text)
+    # Strip markdown escape characters (e.g. \* -> *)
+    text = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|>)])", r"\1", text)
     # Normalize whitespace: collapse multiple spaces/newlines into single space
     text = re.sub(r"\s+", " ", text).strip()
     return text
@@ -90,6 +95,9 @@ class ExcerptDescriptionPlugin(BasePlugin):
 
         # Strip the first heading (title) if present
         excerpt_md = re.sub(r"^#{1,6}\s+.*$", "", excerpt_md, count=1, flags=re.MULTILINE)
+
+        # Strip leading blockquote (epigraph quote)
+        excerpt_md = MD_LEADING_BLOCKQUOTE.sub("", excerpt_md)
 
         # Strip markdown formatting
         description = strip_markdown(excerpt_md)
