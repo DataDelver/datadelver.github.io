@@ -10,6 +10,13 @@ watch:
   - overrides/
   - plugins/
 
+nav:
+  - Home: index.md
+  - Series:
+    - Modern ML Microservices: series/ml-microservices.md
+  - About: about.md
+  - Tags: tags.md
+
 theme:
   name: material
   icon:
@@ -54,6 +61,7 @@ plugins:
       blog_dir: .
       blog_toc: true
       post_excerpt: required
+      post_readtime: true
   - excerpt_description
   - tags:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
