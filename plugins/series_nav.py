@@ -4,7 +4,8 @@ Instead of manually maintaining `links:` in front matter for each post in a seri
 this plugin detects which posts belong to a series based on shared tags and generates
 navigation links automatically.
 
-Configuration in mkdocs.yml:
+Series tags are defined centrally in `plugins.SERIES_TAGS`. The plugin uses
+those as defaults, but they can be overridden or extended in mkdocs.yml:
 
     plugins:
       - series_nav:
@@ -20,6 +21,8 @@ list of series posts sorted chronologically.
 import logging
 from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin, event_priority
+
+from plugins import SERIES_TAGS
 
 log = logging.getLogger("mkdocs.plugins.series_nav")
 
@@ -105,7 +108,7 @@ class SeriesNavPlugin(BasePlugin):
     """Auto-generate series navigation from shared tags."""
 
     config_scheme = (
-        ("series_tags", config_options.Type(list, default=[])),
+        ("series_tags", config_options.Type(list, default=SERIES_TAGS)),
     )
 
     def on_config(self, config):

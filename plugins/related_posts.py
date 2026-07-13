@@ -15,9 +15,9 @@ import logging
 from mkdocs.plugins import BasePlugin, event_priority
 from html import unescape
 
-log = logging.getLogger("mkdocs.plugins.related_posts")
+from plugins import SERIES_TAGS
 
-SERIES_TAG = "Modern ML Microservices"
+log = logging.getLogger("mkdocs.plugins.related_posts")
 
 
 def _get_excerpt_description(page):
@@ -96,7 +96,7 @@ class RelatedPostsPlugin(BasePlugin):
         series_posts = [
             _build_post_meta(post)
             for post in _sort_posts_by_date(all_posts, reverse=False)
-            if SERIES_TAG in _get_tags(post)
+            if any(tag in _get_tags(post) for tag in SERIES_TAGS)
         ]
         context["series_posts"] = series_posts
 
