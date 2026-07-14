@@ -41,4 +41,7 @@ jobs:
       - name: Install local package (plugins)
         run: uv pip install -e .
 
+      - name: Fix RSS plugin template
+        run: uv run python fix_rss_template.py
+
       - run: uv run mkdocs gh-deploy --force
