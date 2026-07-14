@@ -214,7 +214,9 @@ We then have to configure Claude to point to the local llama.cpp instance. The e
   "env": {
     "ANTHROPIC_BASE_URL": "http://localhost:11434",
     "ANTHROPIC_API_KEY": "local-llama",
-    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "49152",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "65536",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "65536",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "4096",
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75",
     "API_FORCE_IDLE_TIMEOUT": "0",
     "CLAUDE_CODE_SIMPLE": "1",
@@ -239,7 +241,16 @@ Here's a breakdown of what each setting does:
 ### Context Window & Memory Management
 
 - `"CLAUDE_CODE_AUTO_COMPACT_WINDOW"`
-    Defines the precise token limit where claude auto-compacts the conversation. This should be smaller than the total context window to add a safety buffer.
+    Set the context capacity in tokens used for auto-compaction calculations. Should be the same as the context window size.
+
+- `"CLAUDE_CODE_MAX_CONTEXT_TOKENS"`
+    Sets the maximum context window size Claude Code will use. This should match the `--ctx-size` value configured in your `llama.cpp` launch script to ensure Claude doesn't exceed the model's actual capacity.
+
+- `"CLAUDE_CODE_MAX_OUTPUT_TOKENS"`
+    Caps the maximum number of tokens Claude can generate in a single response. A value of 4096 is a good balance for local models, preventing excessively long outputs that could slow down inference or consume too much of your context budget.
+
+- `"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE"`
+    Controls the percentage threshold at which auto-compaction triggers. Setting this to 75 means Claude will compact the conversation once it reaches 75% of the auto-compact window, giving you a buffer before hitting the hard limit.
 
 - `"API_FORCE_IDLE_TIMEOUT"`
     Gives the local model more time to respond to Claude.
