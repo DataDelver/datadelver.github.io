@@ -117,6 +117,9 @@ markdown_extensions:
   - md_in_html
   - pymdownx.blocks.caption
   - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 use_directory_urls: false
 
@@ -131,11 +134,14 @@ extra:
     - icon: fontawesome/brands/linkedin
       name: LinkedIn
       link: https://www.linkedin.com/in/chasegreco/
-    - icon: /fontawesome/regular/envelope
+    - icon: fontawesome/regular/envelope
       name: Email
       link: mailto:chase@datadelver.com
     - icon: fontawesome/brands/github
       name: GitHub
       link: https://github.com/DataDelver
+    - icon: fontawesome/solid/square-rss
+      name: RSS Feed
+      link: https://www.datadelver.com/feed_rss_created.xml
 
 copyright: Copyright &copy; 2023 - 2026 Chase Greco
