@@ -7,10 +7,10 @@ import glob
 import subprocess
 
 # Directories to scan for PNG files (relative to repo root)
+# Note: favicon/ is excluded - RSS feeds require PNG/JPEG/GIF, not WebP
 IMAGE_DIRS = [
     "docs/assets/images/banners",
     "docs/assets/images/figures",
-    "docs/assets/images/favicon",
     "docs/assets/images/avatar",
 ]
 
@@ -18,7 +18,6 @@ IMAGE_DIRS = [
 REFERENCE_PATTERNS = [
     ("banners/", "WEBP"),      # banners always converted
     ("figures/", "WEBP"),      # figures always converted
-    ("favicon/", "WEBP"),      # favicon converted
     ("avatar/", "WEBP"),       # avatar converted
 ]
 
