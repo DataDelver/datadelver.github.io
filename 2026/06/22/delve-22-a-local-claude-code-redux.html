@@ -90,7 +90,7 @@
 <meta property="twitter:description" content="Hello data delvers! It&#x27;s been some time but I&#x27;m back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!" />
 <meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2026/06/22/delve-22-a-local-claude-code-redux.png" />
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 22: A Local Claude Code Redux","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2026/06/22/delve-22-a-local-claude-code-redux.html"},"url":"https://www.datadelver.com/2026/06/22/delve-22-a-local-claude-code-redux.html","description":"Hello data delvers! It's been some time but I'm back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!","datePublished":"2026-06-22T00:00:00+00:00","dateModified":"2026-07-13T06:47:20+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/avatar/avatar.webp"}},"image":["https://www.datadelver.com/assets/images/social/2026/06/22/delve-22-a-local-claude-code-redux.png"],"articleSection":["AI"],"timeRequired":"PT9M"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 22: A Local Claude Code Redux","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2026/06/22/delve-22-a-local-claude-code-redux.html"},"url":"https://www.datadelver.com/2026/06/22/delve-22-a-local-claude-code-redux.html","description":"Hello data delvers! It's been some time but I'm back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!","datePublished":"2026-06-22T00:00:00+00:00","dateModified":"2026-07-14T05:57:39+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/avatar/avatar.webp"}},"image":["https://www.datadelver.com/assets/images/social/2026/06/22/delve-22-a-local-claude-code-redux.png"],"articleSection":["AI"],"timeRequired":"PT10M"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DataDelver","url":"https://www.datadelver.com/","description":"Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.","logo":"https://www.datadelver.com/assets/images/avatar/avatar.webp","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.datadelver.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"Delve 22 A Local Claude Code Redux","item":"https://www.datadelver.com/2026/06/22/delve-22-a-local-claude-code-redux"}]}</script></head>
   
@@ -1202,7 +1202,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              9 min read
+                              10 min read
                             
                           </span>
                         </div>
@@ -1498,21 +1498,25 @@
 <span class="normal"><a href="#__codelineno-3-12">12</a></span>
 <span class="normal"><a href="#__codelineno-3-13">13</a></span>
 <span class="normal"><a href="#__codelineno-3-14">14</a></span>
-<span class="normal"><a href="#__codelineno-3-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://json.schemastore.org/claude-code-settings.json&quot;</span><span class="p">,</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;ANTHROPIC_BASE_URL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:11434&quot;</span><span class="p">,</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="nt">&quot;ANTHROPIC_API_KEY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local-llama&quot;</span><span class="p">,</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_AUTO_COMPACT_WINDOW&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;49152&quot;</span><span class="p">,</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_AUTOCOMPACT_PCT_OVERRIDE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;75&quot;</span><span class="p">,</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;API_FORCE_IDLE_TIMEOUT&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_SIMPLE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gemma4[64k]&quot;</span><span class="p">,</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">  </span><span class="nt">&quot;enabledPlugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="p">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_AUTO_COMPACT_WINDOW&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;65536&quot;</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_MAX_CONTEXT_TOKENS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;65536&quot;</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_MAX_OUTPUT_TOKENS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4096&quot;</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_AUTOCOMPACT_PCT_OVERRIDE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;75&quot;</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;API_FORCE_IDLE_TIMEOUT&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_SIMPLE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gemma4[64k]&quot;</span><span class="p">,</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">  </span><span class="nt">&quot;enabledPlugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Here's a breakdown of what each setting does:</p>
 <h3 id="connection-routing">Connection &amp; Routing</h3>
@@ -1530,7 +1534,19 @@
 <ul>
 <li>
 <p><code>"CLAUDE_CODE_AUTO_COMPACT_WINDOW"</code>
-    Defines the precise token limit where claude auto-compacts the conversation. This should be smaller than the total context window to add a safety buffer.</p>
+    Set the context capacity in tokens used for auto-compaction calculations. Should be the same as the context window size.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_MAX_CONTEXT_TOKENS"</code>
+    Sets the maximum context window size Claude Code will use. This should match the <code>--ctx-size</code> value configured in your <code>llama.cpp</code> launch script to ensure Claude doesn't exceed the model's actual capacity.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_MAX_OUTPUT_TOKENS"</code>
+    Caps the maximum number of tokens Claude can generate in a single response. A value of 4096 is a good balance for local models, preventing excessively long outputs that could slow down inference or consume too much of your context budget.</p>
+</li>
+<li>
+<p><code>"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE"</code>
+    Controls the percentage threshold at which auto-compaction triggers. Setting this to 75 means Claude will compact the conversation once it reaches 75% of the auto-compact window, giving you a buffer before hitting the hard limit.</p>
 </li>
 <li>
 <p><code>"API_FORCE_IDLE_TIMEOUT"</code>
