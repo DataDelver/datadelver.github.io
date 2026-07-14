@@ -1,7 +1,7 @@
 site_name: DataDelver
 site_url: https://www.datadelver.com
 site_description: Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.
-site_author: chase@datadelver.com
+site_author: chase@datadelver.com (Chase Greco)
 site_logo: assets/images/favicon/pickaxe.webp
 
 repo_name: datadelver.github.io
