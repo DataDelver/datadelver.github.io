@@ -81,9 +81,10 @@ plugins:
   - lazy_images
   - meta
   - rss:
-      match_path: blog/posts/.* 
+      match_path: posts/.* 
       date_from_meta:
-        as_creation: date
+        as_creation: date.created
+        as_update: date.updated
       image: https://www.datadelver.com/assets/images/favicon/pickaxe.png
       categories:
         - categories
