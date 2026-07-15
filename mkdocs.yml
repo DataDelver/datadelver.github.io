@@ -71,6 +71,7 @@ plugins:
   - tags:
       listings_sort_by: !!python/name:material.plugins.tags.item_url
   - search
+  - social_card_title
   - social:
       cards_layout: default/variant
       cards_layout_options:
