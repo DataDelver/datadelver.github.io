@@ -17,3 +17,10 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - Pillow
+
+      - id: validate-post-dates
+        name: Validate post filename matches front matter date
+        entry: python hooks/validate_post_dates.py
+        language: python
+        types: [markdown]
+        files: ^docs/posts/
