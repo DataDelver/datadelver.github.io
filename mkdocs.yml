@@ -65,6 +65,7 @@ plugins:
       blog_toc: true
       post_excerpt: required
       post_readtime: true
+      post_slugify: !!python/name:plugins.social_card_title.post_slugify
   - excerpt_description
   - related_posts
   - series_nav
@@ -93,6 +94,7 @@ plugins:
         - tags
   - redirects:
       redirect_maps:
+        # Jekyll-era redirects (old category paths → post files)
         'meta/2023/11/06/hello-labyrinth.md': 'posts/2023-11-06-hello-labyrinth.md'
         'ml engineering/2023/12/10/production-notebooks.md': 'posts/2023-12-10-production-notebooks.md'
         'ml engineering/data science/2023/12/23/ml-resources.md': 'posts/2023-12-23-ml-resources.md'
@@ -102,6 +104,31 @@ plugins:
         'software engineering/2025/01/26/ml-micro-part-one.md': 'posts/2025-01-26-ml-micro-part-one.md'
         'software engineering/2025/02/05/ml-micro-part-two.md': 'posts/2025-02-05-ml-micro-part-two.md'
         'software engineering/2025/02/16/ml-micro-part-three.md': 'posts/2025-02-16-ml-micro-part-three.md'
+        # Slug migration redirects (old full-title slugs → post files)
+        '2023/11/06/delve-0-hello-labyrinth-world.md': 'posts/2023-11-06-hello-labyrinth.md'
+        '2023/12/10/delve-1-the-hidden-danger-of-notebooks-in-production.md': 'posts/2023-12-10-production-notebooks.md'
+        '2023/12/23/delve-2-my-recommended-machine-learning--data-science-resources.md': 'posts/2023-12-23-ml-resources.md'
+        '2024/01/28/delve-3-fun-linux-utilities.md': 'posts/2024-01-28-linux-fun.md'
+        '2024/04/27/delve-4-the-ml-engineer-coming-to-an-enterprise-near-you.md': 'posts/2024-04-27-ml-engineer.md'
+        '2024/06/29/delve-5-the-quest-for-a-full-screen-raspberry-pi-application.md': 'posts/2024-06-29-pi-fullscreen.md'
+        '2025/01/26/delve-6-lets-build-a-modern-ml-microservice-application---part-1.md': 'posts/2025-01-26-ml-micro-part-one.md'
+        '2025/02/05/delve-7-lets-build-a-modern-ml-microservice-application---part-2-the-data-layer.md': 'posts/2025-02-05-ml-micro-part-two.md'
+        '2025/02/16/delve-8-lets-build-a-modern-ml-microservice-application---part-3-the-business-logic-and-interface-layers.md': 'posts/2025-02-16-ml-micro-part-three.md'
+        '2025/03/15/delve-9-migrating-from-jekyll-to-material-for-mkdocs.md': 'posts/2025-03-15-material-mkdocs.md'
+        '2025/03/25/delve-10-lets-build-a-modern-ml-microservice-application---part-4-configuration.md': 'posts/2025-03-25-ml-micro-part-four.md'
+        '2025/04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.md': 'posts/2025-04-13-ml-micro-part-five.md'
+        '2025/05/04/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.md': 'posts/2025-05-04-ml-micro-part-six.md'
+        '2025/06/01/delve-13-lets-build-a-modern-ml-microservice-application---part-7-model-tracking-and-apis-with-mlflow.md': 'posts/2025-06-01-ml-micro-part-seven.md'
+        '2025/07/20/delve-14-reflections-on-a-job-quest.md': 'posts/2025-07-20-ml-engineer-interviews.md'
+        '2025/08/17/delve-15-lets-build-a-modern-ml-microservice-application---part-8-the-orchestrator-service.md': 'posts/2025-08-17-ml-micro-part-eight.md'
+        '2025/09/14/delve-16-the-quest-for-a-full-screen-raspberry-pi-application---part-2.md': 'posts/2025-09-14-pi-fullscreen-part-two.md'
+        '2025/10/07/delve-17-data-science-an-industry-perspective.md': 'posts/2025-10-07-data-science-industry-perspective.md'
+        '2025/11/30/delve-18-the-challenges-of-ai-in-industry.md': 'posts/2025-11-30-ai-industry-challenges.md'
+        '2025/12/07/delve-19-lets-build-a-modern-ml-microservice-application---part-9-docker-container-optimization.md': 'posts/2025-12-07-ml-micro-part-nine.md'
+        '2026/01/24/delve-20-a-look-back-at-2025.md': 'posts/2026-01-24-lookback.md'
+        '2026/02/22/delve-21-a-local-claude-code.md': 'posts/2026-02-22-local-claude.md'
+        '2026/06/22/delve-22-a-local-claude-code-redux.md': 'posts/2026-06-22-local-claude-redux.md'
+        '2026/07/11/delve-23-lets-build-a-modern-ml-microservice-application---part-10-improving-devx-with-ai.md': 'posts/2026-07-11-ml-micro-part-ten.md'
         
 markdown_extensions:
   - pymdownx.highlight:
