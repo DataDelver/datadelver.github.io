@@ -6,6 +6,7 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
+repo: https://github.com/DataDelver/modern-ml-microservices/tree/part-ten
 social:
   cards_layout_options:
     title: Improving DevX with AI

@@ -6,6 +6,7 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
+repo: https://github.com/DataDelver/modern-ml-microservices/tree/part-two
 ---
 
 # Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer

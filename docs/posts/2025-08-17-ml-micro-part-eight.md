@@ -6,6 +6,7 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
+repo: https://github.com/DataDelver/modern-ml-microservices/tree/part-eight
 ---
 
 # Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service

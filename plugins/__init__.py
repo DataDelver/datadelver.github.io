@@ -1,5 +1,4 @@
 # MkDocs custom plugins package
-
 """Shared constants for blog plugins.
 
 Centralizes configuration values used by multiple plugins so they stay
