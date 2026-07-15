@@ -1,0 +1,1899 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hello data delvers! It&#x27;s been some time but I&#x27;m back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!">
+      
+      
+        <meta name="author" content="chase@datadelver.com (Chase Greco)">
+      
+      
+        <link rel="canonical" href="https://www.datadelver.com/2026/06/22/a-local-claude-code-redux.html">
+      
+      
+        <link rel="prev" href="../../02/22/a-local-claude-code.html">
+      
+      
+        <link rel="next" href="../../07/11/improving-devx-with-ai.html">
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../../assets/images/favicon/pickaxe.webp">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Delve 22: A Local Claude Code Redux - DataDelver</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--claude:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22m4.714%2015.956%204.718-2.648.079-.23-.08-.128h-.23l-.79-.048-2.695-.073-2.337-.097-2.265-.122-.57-.121-.535-.704.055-.353.48-.321.685.06%201.518.104%202.277.157%201.651.098%202.447.255h.389l.054-.158-.133-.097-.103-.098-2.356-1.596-2.55-1.688-1.336-.972-.722-.491L2%206.223l-.158-1.008.656-.722.88.06.224.061.893.686%201.906%201.476%202.49%201.833.364.304.146-.104.018-.072-.164-.274-1.354-2.446-1.445-2.49-.644-1.032-.17-.619a3%203%200%200%201-.103-.729L6.287.133%206.7%200l.995.134.42.364.619%201.415L9.735%204.14l1.555%203.03.455.898.243.832.09.255h.159V9.01l.127-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.583.28.48.685-.067.444-.286%201.851-.558%202.903-.365%201.942h.213l.243-.242.983-1.306%201.652-2.064.728-.82.85-.904.547-.431h1.032l.759%201.129-.34%201.166-1.063%201.347-.88%201.142-1.263%201.7-.79%201.36.074.11.188-.02%202.853-.606%201.542-.28%201.84-.315.832.388.09.395-.327.807-1.967.486-2.307.462-3.436.813-.043.03.049.061%201.548.146.662.036h1.62l3.018.225.79.522.473.638-.08.485-1.213.62-1.64-.389-3.825-.91-1.31-.329h-.183v.11l1.093%201.068%202.003%201.81%202.508%202.33.127.578-.321.455-.34-.049-2.204-1.657-.85-.747-1.925-1.62h-.127v.17l.443.649%202.343%203.521.122%201.08-.17.353-.607.213-.668-.122-1.372-1.924-1.415-2.168-1.141-1.943-.14.08-.674%207.254-.316.37-.728.28-.607-.461-.322-.747.322-1.476.388-1.924.316-1.53.285-1.9.17-.632-.012-.042-.14.018-1.432%201.967-2.18%202.945-1.724%201.845-.413.164-.716-.37.066-.662.401-.589%202.386-3.036%201.439-1.882.929-1.086-.006-.158h-.055L4.138%2018.56l-1.13.146-.485-.456.06-.746.231-.243%201.907-1.312Z%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      <!-- Umami Analytics -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="81c66ab1-313b-475e-a485-160fa0adfa05"></script>
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Delve 22: A Local Claude Code Redux - DataDelver" />
+<meta property="og:description" content="Hello data delvers! It&#x27;s been some time but I&#x27;m back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!" />
+<meta property="og:image" content="https://www.datadelver.com/assets/images/social/2026/06/22/a-local-claude-code-redux.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://www.datadelver.com/2026/06/22/a-local-claude-code-redux.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Delve 22: A Local Claude Code Redux - DataDelver" />
+<meta property="twitter:description" content="Hello data delvers! It&#x27;s been some time but I&#x27;m back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!" />
+<meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2026/06/22/a-local-claude-code-redux.png" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 22: A Local Claude Code Redux","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2026/06/22/a-local-claude-code-redux.html"},"url":"https://www.datadelver.com/2026/06/22/a-local-claude-code-redux.html","description":"Hello data delvers! It's been some time but I'm back with more delves! In the time since my previous delve the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!","datePublished":"2026-06-22T00:00:00+00:00","dateModified":"2026-07-15T07:06:49+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/avatar/avatar.webp"}},"image":["https://www.datadelver.com/assets/images/social/2026/06/22/a-local-claude-code-redux.png"],"articleSection":["AI"],"timeRequired":"PT10M"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DataDelver","url":"https://www.datadelver.com/","description":"Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.","logo":"https://www.datadelver.com/assets/images/avatar/avatar.webp","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.datadelver.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"A Local Claude Code Redux","item":"https://www.datadelver.com/2026/06/22/a-local-claude-code-redux"}]}</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#delve-22-a-local-claude-code-redux" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="DataDelver" class="md-header__button md-logo" aria-label="DataDelver" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.79 10.62 3.5 21.9l-1.4-1.4L13.38 9.21zm4.48-2.89.59-.59-.79-.79.64-.64-1.42-1.42-.64.64-.79-.79-.59.59c-1.74-1.42-3.7-2.56-5.8-3.36l-.83 1.79c1.75.92 3.36 2.03 4.86 3.34L14 7l3 3 .5-.5c1.31 1.5 2.42 3.11 3.34 4.86l1.79-.83c-.8-2.1-1.94-4.06-3.36-5.8"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DataDelver
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Delve 22: A Local Claude Code Redux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c3.87 0 7 3.13 7 7 0 2.38-1.19 4.47-3 5.74V17c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-2.26C3.19 13.47 2 11.38 2 9c0-3.87 3.13-7 7-7M6 21v-1h6v1c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1M9 4C6.24 4 4 6.24 4 9c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5m10 9h-2l-3.2 9h1.9l.7-2h3.2l.7 2h1.9zm-2.15 5.65L18 15l1.15 3.65z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DataDelver/datadelver.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    datadelver.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="DataDelver" class="md-nav__button md-logo" aria-label="DataDelver" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.79 10.62 3.5 21.9l-1.4-1.4L13.38 9.21zm4.48-2.89.59-.59-.79-.79.64-.64-1.42-1.42-.64.64-.79-.79-.59.59c-1.74-1.42-3.7-2.56-5.8-3.36l-.83 1.79c1.75.92 3.36 2.03 4.86 3.34L14 7l3 3 .5-.5c1.31 1.5 2.42 3.11 3.34 4.86l1.79-.83c-.8-2.1-1.94-4.06-3.36-5.8"/></svg>
+
+    </a>
+    DataDelver
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DataDelver/datadelver.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    datadelver.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../start-here.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../series/ml-microservices.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern ML Microservices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2026.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2025.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../archive/2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/ai.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/data-science.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/ml-engineering.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ML Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/meta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Meta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../category/software-engineering.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llama.cpp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#even-more-llms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Even More LLMs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community-for-the-win" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Community For The Win!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quant-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quant Selection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Launch 🚀
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Launch 🚀">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-source-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model &amp; Source Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-allocation-speed-levers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Allocation &amp; Speed Levers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kv-cache-quantization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KV Cache Quantization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-size-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Size Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sampling-generation-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling &amp; Generation Dynamics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Binding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-again" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude (Again)!
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude (Again)!">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection &amp; Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-window-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Window &amp; Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-prompt-prompt-cache-preservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Prompt &amp; Prompt Cache Preservation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-target-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Target Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vscode-plugin-still-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VSCode Plugin Still Works!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delve-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delve Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../index.html" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="../../../assets/images/avatar/avatar.webp" alt="Chase Greco">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Chase Greco
+                        
+                      </strong>
+                      <br>
+                      Author
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-06-22 00:00:00+00:00" class="md-ellipsis">June 22, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../category/ai.html">AI</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              10 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <a href="../../../tags.html#tag:tools" class="md-tag">Tools</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../../tags.html#tag:tutorial" class="md-tag">Tutorial</a>
+      
+    
+  </nav>
+
+
+  
+  
+
+
+<h1 id="delve-22-a-local-claude-code-redux">Delve 22: A Local Claude Code Redux</h1>
+<p><img alt="A Local Claude Code Redux — DataDelver" src="../../../assets/images/banners/delve22.webp" /></p>
+<blockquote>
+<p>"It is not the strongest or the most intelligent who will survive but those who can best manage change." - Charles Darwin</p>
+</blockquote>
+<p>Hello data delvers! It's been some time but I'm back with more delves! In the time since my <a href="../../02/22/a-local-claude-code.html">previous delve</a> the landscape for local llm development has already shifted quite a bit so I want to come back with a refreshed setup guide!</p>
+<!-- more -->
+
+<h2 id="llamacpp">llama.cpp</h2>
+<p>I recently read an <a href="https://sleepingrobots.com/dreams/stop-using-ollama/">opinion piece</a> by Zetaphor around the history of Ollama which I found quite compelling, as a result I resolved to shift my local setup to <code>llama.cpp</code> which thankfully was not all that complicated.</p>
+<p>To get started, use your <a href="https://github.com/ggml-org/llama.cpp/blob/master/docs/install.md">installer of choice</a> to install <code>llama.cpp</code> on your machine.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>winget<span class="w"> </span>install<span class="w"> </span>llama.cpp
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since I use WSL as my primary dev environment I will be installing <code>llama.cpp</code> on <em>Windows</em> with <code>winget</code> and then connecting to WSL over a local network. This ensures that the model will have full access to all of my system RAM and GPU memory.</p>
+</div>
+<h2 id="even-more-llms">Even More LLMs</h2>
+<p>Since we are now using <code>llama.cpp</code> we have full access to the enormous library of models available on <a href="https://huggingface.co/">Hugging Face</a>, since our last delve, some of the new models that have come out are:</p>
+<ul>
+<li>
+<p><a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen3.6</a> - Positioned as the specialist for agentic, repository-level coding, this model series (27B dense / 35B MoE) from Alibaba differentiates itself by natively preserving its internal reasoning context across multi-turn conversations, preventing the cognitive degradation often seen in iterative development cycles.</p>
+</li>
+<li>
+<p><a href="https://huggingface.co/google/gemma-4-12B">Gemma 4</a> - Designed for extreme intelligence-per-parameter efficiency across diverse hardware, this multimodal family from Google spans from light on-device models up to a 31B dense variant, using per-layer embeddings to keep memory usage low while matching the knowledge footprint of much heavier models</p>
+</li>
+<li>
+<p><a href="https://huggingface.co/mistralai/Mistral-Medium-3.5-128B">Mistral Medium 3.5</a> - Serves as the high-capacity, unified enterprise engine (128B dense) that merges previously separate chat, math, and code architectures into one powerhouse; unlike the other two, it features configurable test-time compute, allowing you to scale its reasoning effort up for heavy asynchronous agent workflows or down for rapid-fire chat.</p>
+</li>
+</ul>
+<p>Now if that all sounded like AI-generated, uninterpretable jargon, that's because it was! In practice, I recommend reading up on each of the current models on resources such as <a href="https://www.reddit.com/r/LocalLLM/">r/LocalLLM</a> to get a feel for what the community finds each model useful for.</p>
+<p>After doing some of my own research I decided to select the <code>Gemma4</code> family of models for my current setup.</p>
+<h2 id="community-for-the-win">Community For The Win!</h2>
+<p>One of the best parts about the Hugging Face community is that individuals often release optimized versions of models for specific tasks. For example, Yuxin Lu has created fine-tuned variants of the Gemma 4 12B model specifically for coding which you can grab <a href="https://huggingface.co/yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-GGUF">here</a>!</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>I'd be sure to do your own research before using community models to ensure they are safe.</p>
+</div>
+<h2 id="quant-selection">Quant Selection</h2>
+<p>One of the best ways to fit a large model on your local device is to use quantization. When a model is trained, its weights are saved in a high-precision format, typically BF16 or FP16 (16-bit floating-point numbers). Quantization compresses these weights into lower-bit integers (such as 4-bit, 6-bit, or 8-bit).</p>
+<p>Models often have a suffix to indicate what level of quantization was used to produce them such as <code>Q4_K_M</code>. These are colloquially referred to as "Quants" of a model. This is comprised of 3 parts:</p>
+<ol>
+<li>
+<p>Bit Depth (<code>Q4</code>, <code>Q6</code>, <code>Q8</code>) — How many bits are used to store each weight; a lower number indicates higher compression and more performance loss.</p>
+</li>
+<li>
+<p>Quantization Method (<code>K</code>) — The method used to produce the quantization. <code>K</code> is the typical modern standard, though other older variants such as <code>0</code> exist as well.</p>
+</li>
+<li>
+<p>Granularity (<code>M</code>) — Particularly with <code>K</code> Quants, you will see a suffix indicating its size (<code>S</code>, <code>M</code>, <code>L</code>), indicating the level of compression within that bit-depth.</p>
+</li>
+</ol>
+<p>With all that being said <code>Q4_K_M</code> tends to be the most popular size of quantization at it usually strikes a balance between required GPU memory size and model performance.</p>
+<h2 id="launch">Launch 🚀</h2>
+<p>Once you've selected your model and quant size, the next step is to create a launch script. Here is the one (for PowerShell) that I'm using below:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Start-Gemma4.ps1</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="cm">&lt;#</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="sd">.SYNOPSIS</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="cm">    Starts a highly optimized llama-server instance for Claude Code using Gemma 4 Q4_K_M.</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="sd">.DESCRIPTION</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="cm">    Allocates a 64K context window completely on your RTX 4090 (24GB VRAM),</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="cm">    safeguards port 11434 from Ollama collisions, and enforces proper multi-line escaping.</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="cm">#&gt;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="c"># 1. Port Safety Check (Ensure local Ollama isn&#39;t occupying the backend)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="nv">$PortToCheck</span> <span class="p">=</span> <span class="n">11434</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="nv">$ActivePort</span> <span class="p">=</span> <span class="nb">Get-NetTCPConnection</span> <span class="n">-LocalPort</span> <span class="nv">$PortToCheck</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$ActivePort</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>    <span class="nb">Write-Warning</span> <span class="s2">&quot;⚠️ Port $PortToCheck is already in use by another application (likely native Ollama).&quot;</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>    <span class="nb">Write-Warning</span> <span class="s2">&quot;Please close Ollama from your Windows system tray before running this llama-server script.&quot;</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>    <span class="nb">Read-Host</span> <span class="s2">&quot;Press Enter to exit...&quot;</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="n">exit</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="p">}</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="c"># 2. Server Parameter Definitions</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="nv">$RepoID</span>      <span class="p">=</span> <span class="s2">&quot;yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-GGUF&quot;</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="nv">$ModelFile</span>   <span class="p">=</span> <span class="s2">&quot;gemma4-v2-Q4_K_M.gguf&quot;</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="nv">$ModelAlias</span>  <span class="p">=</span> <span class="s2">&quot;gemma4&quot;</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="nv">$ContextSize</span> <span class="p">=</span> <span class="n">65536</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="nv">$GPULayers</span>   <span class="p">=</span> <span class="n">99</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="nv">$HostAddress</span> <span class="p">=</span> <span class="s2">&quot;0.0.0.0&quot;</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="nb">Write-Host</span> <span class="s2">&quot;🚀 Launching Local Gemma 4 Engine (64K Context) on RTX 4090...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="c"># 3. Execution Block</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="n">llama-server</span> <span class="p">`</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>  <span class="n">-hf</span> <span class="nv">$RepoID</span> <span class="p">`</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a>  <span class="n">-m</span> <span class="nv">$ModelFile</span> <span class="p">`</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a>  <span class="p">-</span><span class="n">-alias</span> <span class="nv">$ModelAlias</span> <span class="p">`</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>  <span class="p">-</span><span class="n">-ctx-size</span> <span class="nv">$ContextSize</span> <span class="p">`</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>  <span class="n">-ngl</span> <span class="nv">$GPULayers</span> <span class="p">`</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>  <span class="n">-fa</span> <span class="n">on</span> <span class="p">`</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a>  <span class="p">-</span><span class="n">-cache-type-k</span> <span class="n">q8_0</span> <span class="p">`</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>  <span class="p">-</span><span class="n">-cache-type-v</span> <span class="n">q4_0</span> <span class="p">`</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>  <span class="p">-</span><span class="n">-jinja</span> <span class="p">`</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a>  <span class="p">-</span><span class="n">-temp</span> <span class="n">1</span><span class="p">.</span><span class="n">0</span> <span class="p">`</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>  <span class="p">-</span><span class="n">-top-p</span> <span class="n">0</span><span class="p">.</span><span class="n">95</span> <span class="p">`</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>  <span class="p">-</span><span class="n">-top-k</span> <span class="n">64</span> <span class="p">`</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a>  <span class="p">-</span><span class="n">-host</span> <span class="nv">$HostAddress</span> <span class="p">`</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a>  <span class="p">-</span><span class="n">-port</span> <span class="nv">$PortToCheck</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Here's a brief breakdown of the flags:</p>
+<h3 id="model-source-management">Model &amp; Source Management</h3>
+<p>Control exactly what to load and where to find it.</p>
+<ul>
+<li>
+<p><code>-hf "yuxinlu1/gemma-4-..."</code> (Hugging Face Repository)
+    Automatically check the Hugging Face Hub for the specified repository layout. If the model isn't found in your local ~/.cache/huggingface/ directory, it downloads it on the fly.</p>
+</li>
+<li>
+<p><code>-m "gemma4-v2-Q4_K_M.gguf"</code> (Model File)
+    Specifies the target file name to execute from within that Hugging Face repository snapshot.</p>
+</li>
+<li>
+<p><code>--alias "gemma4"</code> (Model API Name)
+    Names the endpoint's internal route. This is critical for tooling compatibility. When an agent like Claude Code hits your server requesting a model named gemma4, this flag ensures the server says, "Yes, that's me."</p>
+</li>
+</ul>
+<h3 id="hardware-allocation-speed-levers">Hardware Allocation &amp; Speed Levers</h3>
+<p>Dictate how aggressively the engine runs on the physical GPU.</p>
+<ul>
+<li>
+<p><code>-ngl 99</code> (Number of GPU Layers)
+    Offload 99 layers directly to the graphics card. Because Gemma 4 12B has far fewer than 99 layers, this acts as a safe catch-all to guarantee that 100% of the model is loaded into GPU memory, keeping processing off the slower CPU.</p>
+</li>
+<li>
+<p><code>-fa on</code> (Flash Attention)
+    Activates FlashAttention. This completely restructures the mathematical attention calculations, drastically dropping the memory required to track tokens and speeding up prompt ingestion.</p>
+</li>
+</ul>
+<h3 id="kv-cache-quantization">KV Cache Quantization</h3>
+<p>Determine how tightly conversation memory is packed to save physical VRAM.</p>
+<ul>
+<li>
+<p><code>--cache-type-k q8_0</code> (Key Cache Quantization)
+    Compresses the "Key" states of your conversation history down to 8-bit integers. Keys are highly sensitive to loss of precision, so keeping them at 8-bit preserves the model's structural attention layout over long prompts.</p>
+</li>
+<li>
+<p><code>--cache-type-v q4_0</code> (Value Cache Quantization)
+    Squeezes the "Value" states down to a tight 4-bit footprint. Values are mathematically more forgiving of compression. Combining this with 8-bit Keys cuts the total 64K KV cache size by roughly 40%, giving gigabytes of physical overhead.</p>
+</li>
+</ul>
+<h3 id="context-size-architecture">Context Size Architecture</h3>
+<p>Controls the physical canvas size available to the AI.</p>
+<ul>
+<li>
+<p><code>--ctx-size 65536</code> (Context Token Limit)
+    Allocates a strict memory floor for a 65,536-token window. This sets up the physical buffer for workspace files, terminal logs, and system prompt text to live in simultaneously.</p>
+</li>
+<li>
+<p><code>--jinja</code> (Native Template Processing)
+    Forces llama-server to compile and parse the model's internal formatting wrappers using native Jinja templating engine syntax. This is the exact lever that explicitly stops frontends from stripping out Gemma 4's custom <thinking> tokens, preserving its local reasoning capabilities.</p>
+</li>
+</ul>
+<h3 id="sampling-generation-dynamics">Sampling &amp; Generation Dynamics</h3>
+<p>Guide how the model decides which word to output next.</p>
+<ul>
+<li>
+<p><code>--temp 1.0</code> (Temperature)
+    Controls the overall randomness scale. A setting of 1.0 allows Gemma 4's chain-of-thought routing to wander widely enough to find creative solutions and escape complex debugging loops without getting stuck in repetitive syntax traps.</p>
+</li>
+<li>
+<p><code>--top-p 0.95</code> (Nucleus Sampling)
+    Tells the model to only consider the pool of potential words that make up the top 95% of cumulative probability. This strips away completely chaotic, irrelevant words from entering the output generation.</p>
+</li>
+<li>
+<p><code>--top-k 64</code> (Token Cutoff)
+    Limits the selection pool to a maximum of the 64 most likely next words. It pairs alongside top_p to keep generation speeds uniform and sharp, clipping long tails of lower-tier tokens.</p>
+</li>
+</ul>
+<h3 id="network-binding">Network Binding</h3>
+<p>Define how the local network sees the active server.</p>
+<ul>
+<li>
+<p><code>--host 0.0.0.0</code> (IP Binding)
+    Tells the server to listen on all available network adapters instead of strictly locking down to local loopback (127.0.0.1). This is excellent if you ever need to access the endpoint from a local Docker container, WSL instance, or an external laptop on your home Wi-Fi network.</p>
+</li>
+<li>
+<p><code>--port 11434</code> (Port Selection)
+    Binds the server instance to port 11434. This is the exact port native Ollama listens on. Using it serves as a drop-in disguise that tricks external developer extensions into connecting seamlessly without needing custom API configurations.</p>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Do not generate this script by hand!</strong> I used <a href="https://gemini.google.com/app">Gemini</a>, gave it my hardware specifications (RTX 4090), and asked it to produce this script. I would use it as a starting point and prompt an LLM with your hardware specifications to produce an appropriate script for your machine.</p>
+</div>
+<p>You can launch this script by navigating to the directory that contains it and executing:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">.\</span><span class="nb">Start-Gemma4</span><span class="p">.</span><span class="n">ps1</span>
+</span></code></pre></div>
+<h2 id="claude-again">Claude (Again)!</h2>
+<p>If you haven't already, your next step is to install <a href="https://code.claude.com/docs/en/overview">Claude Code</a>! On Linux or Mac you can again run a simple shell script:</p>
+<p><code>curl -fsSL https://claude.ai/install.sh | bash</code></p>
+<p>We then have to configure Claude to point to the local llama.cpp instance. The easiest way to do this is to modify the Claude <code>settings.json</code> file (by default located at <code>~/.claude/settings.json</code>) to add in the following configuration:</p>
+<div class="language-json highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">~/.claude/settings.json</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://json.schemastore.org/claude-code-settings.json&quot;</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;ANTHROPIC_BASE_URL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:11434&quot;</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="nt">&quot;ANTHROPIC_API_KEY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local-llama&quot;</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_AUTO_COMPACT_WINDOW&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;65536&quot;</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_MAX_CONTEXT_TOKENS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;65536&quot;</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_MAX_OUTPUT_TOKENS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4096&quot;</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_AUTOCOMPACT_PCT_OVERRIDE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;75&quot;</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;API_FORCE_IDLE_TIMEOUT&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_SIMPLE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="nt">&quot;CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gemma4[64k]&quot;</span><span class="p">,</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">  </span><span class="nt">&quot;enabledPlugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Here's a breakdown of what each setting does:</p>
+<h3 id="connection-routing">Connection &amp; Routing</h3>
+<ul>
+<li>
+<p><code>"ANTHROPIC_BASE_URL"</code>
+    Points Claude to the local llama.cpp instance instead of the cloud</p>
+</li>
+<li>
+<p><code>"ANTHROPIC_API_KEY"</code>
+    Bypasses the mandatory Claude login</p>
+</li>
+</ul>
+<h3 id="context-window-memory-management">Context Window &amp; Memory Management</h3>
+<ul>
+<li>
+<p><code>"CLAUDE_CODE_AUTO_COMPACT_WINDOW"</code>
+    Set the context capacity in tokens used for auto-compaction calculations. Should be the same as the context window size.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_MAX_CONTEXT_TOKENS"</code>
+    Sets the maximum context window size Claude Code will use. This should match the <code>--ctx-size</code> value configured in your <code>llama.cpp</code> launch script to ensure Claude doesn't exceed the model's actual capacity.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_MAX_OUTPUT_TOKENS"</code>
+    Caps the maximum number of tokens Claude can generate in a single response. A value of 4096 is a good balance for local models, preventing excessively long outputs that could slow down inference or consume too much of your context budget.</p>
+</li>
+<li>
+<p><code>"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE"</code>
+    Controls the percentage threshold at which auto-compaction triggers. Setting this to 75 means Claude will compact the conversation once it reaches 75% of the auto-compact window, giving you a buffer before hitting the hard limit.</p>
+</li>
+<li>
+<p><code>"API_FORCE_IDLE_TIMEOUT"</code>
+    Gives the local model more time to respond to Claude.</p>
+</li>
+</ul>
+<h3 id="system-prompt-prompt-cache-preservation">System Prompt &amp; Prompt Cache Preservation</h3>
+<ul>
+<li>
+<p><code>"CLAUDE_CODE_SIMPLE"</code>
+    Strips away non-essential UI formatting elements, dense visual themes, and unnecessary terminal state rendering, preserving the limited context window.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS"</code>
+    By default, Claude will insert a large amount of context from git into the system prompt every turn, this prevents caching of the prompt and degrades performance, adding this flag disables it.</p>
+</li>
+<li>
+<p><code>"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"</code>
+    Disables background diagnostics and telemetry, keeping the environment completely local.</p>
+</li>
+</ul>
+<h3 id="global-target-engine">Global Target Engine</h3>
+<p>"model" defines which model you will use by default. Importantly, it must match the model alias defined in <code>llama.cpp</code>. The <code>[64k]</code> suffix is a hint to Claude as to what the model maximum context window is. This will help Claude not to be overly eager when indexing local filesystems to preserve your context.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Again I recommend going back and forth with <a href="https://gemini.google.com/app">Gemini</a> to find a set of configurations that will work best for your hardware.</p>
+</div>
+<p>With Claude configured, open up a shell and type:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>claude
+</span></code></pre></div>
+<p><img loading="lazy" alt="Claude-Code-CLI" src="../../../assets/images/figures/delve22/Claude_Code_CLI.webp" /></p>
+<p>Congratulations! You now have a fully-local Claude Code instance backed by llama.cpp!</p>
+<h2 id="vscode-plugin-still-works">VSCode Plugin Still Works!</h2>
+<p>The <a href="https://code.claude.com/docs/en/vs-code">Claude Code VS Code Plugin</a> still works provided you follow the <a href="https://code.claude.com/docs/en/vs-code#use-third-party-providers">steps for using third party providers</a>, namely, disabling the login prompt.</p>
+<p><img loading="lazy" alt="Claude-Code-Plugin" src="../../../assets/images/figures/delve22/Claude_Code_Plugin.webp" /></p>
+<p>With that, you should be good to open up the Claude Code extension and get coding!</p>
+<h2 id="additional-reading">Additional Reading</h2>
+<ul>
+<li>
+<p><a href="https://medium.com/@anubhavgoyal101/8dab3619ff89">What Is the Best Local LLM for Coding in 2026?</a> by Anubhav</p>
+</li>
+<li>
+<p><a href="https://medium.com/@tort_mario/local-llms-in-real-work-gemma-4-qwen-3-6-and-qwen-coder-d43811c7e9b2">Local LLMs in Real Work: Gemma 4, Qwen 3.6, and Qwen Coder</a> by Tort Mario</p>
+</li>
+</ul>
+<h2 id="delve-data">Delve Data</h2>
+<ul>
+<li><code>llama.cpp</code> provides direct, fine-grained control over model inference without middleware abstractions, enabling aggressive optimization for high-performance local deployment.</li>
+<li>Hugging Face hosts a diverse ecosystem of models with different trade-offs between parameter count, reasoning capability, and memory footprint.</li>
+<li>Community-optimized model variants unlock domain-specific performance without retraining from scratch.</li>
+<li>Claude Code's configurable settings (<code>CLAUDE_CODE_SIMPLE</code>, <code>CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS</code>, context windows) preserve limited local inference budgets by stripping away telemetry and non-essential traffic.</li>
+<li>Port aliasing (port 11434 mirrors native Ollama) enables seamless drop-in compatibility with extensions and IDE plugins without custom API configurations.</li>
+<li>Using local LLMs with Claude Code enables private, offline AI-assisted development with full control over inference parameters and model behavior.</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+
+<!-- Insert generated snippet here -->
+<script src="https://giscus.app/client.js" data-repo="DataDelver/datadelver.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMDU5MzkxNjU=" data-category="Announcements"
+    data-category-id="DIC_kwDODEZh3c4Cnvyg" data-mapping="pathname" data-strict="0" data-reactions-enabled="1"
+    data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en"
+    crossorigin="anonymous" async>
+    </script>
+
+<!-- Synchronize Giscus theme with palette -->
+<script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+        // Instruct Giscus to set theme
+        giscus.setAttribute("data-theme", theme)
+
+
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate"
+                    ? "transparent_dark"
+                    : "light"
+
+                // Instruct Giscus to change theme
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script>
+
+
+        <!-- Post Navigation -->
+        
+        <nav class="md-post__navigation md-typeset">
+          <div class="md-post__nav">
+            
+            <div class="md-post__nav--prev">
+              <a href="../../02/22/a-local-claude-code.html" class="md-post__nav-link">
+                <div class="md-post__nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                </div>
+                <div class="md-post__nav-label">
+                  <span class="md-post__nav-direction">Previous Delve</span>
+                  <span class="md-post__nav-title">Delve 21: A Local Claude Code</span>
+                  <span class="md-post__nav-date">
+                    <time datetime="2026-02-22 00:00:00+00:00">
+                      February 22, 2026
+                    </time>
+                  </span>
+                </div>
+              </a>
+            </div>
+            
+            
+            <div class="md-post__nav--next">
+              <a href="../../07/11/improving-devx-with-ai.html" class="md-post__nav-link">
+                <div class="md-post__nav-label">
+                  <span class="md-post__nav-direction">Next Delve</span>
+                  <span class="md-post__nav-title">Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI</span>
+                  <span class="md-post__nav-date">
+                    <time datetime="2026-07-11 00:00:00+00:00">
+                      July 11, 2026
+                    </time>
+                  </span>
+                </div>
+                <div class="md-post__nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+                </div>
+              </a>
+            </div>
+            
+          </div>
+        </nav>
+        
+
+        <!-- Related Posts -->
+        
+        <section class="md-post__related md-typeset">
+          <h2 class="md-post__related-heading">Related Delves</h2>
+          <div class="md-post__related-grid">
+            
+            
+            <div class="md-post__related-card">
+              <a href="../../02/22/a-local-claude-code.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 21: A Local Claude Code</span>
+                <span class="md-post__related-date">
+                  <time datetime="2026-02-22 00:00:00+00:00">
+                    February 22, 2026
+                  </time>
+                  
+                  · 4 min read
+                  
+                </span>
+                
+                <p class="md-post__related-excerpt">Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own...</p>
+                
+              </a>
+            </div>
+            
+            
+            <div class="md-post__related-card">
+              <a href="../../07/11/improving-devx-with-ai.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI</span>
+                <span class="md-post__related-date">
+                  <time datetime="2026-07-11 00:00:00+00:00">
+                    July 11, 2026
+                  </time>
+                  
+                  · 17 min read
+                  
+                </span>
+                
+                <p class="md-post__related-excerpt">Greetings data delvers! It has been a while since we last delved into modern ML microservices. In part nine of this...</p>
+                
+              </a>
+            </div>
+            
+            
+            <div class="md-post__related-card">
+              <a href="../../../2025/12/07/docker-container-optimization.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization</span>
+                <span class="md-post__related-date">
+                  <time datetime="2025-12-07 00:00:00+00:00">
+                    December 7, 2025
+                  </time>
+                  
+                  · 12 min read
+                  
+                </span>
+                
+                <p class="md-post__related-excerpt">Greetings data delvers! In part eight of this series we deployed our first multi-service system. In this part, we...</p>
+                
+              </a>
+            </div>
+            
+            
+            <div class="md-post__related-card">
+              <a href="../../../2025/09/10/the-quest-for-a-full-screen-raspberry-pi-application---part-2.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 16: The Quest for a Full Screen Raspberry Pi Application - Part 2</span>
+                <span class="md-post__related-date">
+                  <time datetime="2025-09-10 00:00:00+00:00">
+                    September 10, 2025
+                  </time>
+                  
+                  · 3 min read
+                  
+                </span>
+                
+                <p class="md-post__related-excerpt">Full Screen Applications on the Raspberry Pi, Why so Hard AGAIN? Hello data delvers! I recently revisited my...</p>
+                
+              </a>
+            </div>
+            
+            
+            <div class="md-post__related-card">
+              <a href="../../../2025/08/17/the-orchestrator-service.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service</span>
+                <span class="md-post__related-date">
+                  <time datetime="2025-08-17 00:00:00+00:00">
+                    August 17, 2025
+                  </time>
+                  
+                  · 20 min read
+                  
+                </span>
+                
+                <p class="md-post__related-excerpt">Machine Learning Services as a System Greetings data delvers! In part seven of this series we finally deployed a...</p>
+                
+              </a>
+            </div>
+            
+          </div>
+        </section>
+        
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2026 Chase Greco
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/chasegreco/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:chase@datadelver.com" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M61.4 64C27.5 64 0 91.5 0 125.4c0 .9 0 1.7.1 2.6H0v256c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V128h-.1c0-.9.1-1.7.1-2.6 0-33.9-27.5-61.4-61.4-61.4zM464 192.3V384c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192.3l154.8 117.4c31.4 23.9 74.9 23.9 106.4 0zM48 125.4c0-7.4 6-13.4 13.4-13.4h389.2c7.4 0 13.4 6 13.4 13.4 0 4.2-2 8.2-5.3 10.7L280.2 271.5c-14.3 10.8-34.1 10.8-48.4 0L53.3 136.1c-3.3-2.5-5.3-6.5-5.3-10.7"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/DataDelver" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.datadelver.com/feed_rss_created.xml" target="_blank" rel="noopener" title="RSS Feed" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zm32 104c0-13.3 10.7-24 24-24 137 0 248 111 248 248 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-110.5-89.5-200-200-200-13.3 0-24-10.7-24-24m0 96c0-13.3 10.7-24 24-24 83.9 0 152 68.1 152 152 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-57.4-46.6-104-104-104-13.3 0-24-10.7-24-24m0 120a32 32 0 1 1 64 0 32 32 0 1 1-64 0"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["back_to_top", "content.code.copy", "content.code.select", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

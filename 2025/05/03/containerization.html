@@ -12,13 +12,13 @@
         <meta name="author" content="chase@datadelver.com (Chase Greco)">
       
       
-        <link rel="canonical" href="https://www.datadelver.com/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html">
+        <link rel="canonical" href="https://www.datadelver.com/2025/05/03/containerization.html">
       
       
-        <link rel="prev" href="../../04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html">
+        <link rel="prev" href="../../04/13/testing.html">
       
       
-        <link rel="next" href="../../06/01/delve-13-lets-build-a-modern-ml-microservice-application---part-7-model-tracking-and-apis-with-mlflow.html">
+        <link rel="next" href="../../06/01/model-tracking-and-apis-with-mlflow.html">
       
       
         
@@ -80,19 +80,19 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization - DataDelver" />
 <meta property="og:description" content="ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we&#x27;ll cover packaging and deploying the app!" />
-<meta property="og:image" content="https://www.datadelver.com/assets/images/social/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.png" />
+<meta property="og:image" content="https://www.datadelver.com/assets/images/social/2025/05/03/containerization.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://www.datadelver.com/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html" />
+<meta property="og:url" content="https://www.datadelver.com/2025/05/03/containerization.html" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:title" content="Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization - DataDelver" />
 <meta property="twitter:description" content="ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we&#x27;ll cover packaging and deploying the app!" />
-<meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.png" />
+<meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2025/05/03/containerization.png" />
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html"},"url":"https://www.datadelver.com/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html","description":"ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!","datePublished":"2025-05-03T00:00:00+00:00","dateModified":"2026-07-15T06:42:38+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/avatar/avatar.webp"}},"image":["https://www.datadelver.com/assets/images/social/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.png"],"articleSection":["Software Engineering"],"timeRequired":"PT6M"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2025/05/03/containerization.html"},"url":"https://www.datadelver.com/2025/05/03/containerization.html","description":"ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!","datePublished":"2025-05-03T00:00:00+00:00","dateModified":"2026-07-15T07:06:49+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/avatar/avatar.webp"}},"image":["https://www.datadelver.com/assets/images/social/2025/05/03/containerization.png"],"articleSection":["Software Engineering"],"timeRequired":"PT6M"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DataDelver","url":"https://www.datadelver.com/","description":"Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.","logo":"https://www.datadelver.com/assets/images/avatar/avatar.webp","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.datadelver.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"Delve 12 Lets Build A Modern Ml Microservice Application   Part 6 Containerization","item":"https://www.datadelver.com/2025/05/03/delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization"}]}</script></head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"Containerization","item":"https://www.datadelver.com/2025/05/03/containerization"}]}</script></head>
   
   
     
@@ -1069,7 +1069,7 @@
                     <ul class="md-nav__list">
                       
                       <li class="md-nav__item">
-                        <a href="../../01/26/delve-6-lets-build-a-modern-ml-microservice-application---part-1.html" class="md-nav__link">
+                        <a href="../../01/26/lets-build-a-modern-ml-microservice-application---part-1.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1080,7 +1080,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../02/05/delve-7-lets-build-a-modern-ml-microservice-application---part-2-the-data-layer.html" class="md-nav__link">
+                        <a href="../../02/05/the-data-layer.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1091,7 +1091,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../02/16/delve-8-lets-build-a-modern-ml-microservice-application---part-3-the-business-logic-and-interface-layers.html" class="md-nav__link">
+                        <a href="../../02/16/the-business-logic-and-interface-layers.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1102,7 +1102,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../03/25/delve-10-lets-build-a-modern-ml-microservice-application---part-4-configuration.html" class="md-nav__link">
+                        <a href="../../03/25/configuration.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1113,7 +1113,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html" class="md-nav__link">
+                        <a href="../../04/13/testing.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1124,7 +1124,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="delve-12-lets-build-a-modern-ml-microservice-application---part-6-containerization.html" class="md-nav__link">
+                        <a href="containerization.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2"/></svg>
                           
@@ -1135,7 +1135,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../06/01/delve-13-lets-build-a-modern-ml-microservice-application---part-7-model-tracking-and-apis-with-mlflow.html" class="md-nav__link">
+                        <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1146,7 +1146,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../08/17/delve-15-lets-build-a-modern-ml-microservice-application---part-8-the-orchestrator-service.html" class="md-nav__link">
+                        <a href="../../08/17/the-orchestrator-service.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1157,7 +1157,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../12/07/delve-19-lets-build-a-modern-ml-microservice-application---part-9-docker-container-optimization.html" class="md-nav__link">
+                        <a href="../../12/07/docker-container-optimization.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1168,7 +1168,7 @@
                       </li>
                       
                       <li class="md-nav__item">
-                        <a href="../../../2026/07/11/delve-23-lets-build-a-modern-ml-microservice-application---part-10-improving-devx-with-ai.html" class="md-nav__link">
+                        <a href="../../../2026/07/11/improving-devx-with-ai.html" class="md-nav__link">
                           
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
                           
@@ -1230,7 +1230,7 @@
 <p>"This containers revolution is changing the basic act of software consumption. It’s redefining this much more lightweight, portable unit, or atom, that is much easier to manage… It’s a gateway to dynamic management and dynamic systems." - Craig McLuckie</p>
 </blockquote>
 <h2 id="ml-microservices-deployment-through-docker">ML Microservices, Deployment through Docker</h2>
-<p>Hello data delvers! In <a href="../../04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html">part five</a> of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!</p>
+<p>Hello data delvers! In <a href="../../04/13/testing.html">part five</a> of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!</p>
 <!-- more -->
 
 <h2 id="from-near-to-afar-or-how-to-leave-my-local-machine">From Near to Afar, Or How to Leave my Local Machine</h2>
@@ -1450,7 +1450,7 @@
           <div class="md-post__nav">
             
             <div class="md-post__nav--prev">
-              <a href="../../04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html" class="md-post__nav-link">
+              <a href="../../04/13/testing.html" class="md-post__nav-link">
                 <div class="md-post__nav-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
                 </div>
@@ -1468,7 +1468,7 @@
             
             
             <div class="md-post__nav--next">
-              <a href="../../06/01/delve-13-lets-build-a-modern-ml-microservice-application---part-7-model-tracking-and-apis-with-mlflow.html" class="md-post__nav-link">
+              <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-post__nav-link">
                 <div class="md-post__nav-label">
                   <span class="md-post__nav-direction">Next Delve</span>
                   <span class="md-post__nav-title">Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow</span>
@@ -1496,7 +1496,7 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../../2026/07/11/delve-23-lets-build-a-modern-ml-microservice-application---part-10-improving-devx-with-ai.html" class="md-post__related-link">
+              <a href="../../../2026/07/11/improving-devx-with-ai.html" class="md-post__related-link">
                 <span class="md-post__related-title">Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI</span>
                 <span class="md-post__related-date">
                   <time datetime="2026-07-11 00:00:00+00:00">
@@ -1514,7 +1514,7 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../12/07/delve-19-lets-build-a-modern-ml-microservice-application---part-9-docker-container-optimization.html" class="md-post__related-link">
+              <a href="../../12/07/docker-container-optimization.html" class="md-post__related-link">
                 <span class="md-post__related-title">Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization</span>
                 <span class="md-post__related-date">
                   <time datetime="2025-12-07 00:00:00+00:00">
@@ -1532,7 +1532,7 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../08/17/delve-15-lets-build-a-modern-ml-microservice-application---part-8-the-orchestrator-service.html" class="md-post__related-link">
+              <a href="../../08/17/the-orchestrator-service.html" class="md-post__related-link">
                 <span class="md-post__related-title">Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service</span>
                 <span class="md-post__related-date">
                   <time datetime="2025-08-17 00:00:00+00:00">
@@ -1550,7 +1550,7 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../06/01/delve-13-lets-build-a-modern-ml-microservice-application---part-7-model-tracking-and-apis-with-mlflow.html" class="md-post__related-link">
+              <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-post__related-link">
                 <span class="md-post__related-title">Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow</span>
                 <span class="md-post__related-date">
                   <time datetime="2025-06-01 00:00:00+00:00">
@@ -1568,7 +1568,7 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../04/13/delve-11-lets-build-a-modern-ml-microservice-application---part-5-testing.html" class="md-post__related-link">
+              <a href="../../04/13/testing.html" class="md-post__related-link">
                 <span class="md-post__related-title">Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing</span>
                 <span class="md-post__related-date">
                   <time datetime="2025-04-13 00:00:00+00:00">
