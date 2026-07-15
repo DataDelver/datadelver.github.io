@@ -30,6 +30,7 @@ include = ["plugins*"]
 preview = true
 
 [project.entry-points."mkdocs.plugins"]
+banner_alt = "plugins.banner_alt:BannerAltPlugin"
 excerpt_description = "plugins.excerpt_description:ExcerptDescriptionPlugin"
 json_ld = "plugins.json_ld:JsonLdPlugin"
 lazy_images = "plugins.lazy_images:LazyImagesPlugin"
