@@ -6,6 +6,7 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
+repo: https://github.com/DataDelver/modern-ml-microservices/tree/part-seven
 ---
 
 # Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow

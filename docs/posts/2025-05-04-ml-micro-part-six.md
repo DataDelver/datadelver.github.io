@@ -6,6 +6,7 @@ tags:
   - Series
   - Tutorial
   - Modern ML Microservices
+repo: https://github.com/DataDelver/modern-ml-microservices/tree/part-six
 ---
 
 # Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization

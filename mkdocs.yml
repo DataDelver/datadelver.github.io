@@ -67,6 +67,7 @@ plugins:
       post_readtime: true
       post_slugify: !!python/name:plugins.social_card_title.post_slugify
   - excerpt_description
+  - repo_cta
   - related_posts
   - series_nav
   - tags:

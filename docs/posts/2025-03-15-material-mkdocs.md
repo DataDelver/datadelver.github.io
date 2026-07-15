@@ -4,6 +4,7 @@ categories:
   - Meta
 tags:
   - Tools
+repo: https://github.com/DataDelver/datadelver.github.io
 links:
   - Setting up a blog: https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/
   - Creating a custom homepage: https://a3bagged.github.io/theme-test/custom-homepage/
