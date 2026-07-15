@@ -1,5 +1,9 @@
 # Justfile for the DataDelver blog
 
+# Default command: List all available commands
+default:
+    @just --list
+
 # Build the site with mkdocs
 doc:
     #!/usr/bin/env bash
