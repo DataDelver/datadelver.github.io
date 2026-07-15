@@ -11,9 +11,9 @@ import sys
 def slugify(title):
     """Convert title to URL-friendly slug."""
     slug = title.lower()
-    slug = re.sub(r'[^a-z0-9]', '-', slug)
-    slug = re.sub(r'-{2,}', '-', slug)
-    slug = slug.strip('-')
+    slug = re.sub(r"[^a-z0-9]", "-", slug)
+    slug = re.sub(r"-{2,}", "-", slug)
+    slug = slug.strip("-")
     return slug
 
 
@@ -21,9 +21,10 @@ def main():
     parser = argparse.ArgumentParser(description="Create a new blog post scaffold.")
     parser.add_argument("title", help="Title of the blog post")
     parser.add_argument(
-        "--date", "-d",
+        "--date",
+        "-d",
         default=datetime.date.today().isoformat(),
-        help="Post date (YYYY-MM-DD, default: today)"
+        help="Post date (YYYY-MM-DD, default: today)",
     )
     args = parser.parse_args()
 
@@ -40,9 +41,6 @@ categories:
   -
 tags:
   -
-social:
-  cards_layout_options:
-    title: {args.title}
 ---
 
 # TODO: Add title
