@@ -8,13 +8,20 @@ front matter, this plugin extracts a short, clean title from the H1 heading by:
 
 The plugin runs on on_page_markdown with priority -55, which is after the blog
 plugin's on_page_markdown (priority -50) but before the social plugin renders cards.
+
+Additionally exports `post_slugify` for use as the blog plugin's `post_slugify` config
+option to generate SEO-friendly URLs from the extracted social title.
 """
 
 import re
+from pymdownx.slugs import slugify as _pymdownx_slugify
 from mkdocs.plugins import BasePlugin, event_priority
 
 # Matches "Delve N: " at the start of a heading (e.g. "Delve 23: ")
 DELVE_PREFIX = re.compile(r"^Delve\s+\d+:\s*", re.IGNORECASE)
+
+# Default pymdownx slugify instance (lowercase, matches Material default)
+_default_slugify = _pymdownx_slugify(case="lower")
 
 
 def extract_social_title(heading: str) -> str:
@@ -33,6 +40,19 @@ def extract_social_title(heading: str) -> str:
         title = title.rsplit(",", 1)[-1].strip()
 
     return title.strip()
+
+
+def post_slugify(text: str, sep: str = "-") -> str:
+    """Custom slugify function for the blog plugin.
+
+    Extracts the social title from the full H1 heading and slugifies it,
+    producing clean SEO-friendly URLs like 'the-data-layer' instead of
+    'delve-7-lets-build-a-modern-ml-microservice-application---part-2-the-data-layer'.
+
+    This is designed to be used as the `post_slugify` config option in the blog plugin.
+    """
+    title = extract_social_title(text)
+    return _default_slugify(title, sep)
 
 
 class SocialCardTitlePlugin(BasePlugin):
