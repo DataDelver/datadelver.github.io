@@ -79,6 +79,7 @@ plugins:
         color: "#FFFFFF"
   - json_ld
   - lazy_images
+  - banner_alt
   - meta
   - rss:
       match_path: posts/.* 

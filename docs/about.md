@@ -1,3 +1,7 @@
+---
+description: Learn about Chase Greco, an ML Engineer with 8+ years building production ML systems. Topics include MLOps, industry perspectives, and hands-on tutorials.
+---
+
 # About
 
 ![Avatar](assets/images/avatar/avatar.webp)
