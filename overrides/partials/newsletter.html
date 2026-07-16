@@ -1,0 +1,28 @@
+<section class="md-newsletter" data-md-component="newsletter">
+  <div class="md-newsletter__inner">
+    <h3 class="md-newsletter__title">
+      <span class="twemoji">
+        {% include ".icons/material/email-fast-outline.svg" %}
+      </span>
+      Get New Delves in Your Inbox
+    </h3>
+    <p class="md-newsletter__description">
+      No spam, no noise. Just a short note when a new delve goes live.
+    </p>
+    <form class="md-newsletter__form" action="https://buttondown.com/api/emails/embed-subscribe/datadelverr"
+      method="post" target="_blank">
+      <input type="hidden" name="email" class="md-newsletter__email" required autocomplete="email" />
+      <div class="md-newsletter__fields">
+        <input type="email" name="email" class="md-textfield md-newsletter__input" placeholder="your@email.com" required
+          autocomplete="email" />
+        <button type="submit" class="md-button md-button--primary md-newsletter__button">
+          Subscribe
+        </button>
+      </div>
+    </form>
+    <p class="md-newsletter__footer">
+      Powered by <a href="https://buttondown.com/refer/datadelver" target="_blank" rel="noopener">Buttondown</a>
+      · Unsubscribe anytime
+    </p>
+  </div>
+</section>

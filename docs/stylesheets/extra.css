@@ -426,3 +426,90 @@ body::after {
         max-width: none;
     }
 }
+
+/* Newsletter Signup */
+.md-newsletter {
+    margin: 3.2rem 0;
+    padding: 1.6rem;
+    border-radius: 0.4rem;
+    background-color: var(--md-primary-fg-color--lightest);
+    border: 0.05rem solid var(--md-default-bg-color--lightest);
+}
+
+.md-newsletter__inner {
+    max-width: 36rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.md-newsletter__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.md-newsletter__title svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    fill: var(--md-primary-fg-color);
+}
+
+.md-newsletter__description {
+    font-size: 0.8rem;
+    color: var(--md-default-fg-color--light);
+    margin: 0 0 1.2rem;
+}
+
+.md-newsletter__fields {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 28rem;
+    margin: 0 auto;
+}
+
+.md-newsletter__input {
+    flex: 1;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.3rem;
+    border: 0.05rem solid var(--md-default-bg-color--lightest);
+    font-size: 0.85rem;
+    background-color: var(--md-default-bg-color);
+    color: var(--md-default-fg-color);
+    transition: border-color 0.25s;
+}
+
+.md-newsletter__input:focus {
+    outline: none;
+    border-color: var(--md-accent-fg-color);
+}
+
+.md-newsletter__button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    /* Reset button defaults to match <a>.md-button styling */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font: inherit;
+    letter-spacing: inherit;
+}
+
+.md-newsletter__footer {
+    font-size: 0.65rem;
+    color: var(--md-default-fg-color--light);
+    margin: 0.8rem 0 0;
+}
+
+.md-newsletter__footer a {
+    color: var(--md-default-fg-color);
+}
+
+@media max-width: 30em {
+    .md-newsletter__fields {
+        flex-direction: column;
+    }
+}
