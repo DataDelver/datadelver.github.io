@@ -171,17 +171,15 @@ def compose_email(posts: list[dict]) -> tuple[str, str]:
         else:
             lines.append(f"## {post['short_title']}\n")
 
-        if post["excerpt"]:
-            lines.append(f"{post['excerpt']}\n")
-
         # Embed social card image (linked to post)
         if post.get("social_card_url"):
             lines.append(
                 f"[![{post['short_title']}]"
                 f"({post['social_card_url']})]({post['url']})\n"
             )
-        else:
-            lines.append(f"[Read the full delve →]({post['url']})\n")
+
+        if post["excerpt"]:
+            lines.append(f"{post['excerpt']}\n")
 
     lines.append("---\n")
     lines.append(
