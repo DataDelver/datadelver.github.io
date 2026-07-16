@@ -97,6 +97,21 @@ def parse_post(filepath: str) -> dict:
     slug = slugify(short_title)
     post_url = f"{SITE_URL}/posts/{slug}/"
 
+    # Generate social card URL from date and slug
+    # Pattern: /assets/images/social/YYYY/MM/DD/slug.png
+    social_card_url = None
+    post_date = frontmatter.get("date", "")
+    if post_date and len(post_date) >= 10:
+        try:
+            year = post_date[:4]
+            month = post_date[5:7]
+            day = post_date[8:10]
+            social_card_url = (
+                f"{SITE_URL}/assets/images/social/{year}/{month}/{day}/{slug}.png"
+            )
+        except (IndexError, ValueError):
+            pass
+
     # Extract excerpt (content before separator)
     if EXCERPT_SEPARATOR in content:
         excerpt_md = content.split(EXCERPT_SEPARATOR, 1)[0]
@@ -121,6 +136,7 @@ def parse_post(filepath: str) -> dict:
         "slug": slug,
         "url": post_url,
         "excerpt": excerpt_text,
+        "social_card_url": social_card_url,
     }
 
 
@@ -158,7 +174,14 @@ def compose_email(posts: list[dict]) -> tuple[str, str]:
         if post["excerpt"]:
             lines.append(f"{post['excerpt']}\n")
 
-        lines.append(f"[Read the full delve →]({post['url']})\n")
+        # Embed social card image (linked to post)
+        if post.get("social_card_url"):
+            lines.append(
+                f"[![{post['short_title']}]"
+                f"({post['social_card_url']})]({post['url']})\n"
+            )
+        else:
+            lines.append(f"[Read the full delve →]({post['url']})\n")
 
     lines.append("---\n")
     lines.append(
