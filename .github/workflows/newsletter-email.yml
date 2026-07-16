@@ -1,0 +1,38 @@
+name: newsletter-email
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/posts/**/*.md"
+
+# Avoid concurrent runs on rapid pushes
+concurrency:
+  group: newsletter-email
+  cancel-in-progress: true
+
+jobs:
+  create-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for git diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Create draft newsletter email
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: |
+          # ${{ github.event.before }} is the SHA of the tip of the previous ref
+          # This correctly handles multi-commit pushes by comparing against
+          # the state before this push started
+          python scripts/newsletter_email.py \
+            --sha-prev "${{ github.event.before }}" \
+            --sha-curr "HEAD"
