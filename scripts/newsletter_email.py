@@ -109,11 +109,8 @@ def parse_post(filepath: str) -> dict:
     excerpt_md = MD_IMAGE.sub("", excerpt_md)
     excerpt_md = MD_LEADING_BLOCKQUOTE.sub("", excerpt_md)
 
-    # Convert to plain text and truncate
+    # Convert to plain text
     excerpt_text = strip_markdown(excerpt_md)
-    max_length = 320
-    if len(excerpt_text) > max_length:
-        excerpt_text = excerpt_text[:max_length].rsplit(" ", 1)[0] + "..."
 
     return {
         "filepath": filepath,
