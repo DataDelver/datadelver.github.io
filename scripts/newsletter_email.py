@@ -313,10 +313,7 @@ def main():
     if result.get("status") and 200 <= result["status"] < 300:
         email_id = result.get("body", {}).get("id", "unknown")
         print(f"Success! Draft email created with ID: {email_id}")
-        print(
-            f"Review and send it in your Buttondown dashboard: "
-            f"https://buttondown.com/datadelver/app/emails"
-        )
+        print(f"Open in dashboard: https://buttondown.com/emails/{email_id}")
     else:
         print(f"Error: Buttondown API returned status {result.get('status')}", file=sys.stderr)
         if "error" in result:
