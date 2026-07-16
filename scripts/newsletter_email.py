@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Detect new blog posts and create a draft newsletter email via Buttondown API.
+"""Detect a new blog post and create a draft newsletter email via Buttondown API.
 
 This script is designed to run in a GitHub Actions workflow on push to main.
-It compares the latest commit against the previous one to find new .md files
+It compares the latest commit against the previous one to find a new .md file
 added to docs/posts/, extracts metadata from frontmatter, composes an email,
 and creates a draft in Buttondown for manual review before sending.
+
+Expects exactly one new post per run. Multiple posts in a single push will
+trigger separate workflow runs via the concurrency group.
 
 Usage:
     python scripts/newsletter_email.py
@@ -54,23 +57,40 @@ def run_git(cmd: list[str]) -> str:
     return result.stdout.strip()
 
 
-def find_new_posts(sha_prev: str, sha_curr: str) -> list[str]:
-    """Find new .md files added to docs/posts/ between two commits."""
-    # Handle the all-zeros SHA (first push to a branch)
+def find_new_post(sha_prev: str, sha_curr: str) -> str:
+    """Find the new .md file added to docs/posts/ between two commits.
+
+    Returns the filepath of a single new post, or empty string if none found.
+    Exits with error if more than one new post is detected.
+    """
     if sha_prev == "0" * 40:
-        # Compare against the root commit
         diff_output = run_git(["ls-tree", "-r", "--name-only", sha_curr])
     else:
-        diff_output = run_git(["diff", "--name-only", "--diff-filter=A", sha_prev, sha_curr])
+        diff_output = run_git([
+            "diff",
+            "--name-only",
+            "--diff-filter=A",
+            sha_prev,
+            sha_curr,
+        ])
 
     all_files = diff_output.split("\n") if diff_output else []
+    new_posts = [
+        f for f in all_files if f.startswith(POSTS_DIR + "/") and f.endswith(".md")
+    ]
 
-    new_posts = []
-    for file in all_files:
-        if file.startswith(POSTS_DIR + "/") and file.endswith(".md"):
-            new_posts.append(file)
+    if not new_posts:
+        return ""
+    if len(new_posts) > 1:
+        print(
+            f"Error: {len(new_posts)} new posts found. Expected exactly one. Exiting.",
+            file=sys.stderr,
+        )
+        for post in new_posts:
+            print(f"  - {post}", file=sys.stderr)
+        sys.exit(1)
 
-    return sorted(new_posts)
+    return new_posts[0]
 
 
 def parse_post(filepath: str) -> dict:
@@ -86,7 +106,7 @@ def parse_post(filepath: str) -> dict:
         for line in fm_text.split("\n"):
             if ":" in line:
                 key, _, value = line.partition(":")
-                frontmatter[key.strip()] = value.strip().strip('"\'')
+                frontmatter[key.strip()] = value.strip().strip("\"'")
 
     # Extract title from first H1 heading
     h1_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
@@ -140,53 +160,29 @@ def parse_post(filepath: str) -> dict:
     }
 
 
-def compose_email(posts: list[dict]) -> tuple[str, str]:
-    """Compose the email subject and body from post metadata.
+def compose_email(post: dict) -> tuple[str, str]:
+    """Compose the email subject and body from a single post.
 
     Returns (subject, body) where body is in Markdown format.
     """
-    if len(posts) == 1:
-        subject = f"New on DataDelver: {posts[0]['short_title']}"
-    else:
-        titles = " · ".join(p["short_title"] for p in posts)
-        subject = f"New on DataDelver: {titles}"
+    subject = f"New on DataDelver: {post['short_title']}"
 
-    # Build email body in Markdown
     lines = []
-    lines.append(f"# {'New Delve' if len(posts) == 1 else 'New Delves'} on DataDelver!\n")
+    lines.append("# New Delve on DataDelver!\n")
+    lines.append("A new post just went live. Here's a preview:\n")
+    lines.append(f"## {post['short_title']}\n")
 
-    if len(posts) == 1:
+    # Embed social card image (linked to post)
+    if post.get("social_card_url"):
         lines.append(
-            f"A new post just went live. Here's a preview:\n"
-        )
-    else:
-        lines.append(
-            f"{len(posts)} new posts just went live. Here's what's new:\n"
+            f"[![{post['short_title']}]({post['social_card_url']})]({post['url']})\n"
         )
 
-    for i, post in enumerate(posts):
-        if len(posts) > 1:
-            lines.append(f"---\n")
-            lines.append(f"## {i+1}. {post['short_title']}\n")
-        else:
-            lines.append(f"## {post['short_title']}\n")
+    if post["excerpt"]:
+        lines.append(f"{post['excerpt']}\n")
 
-        # Embed social card image (linked to post)
-        if post.get("social_card_url"):
-            lines.append(
-                f"[![{post['short_title']}]"
-                f"({post['social_card_url']})]({post['url']})\n"
-            )
-
-        if post["excerpt"]:
-            lines.append(f"{post['excerpt']}\n")
-
-    lines.append("---\n")
-    lines.append(
-        f"*Get new delves in your inbox. "
-        f"[Subscribe to the newsletter]({SITE_URL}) "
-        f"or [visit the blog]({SITE_URL})*"
-    )
+    # Link to full post
+    lines.append(f"[Read the full post →]({post['url']})\n")
 
     body = "\n".join(lines)
     return subject, body
@@ -236,7 +232,7 @@ def send_to_buttondown(subject: str, body: str, api_key: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Create a draft newsletter email for new blog posts."
+        description="Create a draft newsletter email for a new blog post."
     )
     parser.add_argument(
         "--sha-prev",
@@ -259,34 +255,26 @@ def main():
     sha_curr = args.sha_curr or os.environ.get("GITHUB_SHA", "HEAD")
     sha_prev = args.sha_prev or os.environ.get("GITHUB_SHA_PREV", "HEAD~1")
 
-    # Find new posts
+    # Find new post
     print(f"Comparing {sha_prev}..{sha_curr}")
-    new_posts = find_new_posts(sha_prev, sha_curr)
+    post_file = find_new_post(sha_prev, sha_curr)
 
-    if not new_posts:
-        print("No new posts found. Exiting.")
+    if not post_file:
+        print("No new post found. Exiting.")
         sys.exit(0)
 
-    print(f"Found {len(new_posts)} new post(s):")
-    for post_file in new_posts:
-        print(f"  - {post_file}")
+    print(f"Found new post: {post_file}")
 
-    # Parse posts
-    posts = []
-    for post_file in new_posts:
-        try:
-            post = parse_post(post_file)
-            posts.append(post)
-            print(f"  Parsed: {post['short_title']}")
-        except Exception as e:
-            print(f"  Warning: Failed to parse {post_file}: {e}", file=sys.stderr)
-
-    if not posts:
-        print("No posts could be parsed. Exiting.", file=sys.stderr)
+    # Parse post
+    try:
+        post = parse_post(post_file)
+        print(f"  Parsed: {post['short_title']}")
+    except Exception as e:
+        print(f"Error: Failed to parse {post_file}: {e}", file=sys.stderr)
         sys.exit(1)
 
     # Compose email
-    subject, body = compose_email(posts)
+    subject, body = compose_email(post)
     print(f"\n--- Email Preview ---")
     print(f"Subject: {subject}")
     print(f"\nBody:\n{body}")
@@ -315,7 +303,10 @@ def main():
         print(f"Success! Draft email created with ID: {email_id}")
         print(f"Open in dashboard: https://buttondown.com/emails/{email_id}")
     else:
-        print(f"Error: Buttondown API returned status {result.get('status')}", file=sys.stderr)
+        print(
+            f"Error: Buttondown API returned status {result.get('status')}",
+            file=sys.stderr,
+        )
         if "error" in result:
             print(f"Response: {result['error']}", file=sys.stderr)
         sys.exit(1)
