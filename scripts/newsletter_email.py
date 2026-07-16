@@ -24,22 +24,23 @@ import sys
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 
+# Add project root to path so we can import from plugins/
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
+
+from plugins.text_utils import (  # noqa: E402
+    MD_IMAGE,
+    MD_LEADING_BLOCKQUOTE,
+    YAML_FRONT_MATTER,
+    extract_social_title,
+    slugify,
+    strip_markdown,
+)
+
 # Site configuration
 SITE_URL = "https://www.datadelver.com"
 POSTS_DIR = "docs/posts"
 EXCERPT_SEPARATOR = "<!-- more -->"
-
-# Regex patterns
-DELVE_PREFIX = re.compile(r"^Delve\s*\d+:\s*", re.IGNORECASE)
-YAML_FRONT_MATTER = re.compile(r"^---\s*\n(.*?)^---\s*\n", re.MULTILINE | re.DOTALL)
-MD_LEADING_BLOCKQUOTE = re.compile(r"(?:^>\s?.*\n?)+", re.MULTILINE)
-MD_IMAGE = re.compile(r"!\[.*?\]\(.*?\)")
-MD_LINK = re.compile(r"\[(.*?)\]\(.*?\)")
-MD_BOLD = re.compile(r"\*\*(.*?)\*\*")
-MD_ITALIC = re.compile(r"\*(.*?)\*")
-MD_CODE = re.compile(r"`(.*?)`")
-MD_HEADER = re.compile(r"^#{1,6}\s+(.*)", re.MULTILINE)
-MD_BLOCKQUOTE = re.compile(r"^>\s?(.*)", re.MULTILINE)
 
 
 def run_git(cmd: list[str]) -> str:
@@ -70,40 +71,6 @@ def find_new_posts(sha_prev: str, sha_curr: str) -> list[str]:
             new_posts.append(file)
 
     return sorted(new_posts)
-
-
-def slugify(text: str) -> str:
-    """Convert text to a URL-friendly slug (lowercase, hyphenated)."""
-    slug = text.lower()
-    slug = re.sub(r"[^a-z0-9]+", "-", slug)
-    slug = slug.strip("-")
-    return slug
-
-
-def extract_social_title(heading: str) -> str:
-    """Extract a short title from an H1 heading.
-
-    Strips the 'Delve N: ' prefix and takes text after the last comma if present.
-    """
-    title = DELVE_PREFIX.sub("", heading)
-    if "," in title:
-        title = title.rsplit(",", 1)[-1].strip()
-    return title.strip()
-
-
-def strip_markdown(text: str) -> str:
-    """Strip markdown formatting and return plain text."""
-    text = MD_IMAGE.sub("", text)
-    text = MD_LINK.sub(r"\1", text)
-    text = MD_BOLD.sub(r"\1", text)
-    text = MD_ITALIC.sub(r"\1", text)
-    text = MD_CODE.sub(r"\1", text)
-    text = MD_HEADER.sub(r"\1", text)
-    text = MD_BLOCKQUOTE.sub(r"\1", text)
-    text = re.sub(r"<[^>]+>", "", text)
-    text = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|>)])", r"\1", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
 
 
 def parse_post(filepath: str) -> dict:

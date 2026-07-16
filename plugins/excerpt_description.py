@@ -12,53 +12,11 @@ import html
 import re
 from mkdocs.plugins import BasePlugin, event_priority
 
-
-# Regex to strip YAML front matter (everything from --- to ---)
-YAML_FRONT_MATTER = re.compile(r"^---\s*\n(.*?)^---\s*\n", re.MULTILINE | re.DOTALL)
-
-# Regex to strip leading blockquote lines (epigraph quotes)
-MD_LEADING_BLOCKQUOTE = re.compile(r"(?:^>\s?.*\n?)+", re.MULTILINE)
-
-# Regex patterns for stripping markdown formatting
-MD_BOLD = re.compile(r"\*\*(.*?)\*\*")
-MD_ITALIC = re.compile(r"\*(.*?)\*")
-MD_CODE = re.compile(r"`(.*?)`")
-MD_LINK = re.compile(r"\[(.*?)\]\(.*?\)")
-MD_IMAGE = re.compile(r"!\[.*?\]\(.*?\)")
-MD_HEADER = re.compile(r"^#{1,6}\s+(.*)", re.MULTILINE)
-MD_HRULE = re.compile(r"^\s*(?:---|\*\*\*|___)\s*$", re.MULTILINE)
-MD_BLOCKQUOTE = re.compile(r"^>\s?(.*)", re.MULTILINE)
-MD_LIST = re.compile(r"^[\s]*[-*+]\s+(.*)", re.MULTILINE)
-MD_ORDERED_LIST = re.compile(r"^[\s]*\d+\.\s+(.*)", re.MULTILINE)
-
-
-def strip_markdown(text: str) -> str:
-    """Strip markdown formatting from text and return plain text."""
-    # Remove images first (before links, since images contain brackets too)
-    text = MD_IMAGE.sub("", text)
-    # Replace links with their text
-    text = MD_LINK.sub(r"\1", text)
-    # Remove bold/italic markers
-    text = MD_BOLD.sub(r"\1", text)
-    text = MD_ITALIC.sub(r"\1", text)
-    # Remove inline code markers
-    text = MD_CODE.sub(r"\1", text)
-    # Remove header markers (keep the text)
-    text = MD_HEADER.sub(r"\1", text)
-    # Remove blockquote markers
-    text = MD_BLOCKQUOTE.sub(r"\1", text)
-    # Remove list markers
-    text = MD_LIST.sub(r"\1", text)
-    text = MD_ORDERED_LIST.sub(r"\1", text)
-    # Remove horizontal rules
-    text = MD_HRULE.sub("", text)
-    # Remove HTML tags
-    text = re.sub(r"<[^>]+>", "", text)
-    # Strip markdown escape characters (e.g. \* -> *)
-    text = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|>)])", r"\1", text)
-    # Normalize whitespace: collapse multiple spaces/newlines into single space
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
+from .text_utils import (
+    MD_LEADING_BLOCKQUOTE,
+    YAML_FRONT_MATTER,
+    strip_markdown,
+)
 
 
 class ExcerptDescriptionPlugin(BasePlugin):
