@@ -33,6 +33,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from plugins.text_utils import (  # noqa: E402
     YAML_FRONT_MATTER,
+    build_post_url,
     extract_excerpt,
     extract_social_title,
     slugify,
@@ -112,12 +113,16 @@ def parse_post(filepath: str) -> dict:
 
     # Generate URL slug
     slug = slugify(short_title)
-    post_url = f"{SITE_URL}/posts/{slug}/"
+
+    # Parse post date
+    post_date = frontmatter.get("date", "")
+
+    # Build post URL using shared utility (matches blog plugin's URL format)
+    post_url = build_post_url(SITE_URL, slug, post_date)
 
     # Generate social card URL from date and slug
     # Pattern: /assets/images/social/YYYY/MM/DD/slug.png
     social_card_url = None
-    post_date = frontmatter.get("date", "")
     if post_date and len(post_date) >= 10:
         try:
             year = post_date[:4]
@@ -134,7 +139,7 @@ def parse_post(filepath: str) -> dict:
 
     return {
         "filepath": filepath,
-        "date": frontmatter.get("date", ""),
+        "date": post_date,
         "categories": frontmatter.get("categories", ""),
         "full_title": full_title,
         "short_title": short_title,
