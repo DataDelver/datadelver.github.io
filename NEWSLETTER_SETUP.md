@@ -62,7 +62,7 @@ The generated email uses Markdown formatting and includes:
 
 ## Workflow File
 
-The workflow is defined in [`.github/workflows/newsletter-email.yml`](../.github/workflows/newsletter-email.yml) and triggers on:
+The workflow is defined in [`.github/workflows/newsletter-email.yml`](.github/workflows/newsletter-email.yml) and triggers on:
 
 - Push to `main` branch
 - Only when files in `docs/posts/` are modified

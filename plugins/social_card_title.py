@@ -14,13 +14,9 @@ option to generate SEO-friendly URLs from the extracted social title.
 """
 
 import re
-from pymdownx.slugs import slugify as _pymdownx_slugify
 from mkdocs.plugins import BasePlugin, event_priority
 
-from plugins.text_utils import extract_social_title
-
-# Default pymdownx slugify instance (lowercase, matches Material default)
-_default_slugify = _pymdownx_slugify(case="lower")
+from plugins.text_utils import extract_social_title, slugify
 
 
 def post_slugify(text: str, sep: str = "-") -> str:
@@ -33,7 +29,7 @@ def post_slugify(text: str, sep: str = "-") -> str:
     This is designed to be used as the `post_slugify` config option in the blog plugin.
     """
     title = extract_social_title(text)
-    return _default_slugify(title, sep)
+    return slugify(title, sep)
 
 
 class SocialCardTitlePlugin(BasePlugin):
