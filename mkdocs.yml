@@ -25,7 +25,7 @@ theme:
     logo: material/pickaxe
     admonition:
       claude: simple/claude
-  favicon: assets/images/favicon/pickaxe.webp
+  favicon: assets/images/favicon/pickaxe-dark.png
   palette:
 
     # Palette toggle for automatic mode
