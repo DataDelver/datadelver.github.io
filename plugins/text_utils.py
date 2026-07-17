@@ -145,3 +145,58 @@ def extract_excerpt(
     if to_plain_text:
         return strip_markdown(excerpt_md)
     return excerpt_md
+
+
+# --- Post URL generation ---
+
+# Matches the blog plugin's default URL configuration:
+# post_url_format = "{date}/{slug}"
+# post_url_date_format = "yyyy/MM/dd"
+# See: material/plugins/blog/config.py
+DEFAULT_POST_URL_FORMAT = "{date}/{slug}"
+DEFAULT_POST_URL_DATE_FORMAT = "yyyy/MM/dd"
+
+
+def build_post_url(
+    site_url: str,
+    slug: str,
+    post_date: str,
+    url_format: str = DEFAULT_POST_URL_FORMAT,
+    date_format: str = DEFAULT_POST_URL_DATE_FORMAT,
+) -> str:
+    """Build a post URL matching the blog plugin's URL format.
+
+    Replicates the blog plugin's URL generation logic so that scripts
+    running outside MkDocs (e.g. newsletter_email.py) can produce
+    identical URLs.
+
+    Args:
+        site_url: Base site URL (e.g. "https://www.datadelver.com").
+        slug: URL slug for the post.
+        post_date: ISO date string (e.g. "2025-10-07").
+        url_format: URL format template with {date} and {slug} placeholders.
+        date_format: Date format pattern using yyyy/MM/dd tokens.
+
+    Returns:
+        Full post URL (e.g. "https://www.datadelver.com/2025/10/07/my-post.html").
+    """
+    # Parse date components from ISO date
+    year = month = day = ""
+    if post_date and len(post_date) >= 10:
+        try:
+            year = post_date[:4]
+            month = post_date[5:7]
+            day = post_date[8:10]
+        except (IndexError, ValueError):
+            pass
+
+    # Replace date format tokens with actual values
+    date_str = date_format
+    date_str = date_str.replace("yyyy", year).replace("MM", month).replace("dd", day)
+
+    # Build path from URL format
+    path = url_format.replace("{date}", date_str).replace("{slug}", slug)
+
+    # Remove leading slash if present, then combine with site URL
+    path = path.lstrip("/")
+    return f"{site_url}/{path}.html"
