@@ -9,14 +9,9 @@ plugin's on_page_markdown (priority -50) so that page.excerpt is already created
 """
 
 import html
-import re
 from mkdocs.plugins import BasePlugin, event_priority
 
-from plugins.text_utils import (
-    MD_LEADING_BLOCKQUOTE,
-    YAML_FRONT_MATTER,
-    strip_markdown,
-)
+from plugins.text_utils import extract_excerpt
 
 
 class ExcerptDescriptionPlugin(BasePlugin):
@@ -29,36 +24,14 @@ class ExcerptDescriptionPlugin(BasePlugin):
             return
 
         # Get the excerpt separator from blog plugin config
-        # Default is "<!-- more -->"
         separator = "<!-- more -->"
-        if hasattr(page, "config") and hasattr(page.config, "post_excerpt_separator"):
-            separator = page.config.post_excerpt_separator
-
-        # Find the post in the blog plugin to get the separator
-        # The blog plugin stores posts in config.plugins["blog"].config.blog.posts
         blog_plugin = config.plugins.get("blog")
         if blog_plugin:
             blog_config = blog_plugin.config
             separator = blog_config.post_excerpt_separator
 
-        # Extract excerpt from page.markdown
-        if separator in markdown:
-            excerpt_md = markdown.split(separator, 1)[0]
-        else:
-            # Fallback: use the full markdown if separator not found
-            excerpt_md = markdown
-
-        # Strip YAML front matter
-        excerpt_md = YAML_FRONT_MATTER.sub("", excerpt_md)
-
-        # Strip the first heading (title) if present
-        excerpt_md = re.sub(r"^#{1,6}\s+.*$", "", excerpt_md, count=1, flags=re.MULTILINE)
-
-        # Strip leading blockquote (epigraph quote)
-        excerpt_md = MD_LEADING_BLOCKQUOTE.sub("", excerpt_md)
-
-        # Strip markdown formatting
-        description = strip_markdown(excerpt_md)
+        # Extract excerpt using shared utility
+        description = extract_excerpt(markdown, separator=separator)
 
         # Truncate to a reasonable length for meta descriptions (~160 chars is ideal)
         # but allow up to 320 chars to give more context

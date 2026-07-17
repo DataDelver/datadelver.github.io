@@ -91,3 +91,57 @@ def slugify(text: str, sep: str = "-") -> str:
     slug = re.sub(r"[^a-z0-9]+", sep, slug)
     slug = slug.strip(sep)
     return slug
+
+
+# --- Excerpt extraction ---
+
+# Default excerpt separator comment tag
+EXCERPT_SEPARATOR = "<!-- more -->"
+
+
+def extract_excerpt(
+    markdown: str,
+    separator: str = EXCERPT_SEPARATOR,
+    strip_images: bool = True,
+    to_plain_text: bool = True,
+) -> str:
+    """Extract the excerpt portion of a blog post's markdown.
+
+    Splits on the excerpt separator, then strips front matter, the title
+    heading, banner images (optional), and leading blockquotes. Optionally
+    converts to plain text via strip_markdown().
+
+    Args:
+        markdown: Full post markdown content.
+        separator: The excerpt separator tag (default: "<!-- more -->").
+        strip_images: If True, remove banner/hero images (default: True).
+        to_plain_text: If True, run strip_markdown() on the result.
+
+    Returns:
+        Clean excerpt text (plain text if to_plain_text, else markdown).
+    """
+    # Split on separator
+    if separator in markdown:
+        excerpt_md = markdown.split(separator, 1)[0]
+    else:
+        excerpt_md = markdown
+
+    # Strip YAML front matter
+    excerpt_md = YAML_FRONT_MATTER.sub("", excerpt_md)
+
+    # Strip the first heading (title) if present
+    excerpt_md = re.sub(r"^#{1,6}\s+.*$", "", excerpt_md, count=1, flags=re.MULTILINE)
+
+    # Strip banner/hero image
+    if strip_images:
+        excerpt_md = MD_IMAGE.sub("", excerpt_md)
+
+    # Strip leading blockquote (epigraph quote)
+    excerpt_md = MD_LEADING_BLOCKQUOTE.sub("", excerpt_md)
+
+    # Clean up whitespace
+    excerpt_md = re.sub(r"\n{3,}", "\n\n", excerpt_md).strip()
+
+    if to_plain_text:
+        return strip_markdown(excerpt_md)
+    return excerpt_md

@@ -32,18 +32,15 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 
 from plugins.text_utils import (  # noqa: E402
-    MD_IMAGE,
-    MD_LEADING_BLOCKQUOTE,
     YAML_FRONT_MATTER,
+    extract_excerpt,
     extract_social_title,
     slugify,
-    strip_markdown,
 )
 
 # Site configuration
 SITE_URL = "https://www.datadelver.com"
 POSTS_DIR = "docs/posts"
-EXCERPT_SEPARATOR = "<!-- more -->"
 
 
 def run_git(cmd: list[str]) -> str:
@@ -132,20 +129,8 @@ def parse_post(filepath: str) -> dict:
         except (IndexError, ValueError):
             pass
 
-    # Extract excerpt (content before separator)
-    if EXCERPT_SEPARATOR in content:
-        excerpt_md = content.split(EXCERPT_SEPARATOR, 1)[0]
-    else:
-        excerpt_md = content
-
-    # Strip front matter, title, banner image, and blockquote
-    excerpt_md = YAML_FRONT_MATTER.sub("", excerpt_md)
-    excerpt_md = re.sub(r"^#{1,6}\s+.*$", "", excerpt_md, count=1, flags=re.MULTILINE)
-    excerpt_md = MD_IMAGE.sub("", excerpt_md)
-    excerpt_md = MD_LEADING_BLOCKQUOTE.sub("", excerpt_md)
-
-    # Convert to plain text
-    excerpt_text = strip_markdown(excerpt_md)
+    # Extract excerpt using shared utility
+    excerpt_text = extract_excerpt(content)
 
     return {
         "filepath": filepath,
