@@ -160,7 +160,6 @@ def compose_email(post: dict) -> tuple[str, str]:
     lines = []
     lines.append("# New Delve on DataDelver!\n")
     lines.append("A new post just went live. Here's a preview:\n")
-    lines.append(f"## {post['short_title']}\n")
 
     # Embed social card image (linked to post)
     if post.get("social_card_url"):
