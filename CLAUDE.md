@@ -17,6 +17,12 @@ uv remove <package>
 
 The project requires Python >= 3.13. The virtual environment lives in `.venv/`.
 
+## Python Import Style
+
+**Always use absolute imports** — never use relative imports (e.g. `from .module import x`).
+
+Use `from plugins.text_utils import slugify` instead of `from .text_utils import slugify`.
+
 ## Local MkDocs Plugins
 
 Custom MkDocs plugins are registered via entry points in `pyproject.toml` under `[project.entry-points."mkdocs.plugins"]`. After adding or modifying a plugin, you **must** re-sync the environment for changes to take effect:

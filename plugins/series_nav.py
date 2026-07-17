@@ -23,7 +23,7 @@ from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin, event_priority
 
 from plugins import SERIES_TAGS
-from .page_utils import collect_all_posts, get_tags
+from plugins.page_utils import collect_all_posts, get_tags
 
 log = logging.getLogger("mkdocs.plugins.series_nav")
 

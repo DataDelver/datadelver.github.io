@@ -17,7 +17,7 @@ import re
 from pymdownx.slugs import slugify as _pymdownx_slugify
 from mkdocs.plugins import BasePlugin, event_priority
 
-from .text_utils import extract_social_title
+from plugins.text_utils import extract_social_title
 
 # Default pymdownx slugify instance (lowercase, matches Material default)
 _default_slugify = _pymdownx_slugify(case="lower")

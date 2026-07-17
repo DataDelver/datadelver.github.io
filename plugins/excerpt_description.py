@@ -12,7 +12,7 @@ import html
 import re
 from mkdocs.plugins import BasePlugin, event_priority
 
-from .text_utils import (
+from plugins.text_utils import (
     MD_LEADING_BLOCKQUOTE,
     YAML_FRONT_MATTER,
     strip_markdown,

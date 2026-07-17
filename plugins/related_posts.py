@@ -16,7 +16,7 @@ from mkdocs.plugins import BasePlugin, event_priority
 from html import unescape
 
 from plugins import SERIES_TAGS
-from .page_utils import collect_all_posts, get_tags
+from plugins.page_utils import collect_all_posts, get_tags
 
 log = logging.getLogger("mkdocs.plugins.related_posts")
 

@@ -12,7 +12,7 @@ thumbnails further down the page.
 import re
 from mkdocs.plugins import BasePlugin, event_priority
 
-from .page_utils import is_listing_page
+from plugins.page_utils import is_listing_page
 
 
 class LazyImagesPlugin(BasePlugin):

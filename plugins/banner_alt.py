@@ -12,7 +12,7 @@ import re
 
 from mkdocs.plugins import BasePlugin, event_priority
 
-from .page_utils import is_listing_page
+from plugins.page_utils import is_listing_page
 
 log = logging.getLogger("mkdocs.plugins.banner_alt")
 
