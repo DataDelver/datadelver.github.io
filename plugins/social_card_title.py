@@ -14,32 +14,9 @@ option to generate SEO-friendly URLs from the extracted social title.
 """
 
 import re
-from pymdownx.slugs import slugify as _pymdownx_slugify
 from mkdocs.plugins import BasePlugin, event_priority
 
-# Matches "Delve N: " at the start of a heading (e.g. "Delve 23: ")
-DELVE_PREFIX = re.compile(r"^Delve\s+\d+:\s*", re.IGNORECASE)
-
-# Default pymdownx slugify instance (lowercase, matches Material default)
-_default_slugify = _pymdownx_slugify(case="lower")
-
-
-def extract_social_title(heading: str) -> str:
-    """Extract a short social card title from an H1 heading.
-
-    Strategy:
-      1. Strip the 'Delve N: ' prefix if present.
-      2. If a comma remains (series subtitle separator), take the text after the last comma.
-      3. Otherwise return the remaining text as-is.
-    """
-    # Strip "Delve N: " prefix
-    title = DELVE_PREFIX.sub("", heading)
-
-    # If there's a comma, take the part after the last comma
-    if "," in title:
-        title = title.rsplit(",", 1)[-1].strip()
-
-    return title.strip()
+from plugins.text_utils import extract_social_title, slugify
 
 
 def post_slugify(text: str, sep: str = "-") -> str:
@@ -52,7 +29,7 @@ def post_slugify(text: str, sep: str = "-") -> str:
     This is designed to be used as the `post_slugify` config option in the blog plugin.
     """
     title = extract_social_title(text)
-    return _default_slugify(title, sep)
+    return slugify(title, sep)
 
 
 class SocialCardTitlePlugin(BasePlugin):

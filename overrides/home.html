@@ -32,6 +32,11 @@
         {% include "partials/post.html" %}
         {% endfor %}
 
+        <!-- Newsletter Signup -->
+        <div class="md-typeset">
+          {% include "partials/newsletter.html" %}
+        </div>
+
         <!-- Pagination -->
         {% if pagination %}
         {% block pagination %}

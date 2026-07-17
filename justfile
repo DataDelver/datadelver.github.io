@@ -46,3 +46,8 @@ preview-cards:
 ## Usage: just new-post "My Post Title"
 new-post title:
     python3 scripts/new_post.py "{{title}}"
+
+# Preview newsletter email for the last N commits (dry run)
+## Usage: just newsletter-draft 1  (or just newsletter-draft 3)
+newsletter-draft n:
+    python3 scripts/newsletter_email.py --sha-prev "HEAD~{{n}}" --sha-curr "HEAD" --dry-run

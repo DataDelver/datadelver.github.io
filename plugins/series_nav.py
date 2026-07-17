@@ -23,28 +23,9 @@ from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin, event_priority
 
 from plugins import SERIES_TAGS
+from plugins.page_utils import collect_all_posts, get_tags
 
 log = logging.getLogger("mkdocs.plugins.series_nav")
-
-
-def _get_tags(page):
-    """Extract tags from a page's meta and/or config."""
-    tags = set()
-    if hasattr(page, "meta") and page.meta:
-        page_tags = page.meta.get("tags", [])
-        if page_tags:
-            if isinstance(page_tags, str):
-                tags.add(page_tags)
-            else:
-                tags.update(str(t) for t in page_tags)
-    if hasattr(page, "config") and hasattr(page.config, "tags"):
-        page_tags = page.config.tags
-        if page_tags:
-            if isinstance(page_tags, str):
-                tags.add(page_tags)
-            else:
-                tags.update(str(t) for t in page_tags)
-    return tags
 
 
 def _get_date(post):
@@ -52,17 +33,6 @@ def _get_date(post):
     if hasattr(post, "config") and hasattr(post.config, "date"):
         return post.config.date.created
     return ""
-
-
-def _collect_all_posts(context):
-    """Collect all blog posts from the context pages list."""
-    all_posts = []
-    for file_item in context["pages"]:
-        if hasattr(file_item, "page") and file_item.page is not None:
-            p = file_item.page
-            if hasattr(p, "excerpt") and p.excerpt is not None:
-                all_posts.append(p)
-    return all_posts
 
 
 def _build_series_nav(series_tag, series_posts, current_page):
@@ -123,8 +93,8 @@ class SeriesNavPlugin(BasePlugin):
     @event_priority(-5)
     def on_page_context(self, context, *, page, config, nav):
         """Add series_nav to page context for blog posts that belong to a series."""
-        all_posts = _collect_all_posts(context)
-        current_tags = _get_tags(page)
+        all_posts = collect_all_posts(context)
+        current_tags = get_tags(page)
 
         # Only process blog posts
         if not hasattr(page, "excerpt") or page.excerpt is None:
@@ -138,7 +108,7 @@ class SeriesNavPlugin(BasePlugin):
                 series_posts = [
                     post
                     for post in all_posts
-                    if series_tag in _get_tags(post)
+                    if series_tag in get_tags(post)
                 ]
 
                 if len(series_posts) < 2:
