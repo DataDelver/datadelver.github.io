@@ -75,4 +75,4 @@ See [Justfile](justfile) for the full list.
 
 A GitHub Actions workflow (`.github/workflows/newsletter-email.yml`) automatically creates a draft email in Buttondown when new posts are pushed to `main`. The draft is not sent automatically — it must be reviewed and sent manually from the [Buttondown dashboard](https://buttondown.com/datadelver/app/emails).
 
-Requires the `BUTTONDOWN_API_KEY` GitHub repository secret. See [docs/NEWSLETTER_SETUP.md](docs/NEWSLETTER_SETUP.md) for full documentation.
+Requires the `BUTTONDOWN_API_KEY` GitHub repository secret. See [NEWSLETTER_SETUP.md](NEWSLETTER_SETUP.md) for full documentation.
