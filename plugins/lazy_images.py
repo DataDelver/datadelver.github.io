@@ -12,6 +12,8 @@ thumbnails further down the page.
 import re
 from mkdocs.plugins import BasePlugin, event_priority
 
+from .page_utils import is_listing_page
+
 
 class LazyImagesPlugin(BasePlugin):
     """Add loading="lazy" to non-hero <img> tags in rendered HTML."""
@@ -20,23 +22,7 @@ class LazyImagesPlugin(BasePlugin):
     def on_post_page(self, output: str, *, page, config):
         # Detect listing pages: homepage, blog archives, tag pages, category pages
         # These have post cards with banner thumbnails that should be lazy-loaded
-        is_listing = _is_listing_page(page)
-        return _add_lazy_loading(output, lazy_banners=is_listing)
-
-
-def _is_listing_page(page) -> bool:
-    """Check if the page is a listing page (homepage, archive, tags, etc.)."""
-    # Blog listing pages have a 'posts' attribute from the blog plugin
-    if hasattr(page, "posts"):
-        return True
-    # Check URL patterns for archive/tag/category pages
-    url = getattr(page, "url", "") or ""
-    if any(url.startswith(prefix) for prefix in ("tags", "category", "archive", "page")):
-        return True
-    # Homepage (empty URL or index.html)
-    if url in ("", "index.html", "index"):
-        return True
-    return False
+        return _add_lazy_loading(output, lazy_banners=is_listing_page(page))
 
 
 def _add_lazy_loading(html: str, lazy_banners: bool = False) -> str:

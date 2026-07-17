@@ -16,6 +16,7 @@ from mkdocs.plugins import BasePlugin, event_priority
 from html import unescape
 
 from plugins import SERIES_TAGS
+from .page_utils import collect_all_posts, get_tags
 
 log = logging.getLogger("mkdocs.plugins.related_posts")
 
@@ -33,37 +34,6 @@ def _get_excerpt_description(page):
         # safe use in meta tags. Unescape it for display in the template.
         return unescape(description)
     return ""
-
-
-def _get_tags(page):
-    """Extract tags from a page's meta and/or config."""
-    tags = set()
-    if hasattr(page, "meta") and page.meta:
-        page_tags = page.meta.get("tags", [])
-        if page_tags:
-            if isinstance(page_tags, str):
-                tags.add(page_tags)
-            else:
-                tags.update(str(t) for t in page_tags)
-    if hasattr(page, "config") and hasattr(page.config, "tags"):
-        page_tags = page.config.tags
-        if page_tags:
-            if isinstance(page_tags, str):
-                tags.add(page_tags)
-            else:
-                tags.update(str(t) for t in page_tags)
-    return tags
-
-
-def _collect_all_posts(context):
-    """Collect all blog posts from the context pages list."""
-    all_posts = []
-    for file_item in context["pages"]:
-        if hasattr(file_item, "page") and file_item.page is not None:
-            p = file_item.page
-            if hasattr(p, "excerpt") and p.excerpt is not None:
-                all_posts.append(p)
-    return all_posts
 
 
 def _sort_posts_by_date(posts, reverse=True):
@@ -89,14 +59,14 @@ class RelatedPostsPlugin(BasePlugin):
     @event_priority(-10)
     def on_page_context(self, context, *, page, config, nav):
         """Collect all blog posts and compute related posts for the current page."""
-        all_posts = _collect_all_posts(context)
+        all_posts = collect_all_posts(context)
 
         # Always compute series posts for any page that might need them
         # Sort chronologically (oldest first) so readers follow the series in order
         series_posts = [
             _build_post_meta(post)
             for post in _sort_posts_by_date(all_posts, reverse=False)
-            if any(tag in _get_tags(post) for tag in SERIES_TAGS)
+            if any(tag in get_tags(post) for tag in SERIES_TAGS)
         ]
         context["series_posts"] = series_posts
 
@@ -105,7 +75,7 @@ class RelatedPostsPlugin(BasePlugin):
             return
 
         # Get current page's tags
-        current_tags = _get_tags(page)
+        current_tags = get_tags(page)
 
         if not current_tags:
             context["related_posts"] = []
@@ -119,7 +89,7 @@ class RelatedPostsPlugin(BasePlugin):
                 continue
 
             # Get post's tags
-            post_tags = _get_tags(post)
+            post_tags = get_tags(post)
 
             # Count shared tags
             shared = current_tags & post_tags

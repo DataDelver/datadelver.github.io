@@ -4,17 +4,13 @@
 import argparse
 import datetime
 import os
-import re
 import sys
 
+# Add project root to path so we can import from plugins/
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
 
-def slugify(title):
-    """Convert title to URL-friendly slug."""
-    slug = title.lower()
-    slug = re.sub(r"[^a-z0-9]", "-", slug)
-    slug = re.sub(r"-{2,}", "-", slug)
-    slug = slug.strip("-")
-    return slug
+from plugins.text_utils import slugify  # noqa: E402
 
 
 def main():

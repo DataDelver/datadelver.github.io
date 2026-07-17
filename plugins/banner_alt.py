@@ -12,6 +12,8 @@ import re
 
 from mkdocs.plugins import BasePlugin, event_priority
 
+from .page_utils import is_listing_page
+
 log = logging.getLogger("mkdocs.plugins.banner_alt")
 
 
@@ -29,22 +31,10 @@ class BannerAltPlugin(BasePlugin):
                 output = _replace_single_banner(output, title, site_name)
 
         # Listing pages: parse post cards to map banners to titles
-        elif _is_listing_page(page):
+        elif is_listing_page(page):
             output = _replace_listing_banners(output, site_name)
 
         return output
-
-
-def _is_listing_page(page) -> bool:
-    """Check if the page is a listing page."""
-    if hasattr(page, "posts"):
-        return True
-    url = getattr(page, "url", "") or ""
-    if any(url.startswith(prefix) for prefix in ("tags", "category", "archive", "page")):
-        return True
-    if url in ("", "index.html", "index"):
-        return True
-    return False
 
 
 def _clean_title(title: str) -> str:
