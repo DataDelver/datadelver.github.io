@@ -72,7 +72,7 @@ body::after {
     width: 2.4rem;
     height: 2.4rem;
     color: var(--md-default-fg-color--light);
-    transition: color 0.25s;
+    transition: transform 0.25s;
 }
 
 .md-post__nav-icon svg {
@@ -117,8 +117,12 @@ body::after {
     color: var(--md-accent-fg-color);
 }
 
-.md-post__nav-link:hover .md-post__nav-icon {
-    color: var(--md-accent-fg-color);
+.md-post__nav--prev .md-post__nav-link:hover .md-post__nav-icon {
+    transform: translateX(-0.2rem);
+}
+
+.md-post__nav--next .md-post__nav-link:hover .md-post__nav-icon {
+    transform: translateX(0.2rem);
 }
 
 .md-post__nav-date {
