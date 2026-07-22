@@ -582,8 +582,8 @@ wheels = [
 
 [[package]]
 name = "mkdocs-rss-plugin"
-version = "1.19.1.dev19"
-source = { git = "https://github.com/Zerthick/mkdocs-rss-plugin.git?rev=fix%2Frss-validation-errors#100f2768060ae6963086b79f8480684fd1a7bea0" }
+version = "1.19.1.dev20"
+source = { git = "https://github.com/Zerthick/mkdocs-rss-plugin.git?rev=fix%2Frss-validation-errors#4b1c11cbdd7a207ea483636ed31f09964a203014" }
 dependencies = [
     { name = "cachecontrol", extra = ["filecache"] },
     { name = "gitpython" },
