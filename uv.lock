@@ -236,7 +236,7 @@ requires-dist = [
     { name = "mdformat-mkdocs", marker = "extra == 'dev'", specifier = ">=3.0.1" },
     { name = "mkdocs-material", extras = ["imaging"], specifier = ">=9.7.6" },
     { name = "mkdocs-redirects", specifier = ">=1.2.2" },
-    { name = "mkdocs-rss-plugin", specifier = ">=1.17.1" },
+    { name = "mkdocs-rss-plugin", git = "https://github.com/Zerthick/mkdocs-rss-plugin.git?rev=fix%2Frss-validation-errors" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.2.0" },
 ]
 provides-extras = ["dev"]
@@ -582,8 +582,8 @@ wheels = [
 
 [[package]]
 name = "mkdocs-rss-plugin"
-version = "1.19.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.19.1.dev19"
+source = { git = "https://github.com/Zerthick/mkdocs-rss-plugin.git?rev=fix%2Frss-validation-errors#100f2768060ae6963086b79f8480684fd1a7bea0" }
 dependencies = [
     { name = "cachecontrol", extra = ["filecache"] },
     { name = "gitpython" },
@@ -591,10 +591,6 @@ dependencies = [
     { name = "properdocs" },
     { name = "requests" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/22/e8/70055ec6d7105c0f7c84918e0f98180443b5065469b2877aca43067a5709/mkdocs_rss_plugin-1.19.0.tar.gz", hash = "sha256:0b9b7f14688393e5bd7d26a6dc14dfd2b228a8cdfe5b598a6677589b2159d957", size = 573045, upload-time = "2026-04-17T09:35:34.115Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/00/1f2144fad080706c1ebebef83b7b5c0f8d80f9a2a06b33baabb94e33c84e/mkdocs_rss_plugin-1.19.0-py3-none-any.whl", hash = "sha256:5fdaffdee96745011c7c7786ed52b42a2d751f3aad84c188ffbedeb5a6e2994a", size = 33252, upload-time = "2026-04-17T09:35:32.372Z" },
 ]
 
 [[package]]
