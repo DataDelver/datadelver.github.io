@@ -1,0 +1,23 @@
+{#- Share links: X, LinkedIn, copy-link #}
+{% set share_url = page.canonical_url | urlencode %}
+{% set share_text = page.title | urlencode %}
+<div class="md-post__share">
+  <span class="md-post__share-label">Share this delve</span>
+  <div class="md-post__share-buttons">
+    <a
+      href="https://twitter.com/intent/tweet?url={{ share_url }}&text={{ share_text }}"
+      class="md-post__share-btn" target="_blank" rel="noopener" aria-label="Share on X">
+      {% include ".icons/fontawesome/brands/x-twitter.svg" %}
+    </a>
+    <a
+      href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url }}"
+      class="md-post__share-btn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+      {% include ".icons/fontawesome/brands/linkedin-in.svg" %}
+    </a>
+    <button
+      class="md-post__share-btn md-post__share-copy" type="button"
+      data-share-url="{{ page.canonical_url }}" aria-label="Copy link to post">
+      {% include ".icons/material/content-copy.svg" %}
+    </button>
+  </div>
+</div>

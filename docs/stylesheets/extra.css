@@ -220,6 +220,81 @@ body::after {
     }
 }
 
+/* Share Links */
+.md-post__share {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 3.2rem 0 0;
+}
+
+.md-post__share-label {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+}
+
+.md-post__share-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.md-post__share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    border-radius: 0.4rem;
+    border: 0.05rem solid var(--md-default-bg-color--lightest);
+    color: var(--md-default-fg-color--light);
+    background: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+
+.md-post__share-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: currentColor;
+    transition: transform 0.25s;
+}
+
+.md-post__share-btn:hover {
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+    box-shadow: 0 0.0625rem 0.125rem -0.0625rem var(--md-default-fg-color--lighter-03),
+                0 0.25rem 0.5rem -0.125rem var(--md-default-fg-color--lighter-06);
+}
+
+.md-post__share-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* "Copied!" feedback state — grows to fit the label */
+.md-post__share-copy.copied {
+    width: auto;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
+}
+
+@media max-width: 30em {
+    .md-post__share {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 /* 404 page button – matches back-to-top button styling */
 .md-button.md-top-button {
     background-color: var(--md-default-bg-color) !important;

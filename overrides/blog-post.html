@@ -159,6 +159,11 @@
       {% block content %}
         {% include "partials/content.html" %}
 
+        <!-- Share Links -->
+        {% if page.meta.share | default(true) %}
+        {% include "partials/share.html" %}
+        {% endif %}
+
         <!-- Post Navigation -->
         {% if page.previous_page or page.next_page %}
         <nav class="md-post__navigation md-typeset">
