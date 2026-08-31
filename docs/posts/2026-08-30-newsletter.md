@@ -110,7 +110,7 @@ From there I entered a loop, asking Claude to tackle each issue one by one start
 
 One of the more interesting, but very low-effort enhancements, that Claude suggested was adding site analytics. Prompting for suggestions, it provided several options though I ultimately settled on [Umami](https://umami.is/) for its privacy-first stance, and free tier for hobbyists. Integrating it into the site was a simple [one-line change](https://github.com/DataDelver/datadelver.github.io/pull/38/changes) as MkDocs already has built-in support for an analytics provider.
 
-![Umami](../assets/images/figures/delve24/umami.png)
+![Umami](../assets/images/figures/delve24/umami.webp)
 
 !!! Note
 
@@ -149,7 +149,7 @@ This was a [fairly large PR](https://github.com/DataDelver/datadelver.github.io/
 
 If you scroll to the bottom of the homepage (or the bottom of any delve page) you'll now see a signup!
 
-![Buttondown](../assets/images/figures/delve24/buttondown.png)
+![Buttondown](../assets/images/figures/delve24/buttondown.webp)
 
 I encourage you to subscribe so you never miss a delve going forward!
 
