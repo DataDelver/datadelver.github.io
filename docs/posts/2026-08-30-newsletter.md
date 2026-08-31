@@ -9,9 +9,9 @@ repo: https://github.com/DataDelver/datadelver.github.io
 
 # Delve 24: Adding a Newsletter & Other Site Enhancements with AI
 
-![Banner](../assets/images/banners/delve24.webp)
+![Banner](../assets/images/banners/delve24.png)
 
-> "asdf" - Unknown
+> "Don't talk about AI. Use it." - Andrew Ng
 
 ## Acquire Front End
 
@@ -21,11 +21,11 @@ Greetings data delvers! You may have noticed some changes to the site recently. 
 
     How would you improve this blog: https://www.datadelver.com/ source code is here @Documents/Blog/datadelver.github.io/
 
+<!-- more -->
+
 !!! Note
 
-    For this task I decided to give [Qwen3.6-27B](https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF) a try since it was a more coding oriented question.
-
-<!-- more -->
+    For this task I decided to give [Qwen3.6-27B](https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF) a try since it was a more coding oriented question. (At the time this work was completed Qwen3.8 was not yet released, I'll be experimenting with it in future delves!)
 
 You can find my complete model launch script below:
 
