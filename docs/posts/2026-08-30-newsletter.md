@@ -9,7 +9,7 @@ repo: https://github.com/DataDelver/datadelver.github.io
 
 # Delve 24: Adding a Newsletter & Other Site Enhancements with AI
 
-![Banner](../assets/images/banners/delve24.png)
+![Banner](../assets/images/banners/delve24.webp)
 
 > "Don't talk about AI. Use it." - Andrew Ng
 
