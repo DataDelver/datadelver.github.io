@@ -24,3 +24,10 @@ repos:
         language: python
         types: [markdown]
         files: ^docs/posts/
+
+      - id: validate-image-refs
+        name: Validate image references resolve to real files
+        entry: python hooks/validate_image_refs.py
+        language: python
+        types: [markdown]
+        files: ^docs/

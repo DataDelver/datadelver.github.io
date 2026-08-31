@@ -1,4 +1,5 @@
-{% if page.meta.comments %}
+{# Comments are enabled by default; opt out per post with `comments: false` in front matter #}
+{% if page.meta.comments is none or page.meta.comments %}
 
 <!-- Insert generated snippet here -->
 <script src="https://giscus.app/client.js" data-repo="DataDelver/datadelver.github.io"

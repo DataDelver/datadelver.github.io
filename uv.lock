@@ -215,6 +215,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "mkdocs" },
     { name = "mkdocs-material", extra = ["imaging"] },
     { name = "mkdocs-redirects" },
     { name = "mkdocs-rss-plugin" },
@@ -234,6 +235,7 @@ requires-dist = [
     { name = "mdformat", marker = "extra == 'dev'", specifier = ">=0.7.21" },
     { name = "mdformat-frontmatter", marker = "extra == 'dev'", specifier = ">=2.0.8" },
     { name = "mdformat-mkdocs", marker = "extra == 'dev'", specifier = ">=3.0.1" },
+    { name = "mkdocs", specifier = ">=1.6,<2.0" },
     { name = "mkdocs-material", extras = ["imaging"], specifier = ">=9.7.6" },
     { name = "mkdocs-redirects", specifier = ">=1.2.2" },
     { name = "mkdocs-rss-plugin", git = "https://github.com/Zerthick/mkdocs-rss-plugin.git?rev=fix%2Frss-validation-errors" },
