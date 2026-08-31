@@ -6,19 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we&#x27;ll cover packaging and deploying the app!">
+        <meta name="description" content="Acquire Front End Greetings data delvers! You may have noticed some changes to the site recently. No, I did not suddenly develop front-end skills, however with a local LLM available to me now I have the ability to improve several aspects of the site&#x27;s UX. This all started with a simple prompt: !!! claude How would you...">
       
       
         <meta name="author" content="chase@datadelver.com (Chase Greco)">
       
       
-        <link rel="canonical" href="https://www.datadelver.com/2025/05/04/containerization.html">
+        <link rel="canonical" href="https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html">
       
       
-        <link rel="prev" href="../../04/13/testing.html">
+        <link rel="prev" href="../../07/11/improving-devx-with-ai.html">
       
-      
-        <link rel="next" href="../../06/01/model-tracking-and-apis-with-mlflow.html">
       
       
         
@@ -32,7 +30,7 @@
     
     
       
-        <title>Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization - DataDelver</title>
+        <title>Delve 24: Adding a Newsletter & Other Site Enhancements with AI - DataDelver</title>
       
     
     
@@ -78,21 +76,21 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization - DataDelver" />
-<meta property="og:description" content="ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we&#x27;ll cover packaging and deploying the app!" />
-<meta property="og:image" content="https://www.datadelver.com/assets/images/social/2025/05/04/containerization.png" />
+<meta property="og:title" content="Delve 24: Adding a Newsletter &amp; Other Site Enhancements with AI - DataDelver" />
+<meta property="og:description" content="Acquire Front End Greetings data delvers! You may have noticed some changes to the site recently. No, I did not suddenly develop front-end skills, however with a local LLM available to me now I have the ability to improve several aspects of the site&#x27;s UX. This all started with a simple prompt: !!! claude How would you..." />
+<meta property="og:image" content="https://www.datadelver.com/assets/images/social/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://www.datadelver.com/2025/05/04/containerization.html" />
+<meta property="og:url" content="https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization - DataDelver" />
-<meta property="twitter:description" content="ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we&#x27;ll cover packaging and deploying the app!" />
-<meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2025/05/04/containerization.png" />
+<meta property="twitter:title" content="Delve 24: Adding a Newsletter &amp; Other Site Enhancements with AI - DataDelver" />
+<meta property="twitter:description" content="Acquire Front End Greetings data delvers! You may have noticed some changes to the site recently. No, I did not suddenly develop front-end skills, however with a local LLM available to me now I have the ability to improve several aspects of the site&#x27;s UX. This all started with a simple prompt: !!! claude How would you..." />
+<meta property="twitter:image" content="https://www.datadelver.com/assets/images/social/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.png" />
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2025/05/04/containerization.html"},"url":"https://www.datadelver.com/2025/05/04/containerization.html","description":"ML Microservices, Deployment through Docker Hello data delvers! In part five of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!","datePublished":"2025-05-04T00:00:00+00:00","dateModified":"2026-08-31T02:25:28+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/favicon/pickaxe.webp"}},"image":["https://www.datadelver.com/assets/images/social/2025/05/04/containerization.png"],"articleSection":["Software Engineering"],"timeRequired":"PT6M"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delve 24: Adding a Newsletter &amp; Other Site Enhancements with AI","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html"},"url":"https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html","description":"Acquire Front End Greetings data delvers! You may have noticed some changes to the site recently. No, I did not suddenly develop front-end skills, however with a local LLM available to me now I have the ability to improve several aspects of the site's UX. This all started with a simple prompt: !!! claude How would you...","datePublished":"2026-08-30T00:00:00+00:00","dateModified":"2026-08-31T02:25:28+00:00","author":{"@type":"Person","name":"Chase Greco","url":"https://www.datadelver.com/about"},"publisher":{"@type":"Organization","name":"DataDelver","logo":{"@type":"ImageObject","url":"https://www.datadelver.com/assets/images/favicon/pickaxe.webp"}},"image":["https://www.datadelver.com/assets/images/social/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.png"],"articleSection":["Meta"],"timeRequired":"PT6M"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DataDelver","url":"https://www.datadelver.com/","description":"Exploring the labyrinth of Data Science, Machine Learning, and MLOps one delve at a time.","logo":"https://www.datadelver.com/assets/images/favicon/pickaxe.webp","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.datadelver.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"Containerization","item":"https://www.datadelver.com/2025/05/04/containerization"}]}</script></head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.datadelver.com"},{"@type":"ListItem","position":2,"name":"Adding A Newsletter Other Site Enhancements With Ai","item":"https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai"}]}</script></head>
   
   
     
@@ -111,7 +109,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#delve-12-lets-build-a-modern-ml-microservice-application-part-6-containerization" class="md-skip">
+        <a href="#delve-24-adding-a-newsletter-other-site-enhancements-with-ai" class="md-skip">
           Skip to content
         </a>
       
@@ -146,7 +144,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization
+              Delve 24: Adding a Newsletter &amp; Other Site Enhancements with AI
             
           </span>
         </div>
@@ -897,10 +895,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ml-microservices-deployment-through-docker" class="md-nav__link">
+  <a href="#acquire-front-end" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ML Microservices, Deployment through Docker
+        Acquire Front End
       
     </span>
   </a>
@@ -908,10 +906,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#from-near-to-afar-or-how-to-leave-my-local-machine" class="md-nav__link">
+  <a href="#anonymous-analytics-with-umami" class="md-nav__link">
     <span class="md-ellipsis">
       
-        From Near to Afar, Or How to Leave my Local Machine
+        Anonymous Analytics with Umami
       
     </span>
   </a>
@@ -919,10 +917,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dock-and-load-packing-microservices-like-a-pro" class="md-nav__link">
+  <a href="#ux-enhancements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dock and Load: Packing Microservices Like a Pro
+        UX Enhancements
       
     </span>
   </a>
@@ -930,10 +928,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optimize" class="md-nav__link">
+  <a href="#rss-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optimize!
+        RSS Plugin
       
     </span>
   </a>
@@ -941,10 +939,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reaching-a-basecamp" class="md-nav__link">
+  <a href="#newsletter" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reaching a Basecamp
+        Newsletter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Evaluation
       
     </span>
   </a>
@@ -1023,7 +1032,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
-                        <time datetime="2025-05-04 00:00:00+00:00" class="md-ellipsis">May 4, 2025</time>
+                        <time datetime="2026-08-30 00:00:00+00:00" class="md-ellipsis">August 30, 2026</time>
                       </div>
                     </li>
                     
@@ -1034,7 +1043,7 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../category/software-engineering.html">Software Engineering</a></span>
+                              <a href="../../../category/meta.html">Meta</a></span>
                         </div>
                       </li>
                     
@@ -1056,131 +1065,6 @@
               </li>
             </ul>
             
-              <ul class="md-post__meta md-nav__list">
-                <li class="md-nav__item md-nav__item--section">
-                  <div class="md-post__title">
-                    <span class="md-ellipsis">
-                      Modern ML Microservices
-                    </span>
-                  </div>
-                  <nav class="md-nav">
-                    <ul class="md-nav__list">
-                      
-                      <li class="md-nav__item">
-                        <a href="../../01/26/let-s-build-a-modern-ml-microservice-application-part-1.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 1: Delve 6: Let's Build a Modern ML Microservice Application - Part 1
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../02/05/the-data-layer.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 2: Delve 7: Let's Build a Modern ML Microservice Application - Part 2, The Data Layer
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../02/16/the-business-logic-and-interface-layers.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 3: Delve 8: Let's Build a Modern ML Microservice Application - Part 3, The Business Logic and Interface Layers
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../03/25/configuration.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 4: Delve 10: Let's Build a Modern ML Microservice Application - Part 4, Configuration
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../04/13/testing.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 5: Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="containerization.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 6: Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 7: Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../08/17/the-orchestrator-service.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 8: Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../12/07/docker-container-optimization.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 9: Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization
-                          </span>
-                        </a>
-                      </li>
-                      
-                      <li class="md-nav__item">
-                        <a href="../../../2026/07/11/improving-devx-with-ai.html" class="md-nav__link">
-                          
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2 2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"/></svg>
-                          
-                          <span class="md-ellipsis">
-                            Part 10: Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI
-                          </span>
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </nav>
-                </li>
-              </ul>
-            
           </nav>
           
         </div>
@@ -1198,21 +1082,7 @@
       
       
       
-        <a href="../../../tags.html#tag:modern-ml-microservices" class="md-tag">Modern ML Microservices</a>
-      
-    
-      
-      
-      
-      
-        <a href="../../../tags.html#tag:series" class="md-tag">Series</a>
-      
-    
-      
-      
-      
-      
-        <a href="../../../tags.html#tag:tutorial" class="md-tag">Tutorial</a>
+        <a href="../../../tags.html#tag:tools" class="md-tag">Tools</a>
       
     
   </nav>
@@ -1222,161 +1092,252 @@
   
 
 
-<h1 id="delve-12-lets-build-a-modern-ml-microservice-application-part-6-containerization">Delve 12: Let's Build a Modern ML Microservice Application - Part 6, Containerization</h1>
-<p><img alt="Let's Build a Modern ML Microservice Application - Part 6, Containerization — DataDelver" src="../../../assets/images/banners/delve12.webp" /></p>
+<h1 id="delve-24-adding-a-newsletter-other-site-enhancements-with-ai">Delve 24: Adding a Newsletter &amp; Other Site Enhancements with AI</h1>
+<p><img alt="Adding a Newsletter &amp; Other Site Enhancements with AI — DataDelver" src="../../../assets/images/banners/delve24.webp" /></p>
 <blockquote>
-<p>"This containers revolution is changing the basic act of software consumption. It’s redefining this much more lightweight, portable unit, or atom, that is much easier to manage… It’s a gateway to dynamic management and dynamic systems." - Craig McLuckie</p>
+<p>"Don't talk about AI. Use it." - Andrew Ng</p>
 </blockquote>
-<h2 id="ml-microservices-deployment-through-docker">ML Microservices, Deployment through Docker</h2>
-<p>Hello data delvers! In <a href="../../04/13/testing.html">part five</a> of this series we added automated tests to our application to make it easier to catch bugs. In this part we'll cover packaging and deploying the app!</p>
+<h2 id="acquire-front-end">Acquire Front End</h2>
+<p>Greetings data delvers! You may have noticed some changes to the site recently. No, I did not suddenly develop front-end skills, however with a local LLM available to me now I have the ability to improve several aspects of the site's UX. This all started with a simple prompt:</p>
+<div class="admonition claude">
+<p class="admonition-title">Claude</p>
+<p>How would you improve this blog: https://www.datadelver.com/ source code is here @Documents/Blog/datadelver.github.io/</p>
+</div>
 <!-- more -->
 
-<p><a class="md-button md-button--primary" href="https://github.com/DataDelver/modern-ml-microservices/tree/part-six"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg></span> View the Code on GitHub</a></p>
-<h2 id="from-near-to-afar-or-how-to-leave-my-local-machine">From Near to Afar, Or How to Leave my Local Machine</h2>
-<p>Up until this point, we have been executing our application on our local machine with the command line or the built in VSCode runner, but we aren't going to ship our whole local computer to production! We need a simple way to package our application with its dependencies in a way that makes it easy to deploy (either in an on-prem computing environment or with a cloud provider). By this point you've probably heard of <a href="https://en.wikipedia.org/wiki/Containerization_(computing)">containerization</a>, most likely through its most popular implementation: <a href="https://www.docker.com/">Docker</a>. Fortunately for us, Docker is the perfect tool to package our app. It provides a convenient way to package all the Python dependencies our application needs, provide an environment to execute our Fast API application, and deploy the application to our desired computing environment. So let's get started!</p>
-<p>Firstly, you will need to install Docker on your machine if you have not done so already. Docker Desktop is the official tooling provided by Docker to achieve this, however <a href="https://www.servethehome.com/docker-abruptly-starts-charging-many-users-for-docker-desktop/">due to some drama about commercial use licensing of Docker Desktop</a>, I actually prefer to use <a href="https://rancherdesktop.io/">Rancher Desktop</a> as an alternative with a more permissive license. Whichever you prefer, install it and make sure you have the WSL integration enabled if you plan to use it within your WSL environment (if you are on a Windows machine). You can verify that Docker is correctly installed by opening a shell and running the <code>docker --version</code> command. You should see something like the below output:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$docker --version
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Docker version 27.5.1-rd, build 0c97515
-</span></code></pre></div>
-<p>Next, you'll want to grab the official <a href="https://marketplace.visualstudio.com/items/?itemName=ms-azuretools.vscode-containers">Container Tools Extension for VSCode</a> and with that your development environment should be all set up!</p>
-<h2 id="dock-and-load-packing-microservices-like-a-pro">Dock and Load: Packing Microservices Like a Pro</h2>
-<p>To containerize our application using Docker we must create a <code>Dockerfile</code> which serves as a set of instructions for building your container <em>image</em>. An <em>image</em> is to a <em>container</em> what as <em>class</em> is to an <em>object</em> in OOP. The <em>image</em> is the static definition of the "object" (in this case our application) while the <em>container</em> is a running instance of that image. When creating Dockerfiles it is common to build them on top of existing Docker images, in this way you don't need to specify all of the dependencies of your underlying operating system for example, you can just build on top of an image that already has all of the OS dependencies installed. Fortunately for us uv provides a <a href="https://docs.astral.sh/uv/guides/integration/docker/">prebuilt Docker Image</a> we can use for the base of our our Dockerfile as well as an <a href="https://github.com/astral-sh/uv-docker-example/blob/main/Dockerfile">example Dockerfile</a>, a slightly modified version of which is provided below:</p>
-<div class="language-docker highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Dockerfile</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-1-10">10</a></span>
-<span class="normal"><a href="#__codelineno-1-11">11</a></span>
-<span class="normal"><a href="#__codelineno-1-12">12</a></span>
-<span class="normal"><a href="#__codelineno-1-13">13</a></span>
-<span class="normal"><a href="#__codelineno-1-14">14</a></span>
-<span class="normal"><a href="#__codelineno-1-15">15</a></span>
-<span class="normal"><a href="#__codelineno-1-16">16</a></span>
-<span class="normal"><a href="#__codelineno-1-17">17</a></span>
-<span class="normal"><a href="#__codelineno-1-18">18</a></span>
-<span class="normal"><a href="#__codelineno-1-19">19</a></span>
-<span class="normal"><a href="#__codelineno-1-20">20</a></span>
-<span class="normal"><a href="#__codelineno-1-21">21</a></span>
-<span class="normal"><a href="#__codelineno-1-22">22</a></span>
-<span class="normal"><a href="#__codelineno-1-23">23</a></span>
-<span class="normal"><a href="#__codelineno-1-24">24</a></span>
-<span class="normal"><a href="#__codelineno-1-25">25</a></span>
-<span class="normal"><a href="#__codelineno-1-26">26</a></span>
-<span class="normal"><a href="#__codelineno-1-27">27</a></span>
-<span class="normal"><a href="#__codelineno-1-28">28</a></span>
-<span class="normal"><a href="#__codelineno-1-29">29</a></span>
-<span class="normal"><a href="#__codelineno-1-30">30</a></span>
-<span class="normal"><a href="#__codelineno-1-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">ghcr.io/astral-sh/uv:python3.13-bookworm-slim</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c"># Install the project into `/app`</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="c"># Enable bytecode compilation</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">UV_COMPILE_BYTECODE</span><span class="o">=</span><span class="m">1</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="c"># Copy from the cache instead of linking since it&#39;s a mounted volume</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">UV_LINK_MODE</span><span class="o">=</span>copy
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="c"># Install the project&#39;s dependencies using the lockfile and settings</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="k">RUN</span><span class="w"> </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>cache,target<span class="o">=</span>/root/.cache/uv<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">    </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>uv.lock,target<span class="o">=</span>uv.lock<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">    </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>pyproject.toml,target<span class="o">=</span>pyproject.toml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">    </span>uv<span class="w"> </span>sync<span class="w"> </span>--frozen<span class="w"> </span>--no-install-project<span class="w"> </span>--no-dev
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="c"># Then, copy the rest of the project source code and install it</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="c"># Installing separately from its dependencies allows optimal layer caching</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="k">RUN</span><span class="w"> </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>cache,target<span class="o">=</span>/root/.cache/uv<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">    </span>uv<span class="w"> </span>sync<span class="w"> </span>--frozen<span class="w"> </span>--no-dev
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="c"># Place executables in the environment at the front of the path</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/app/.venv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="c"># Reset the entrypoint, don&#39;t invoke `uv`</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[]</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="c"># Run the FastAPI application by default</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fastapi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;run&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;src/main.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;80&quot;</span><span class="p">]</span>
+<p><a class="md-button md-button--primary" href="https://github.com/DataDelver/datadelver.github.io"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg></span> View the Code on GitHub</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For this task I decided to give <a href="https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF">Qwen3.6-27B</a> a try since it was a more coding oriented question. (At the time this work was completed Qwen3.8 was not yet released, I'll be experimenting with it in future delves!)</p>
+</div>
+<p>You can find my complete model launch script below:</p>
+<details>
+<summary>Start-Qwen3.6.ps1</summary>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="cm">&lt;#</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="sd">.SYNOPSIS</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="cm">    Starts a highly optimized llama-server instance for Claude Code using Qwen3.6-27B-MTP.</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="sd">.DESCRIPTION</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="cm">    Optimized for RTX 4090 (24GB VRAM). Utilizes MTP (Multi-Token Prediction) </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="cm">    for faster inference.</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="cm">#&gt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c"># 1. Port Safety Check</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="nv">$PortToCheck</span> <span class="p">=</span> <span class="n">11434</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="nv">$ActivePort</span> <span class="p">=</span> <span class="nb">Get-NetTCPConnection</span> <span class="n">-LocalPort</span> <span class="nv">$PortToCheck</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$ActivePort</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="nb">Write-Warning</span> <span class="s2">&quot;⚠️ Port $PortToCheck is already in use.&quot;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="nb">Read-Host</span> <span class="s2">&quot;Press Enter to exit...&quot;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="n">exit</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="p">}</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="c"># 2. Server Parameter Definitions</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="nv">$RepoID</span> <span class="p">=</span> <span class="s2">&quot;unsloth/Qwen3.6-27B-MTP-GGUF&quot;</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="nv">$ModelFile</span> <span class="p">=</span> <span class="s2">&quot;Qwen3.6-27B-Q4_K_M.gguf&quot;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="nv">$ModelAlias</span> <span class="p">=</span> <span class="s2">&quot;qwen3.6-27b&quot;</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="nv">$ContextSize</span> <span class="p">=</span> <span class="n">65536</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="nv">$GPULayers</span> <span class="p">=</span> <span class="n">99</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="nv">$HostAddress</span> <span class="p">=</span> <span class="s2">&quot;0.0.0.0&quot;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="c"># Set the JSON environment variable</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="nv">$env:LLAMA_ARG_CHAT_TEMPLATE_KWARGS</span> <span class="p">=</span> <span class="s1">&#39;{&quot;preserve_thinking&quot;: true}&#39;</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="nb">Write-Host</span> <span class="s2">&quot;🚀 Launching Local Qwen3.6-27B-MTP Engine...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="c"># 3. Execution Block</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="n">llama-server</span> <span class="p">`</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">-hf</span> <span class="nv">$RepoID</span> <span class="p">`</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">-m</span> <span class="nv">$ModelFile</span> <span class="p">`</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="p">-</span><span class="n">-alias</span> <span class="nv">$ModelAlias</span> <span class="p">`</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="p">-</span><span class="n">-ctx-size</span> <span class="nv">$ContextSize</span> <span class="p">`</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="n">-ngl</span> <span class="nv">$GPULayers</span> <span class="p">`</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">-fa</span> <span class="n">on</span> <span class="p">`</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="p">-</span><span class="n">-cache-type-k</span> <span class="n">q8_0</span> <span class="p">`</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="p">-</span><span class="n">-cache-type-v</span> <span class="n">q8_0</span> <span class="p">`</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="p">-</span><span class="n">-jinja</span> <span class="p">`</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="p">-</span><span class="n">-temp</span> <span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">`</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="p">-</span><span class="n">-top-p</span> <span class="n">0</span><span class="p">.</span><span class="n">95</span> <span class="p">`</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="p">-</span><span class="n">-spec-type</span> <span class="n">draft-mtp</span> <span class="p">`</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="p">-</span><span class="n">-spec-draft-n-max</span> <span class="n">3</span> <span class="p">`</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="p">-</span><span class="n">-host</span> <span class="nv">$HostAddress</span> <span class="p">`</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="p">-</span><span class="n">-port</span> <span class="nv">$PortToCheck</span>
 </span></code></pre></div></td></tr></table></div>
-<p>An explanation of many of the optimizations present in the above file are provided in the uv documentation. For our purposes the only things to note are that we use <code>COPY</code> instead of <code>ADD</code> (which is the best practice <a href="https://docs.docker.com/build/building/best-practices/#add-or-copy">recommended by Docker</a>) and we modify the last line from the example provided by uv to be a "prod" configuration by not running Fast API in dev mode as well as specifying a port for the application to run on rather than a host of <code>0.0.0.0</code>. We can go ahead an add the above file to the root of our project and build the container by running:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker build -t modern-ml-microservices-app .
-</span></code></pre></div>
-<p>This builds our application image with the tag <code>modern-ml-microservices-app</code> which allows us to then reference that tag to run the application like so:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker run -p 80:80 -e ENV=prod modern-ml-microservices-app
-</span></code></pre></div>
-<p>This command does a few things:</p>
+</details>
+<p>This produced the following analysis:</p>
+<blockquote>
+<p><strong>Priority Summary</strong></p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Item</th>
+<th>Effort</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 High</td>
+<td>Optimize banner images (70 MB → ~5 MB)</td>
+<td>30 min</td>
+<td>Very High — page load speed</td>
+</tr>
+<tr>
+<td>🔴 High</td>
+<td>Fix typo in about.md</td>
+<td>1 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>🔴 High</td>
+<td>Fix pyproject.toml description</td>
+<td>1 min</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>🟡 Medium</td>
+<td>ML Micro series index + cross-links</td>
+<td>30 min</td>
+<td>High</td>
+</tr>
+<tr>
+<td>🟡 Medium</td>
+<td>Add reading time</td>
+<td>5 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>🟡 Medium</td>
+<td>CI cache key improvement</td>
+<td>5 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>🟡 Medium</td>
+<td>Post template</td>
+<td>15 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>🟢 Low</td>
+<td>Analytics integration</td>
+<td>1 hr</td>
+<td>High</td>
+</tr>
+<tr>
+<td>🟢 Low</td>
+<td>Newsletter signup</td>
+<td>30 min</td>
+<td>High</td>
+</tr>
+<tr>
+<td>🟢 Low</td>
+<td>JSON-LD structured data</td>
+<td>1 hr</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p>The #1 thing to fix is the banner images. At 70 MB of uncompressed PNGs, every blog post forces readers to download
+2-4 MB just for the hero banner. Converting to WebP would reduce that to ~300-500 KB per image — a 10x improvement
+with zero visual quality loss. This single change would dramatically improve page load times, especially for mobile
+users.</p>
+</blockquote>
+<p>From there I entered a loop, asking Claude to tackle each issue one by one starting with the highest priority tasks and working down the list. Once all the tasks were completed I asked it to re-evaluate the site and generate more suggestions. This led to several enhancements to the site, many in the form of custom <a href="https://www.mkdocs.org/dev-guide/plugins/">MkDocs Plugins</a>. Here were a few enhancements that stood out to me.</p>
+<h2 id="anonymous-analytics-with-umami">Anonymous Analytics with Umami</h2>
+<p>One of the more interesting, but very low-effort enhancements, that Claude suggested was adding site analytics. Prompting for suggestions, it provided several options though I ultimately settled on <a href="https://umami.is/">Umami</a> for its privacy-first stance, and free tier for hobbyists. Integrating it into the site was a simple <a href="https://github.com/DataDelver/datadelver.github.io/pull/38/changes">one-line change</a> as MkDocs already has built-in support for an analytics provider.</p>
+<p><img loading="lazy" alt="Umami" src="../../../assets/images/figures/delve24/umami.webp" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This was probably one of my first very clear experiences of LLM-driven search. Instead of relying on a Google search to suggest analytics providers, Claude suggested providers directly in its response, bypassing the Google search altogether.</p>
+</div>
+<p>Having this data will be great to see how people are discovering this site! Importantly, however, all of this data is <em>anonymous</em>, unlike some of the other analytics providers out there.</p>
+<h2 id="ux-enhancements">UX Enhancements</h2>
+<p>Several UX enhancements were added to the site. Some of the highlights in rapid fire order were:</p>
 <ul>
-<li>Binds port 80 on the host machine to port 80 within the container, this allows us to easily access the application on the host's network.</li>
-<li>Sets the <code>ENV</code> environment to <code>prod</code> to tell our application to run in a production configuration</li>
-<li>Runs the application</li>
+<li>Custom Callout Button on the Homepage and dedicated landing page for the <a href="https://www.datadelver.com/series/ml-microservices.html">Modern ML Microservices Series</a></li>
+<li>A <a href="https://github.com/DataDelver/datadelver.github.io/pull/48/changes#diff-e367d91bc273f41e7df5de1babaed6b2878046bdd06fbc4a385674f695bb7a25">Reading Progress Bar</a> at the top of posts</li>
+<li>A <a href="https://github.com/DataDelver/datadelver.github.io/pull/65">View the Code on GitHub</a> custom call to action plugin</li>
+<li>A <a href="https://github.com/DataDelver/datadelver.github.io/pull/46">Custom 404 page</a>, view it <a href="https://www.datadelver.com/notfound">here</a>!</li>
+<li>Social button share links, previous/next delve navigation, and related delves at the bottom of all posts!</li>
 </ul>
-<p>With that you should be able to navigate to <a href="http://localhost/docs">http://localhost/docs</a> and view your running application, now in a docker container!</p>
-<h2 id="optimize">Optimize!</h2>
-<p>With our app containerized you have everything you need to deploy it on your compute platform of choice. However, before we do there are a few more optimizations we could do. Firstly, when we copy our application files to the container we are copying the <em>entire</em> project, <strong>including files the application does not need to execute</strong> such as the application README. Such files do nothing but increase the size of our container. We could copy the individual files we need one by one, but Docker provides a <code>.dockerignore</code> <a href="https://docs.docker.com/build/concepts/context/#dockerignore-files">file</a> which works exactly like a .gitignore file and allows excluding files which match a specific pattern from the build context. For example, we could add a <code>.dockerignore</code> file with the following contents to the root of our project to exclude unneeded files:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">.dockerignore</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-4-10">10</a></span>
-<span class="normal"><a href="#__codelineno-4-11">11</a></span>
-<span class="normal"><a href="#__codelineno-4-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>__pycache__
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>.pytest_cache
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>.venv
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>.vscode
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>data
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>deployment
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>tests
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>.env
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>.gitignore
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>.git
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>LICENSE
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>README.md
-</span></code></pre></div></td></tr></table></div>
-<p>Finally, when building your project it's best practice to also run all of your tests. Instead of remembering to run both commands I like to create a bash script that automates this process (that we can also use as part of our CI/CD pipeline later 😉). To do that we can create a new folder called <code>deployment</code> to hold our deployment scripts, and create an <code>app-build.sh</code> script to execute that process:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">deployment/app-build.sh</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-5-10">10</a></span>
-<span class="normal"><a href="#__codelineno-5-11">11</a></span>
-<span class="normal"><a href="#__codelineno-5-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="ch">#! /usr/bin/env bash</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1"># This script builds a Docker image for the app.</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Usage: ./app-build.sh</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nb">cd</span><span class="w"> </span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span>/..<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="c1"># Run tests</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>pytest<span class="w"> </span>--cov
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="c1"># Build the Docker image for the app</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>modern-ml-microservices-app<span class="w"> </span>.
-</span></code></pre></div></td></tr></table></div>
-<p>You can then execute the script from the root of your project like so:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./deployment/app-build.sh 
-</span></code></pre></div>
-<h2 id="reaching-a-basecamp">Reaching a Basecamp</h2>
-<p>Congratulations! You now have a fully containerized application! In addition, this concludes the first "leg" of our journey into the labyrinth of ML Microservices. Up until this point we have focused on developing the software engineering foundation to build good microservices whether they use ML or not. For the next leg of our journey we will finally introduce ML and start to discuss some of the ways we can apply what we've covered thus far to building ML powered services! As always full code for this part can be found <a href="https://github.com/DataDelver/modern-ml-microservices/tree/part-six">here</a>!</p>
+<p>Many more behind-the-scenes optimizations for page loading time and SEO performance were made as well.</p>
+<h2 id="rss-plugin">RSS Plugin</h2>
+<p>I wanted to add the <a href="https://guts.github.io/mkdocs-rss-plugin/">MkDocs RSS Plugin</a> to the site to provide an easy way to get notified of a new delve going live. However, when validating the feed generated by the plugin it actually produced several validation errors. Working with Claude I initially developed a <a href="https://github.com/DataDelver/datadelver.github.io/pull/60">monkey patch</a> script to fix the issue locally, but figured it would be useful to others as well so I had Claude fork the repo and <a href="https://github.com/Guts/mkdocs-rss-plugin/pull/451">contribute a fix</a> to the upstream plugin!</p>
+<p>There were some interesting takeaways from this experience of using an LLM to contribute to open source.</p>
+<ul>
+<li>The maintainer of the plugin wanted me to disclose the <a href="https://www.visidata.org/blog/2026/ai/">level of AI involvement</a> used to make the contribution (I settled on Level 8). I think using a classification like this will be a good practice for me to carry forward toward future contributions.</li>
+<li>As with all contributions, splitting into smaller PRs with one change each makes them easier to review and merge. LLMs tend to prefer making one massive PR with all the changes bundled, so you need to be especially diligent with AI to make sure it breaks things down into smaller pieces.</li>
+</ul>
+<p>Check out the RSS Feed <a href="https://www.datadelver.com/feed_rss_created.xml">here</a> (and subscribe to it with your RSS reader of choice)!</p>
+<h2 id="newsletter">Newsletter</h2>
+<p>Finally, the enhancement I was most excited about is the launch of a newsletter, which sends out an email whenever a new delve is published. In another example of LLM-driven search, I settled on <a href="https://buttondown.com/">Buttondown</a> as my email distribution platform.</p>
+<p>This was a <a href="https://github.com/DataDelver/datadelver.github.io/pull/67/changes">fairly large PR</a> that consolidated several of the text utilities used in other plugins into a shared module, however Claude did a pretty good job handling it with some prompting.</p>
+<p>If you scroll to the bottom of the homepage (or the bottom of any delve page) you'll now see a signup!</p>
+<p><img loading="lazy" alt="Buttondown" src="../../../assets/images/figures/delve24/buttondown.webp" /></p>
+<p>I encourage you to subscribe so you never miss a delve going forward!</p>
+<h2 id="final-evaluation">Final Evaluation</h2>
+<p>After making all of the suggested changes I prompted Claude to re-evaluate the site with the exact same prompt:</p>
+<div class="admonition claude">
+<p class="admonition-title">Claude</p>
+<p>How would you improve this blog: https://www.datadelver.com/ source code is here @Documents/Blog/datadelver.github.io/</p>
+</div>
+<blockquote>
+<p>I dug through your repo, the build config, and the live site. Short version: the infrastructure is genuinely solid — per-post social cards, JSON-LD, RSS, Umami, reading progress bar, related posts, series nav, a "Start Here" page, custom 404, and newsletter automation are all things most blogs never get to...</p>
+</blockquote>
+<p>Nice!</p>
 <h2 id="delve-data">Delve Data</h2>
 <ul>
-<li>Many challenges exist when deploying Python applications to compute environments other than a local machine</li>
-<li>Docker provides a convenient way to solve many of these challenges</li>
-<li>uv provides a pre-built Docker base image that makes deploying Python applications using uv even easier</li>
+<li>A local LLM can audit an entire site's codebase and produce a prioritized improvement list with effort and impact estimates</li>
+<li>An iterative loop of prompting the LLM to fix one issue at a time and re-evaluating the site is a good way to make incremental improvements</li>
+<li>LLM-driven search can replace conventional web search, with models suggesting tools like Umami and Buttondown directly from their training data</li>
 </ul>
 
 
@@ -1452,18 +1413,18 @@
   <span class="md-post__share-label">Share this delve</span>
   <div class="md-post__share-buttons">
     <a
-      href="https://twitter.com/intent/tweet?url=https%3A//www.datadelver.com/2025/05/04/containerization.html&text=Delve%2012%3A%20Let%27s%20Build%20a%20Modern%20ML%20Microservice%20Application%20-%20Part%206%2C%20Containerization"
+      href="https://twitter.com/intent/tweet?url=https%3A//www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html&text=Delve%2024%3A%20Adding%20a%20Newsletter%20%26amp%3B%20Other%20Site%20Enhancements%20with%20AI"
       class="md-post__share-btn" target="_blank" rel="noopener" aria-label="Share on X">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
     </a>
     <a
-      href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//www.datadelver.com/2025/05/04/containerization.html"
+      href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html"
       class="md-post__share-btn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8c0-14.3 5.7-27.9 15.8-38S39.6 0 53.8 0s27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3M447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"/></svg>
     </a>
     <button
       class="md-post__share-btn md-post__share-copy" type="button"
-      data-share-url="https://www.datadelver.com/2025/05/04/containerization.html" aria-label="Copy link to post">
+      data-share-url="https://www.datadelver.com/2026/08/30/adding-a-newsletter-other-site-enhancements-with-ai.html" aria-label="Copy link to post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12z"/></svg>
     </button>
   </div>
@@ -1476,39 +1437,22 @@
           <div class="md-post__nav">
             
             <div class="md-post__nav--prev">
-              <a href="../../04/13/testing.html" class="md-post__nav-link">
+              <a href="../../07/11/improving-devx-with-ai.html" class="md-post__nav-link">
                 <div class="md-post__nav-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
                 </div>
                 <div class="md-post__nav-label">
                   <span class="md-post__nav-direction">Previous Delve</span>
-                  <span class="md-post__nav-title">Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing</span>
+                  <span class="md-post__nav-title">Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI</span>
                   <span class="md-post__nav-date">
-                    <time datetime="2025-04-13 00:00:00+00:00">
-                      April 13, 2025
+                    <time datetime="2026-07-11 00:00:00+00:00">
+                      July 11, 2026
                     </time>
                   </span>
                 </div>
               </a>
             </div>
             
-            
-            <div class="md-post__nav--next">
-              <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-post__nav-link">
-                <div class="md-post__nav-label">
-                  <span class="md-post__nav-direction">Next Delve</span>
-                  <span class="md-post__nav-title">Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow</span>
-                  <span class="md-post__nav-date">
-                    <time datetime="2025-06-01 00:00:00+00:00">
-                      June 1, 2025
-                    </time>
-                  </span>
-                </div>
-                <div class="md-post__nav-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-                </div>
-              </a>
-            </div>
             
           </div>
         </nav>
@@ -1522,90 +1466,90 @@
             
             
             <div class="md-post__related-card">
-              <a href="../../../2026/07/11/improving-devx-with-ai.html" class="md-post__related-link">
-                <span class="md-post__related-title">Delve 23: Let's Build a Modern ML Microservice Application - Part 10, Improving DevX with AI</span>
+              <a href="../../06/22/a-local-claude-code-redux.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 22: A Local Claude Code Redux</span>
                 <span class="md-post__related-date">
-                  <time datetime="2026-07-11 00:00:00+00:00">
-                    July 11, 2026
+                  <time datetime="2026-06-22 00:00:00+00:00">
+                    June 22, 2026
                   </time>
                   
-                  · 17 min read
+                  · 10 min read
                   
                 </span>
                 
-                <p class="md-post__related-excerpt">Greetings data delvers! It has been a while since we last delved into modern ML microservices. In part nine of this...</p>
+                <p class="md-post__related-excerpt">Hello data delvers! It's been some time but I'm back with more delves! In the time since my previous delve the...</p>
                 
               </a>
             </div>
             
             
             <div class="md-post__related-card">
-              <a href="../../12/07/docker-container-optimization.html" class="md-post__related-link">
-                <span class="md-post__related-title">Delve 19: Let's Build a Modern ML Microservice Application - Part 9, Docker Container Optimization</span>
+              <a href="../../02/22/a-local-claude-code.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 21: A Local Claude Code</span>
                 <span class="md-post__related-date">
-                  <time datetime="2025-12-07 00:00:00+00:00">
-                    December 7, 2025
+                  <time datetime="2026-02-22 00:00:00+00:00">
+                    February 22, 2026
                   </time>
                   
-                  · 12 min read
+                  · 4 min read
                   
                 </span>
                 
-                <p class="md-post__related-excerpt">Greetings data delvers! In part eight of this series we deployed our first multi-service system. In this part, we...</p>
+                <p class="md-post__related-excerpt">Hello data delvers! Though I am cautiously skeptical of the hype around AI, one area that I have seen my own...</p>
                 
               </a>
             </div>
             
             
             <div class="md-post__related-card">
-              <a href="../../08/17/the-orchestrator-service.html" class="md-post__related-link">
-                <span class="md-post__related-title">Delve 15: Let's Build a Modern ML Microservice Application - Part 8, The Orchestrator Service</span>
+              <a href="../../../2025/09/14/the-quest-for-a-full-screen-raspberry-pi-application-part-2.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 16: The Quest for a Full Screen Raspberry Pi Application - Part 2</span>
                 <span class="md-post__related-date">
-                  <time datetime="2025-08-17 00:00:00+00:00">
-                    August 17, 2025
+                  <time datetime="2025-09-14 00:00:00+00:00">
+                    September 14, 2025
                   </time>
                   
-                  · 20 min read
+                  · 3 min read
                   
                 </span>
                 
-                <p class="md-post__related-excerpt">Machine Learning Services as a System Greetings data delvers! In part seven of this series we finally deployed a...</p>
+                <p class="md-post__related-excerpt">Full Screen Applications on the Raspberry Pi, Why so Hard AGAIN? Hello data delvers! I recently revisited my...</p>
                 
               </a>
             </div>
             
             
             <div class="md-post__related-card">
-              <a href="../../06/01/model-tracking-and-apis-with-mlflow.html" class="md-post__related-link">
-                <span class="md-post__related-title">Delve 13: Let's Build a Modern ML Microservice Application - Part 7, Model Tracking and APIs with MLFlow</span>
+              <a href="../../../2025/03/15/migrating-from-jekyll-to-material-for-mkdocs.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 9: Migrating from Jekyll to Material for MkDocs</span>
                 <span class="md-post__related-date">
-                  <time datetime="2025-06-01 00:00:00+00:00">
-                    June 1, 2025
+                  <time datetime="2025-03-15 00:00:00+00:00">
+                    March 15, 2025
                   </time>
                   
-                  · 18 min read
+                  · 10 min read
                   
                 </span>
                 
-                <p class="md-post__related-excerpt">Reset and Rescope Hello data delvers! In part six of this series we containerized our application, making it...</p>
+                <p class="md-post__related-excerpt">From one Static Site to Another Greetings data delvers! The sharper-eyed among you may have noticed that the website...</p>
                 
               </a>
             </div>
             
             
             <div class="md-post__related-card">
-              <a href="../../04/13/testing.html" class="md-post__related-link">
-                <span class="md-post__related-title">Delve 11: Let's Build a Modern ML Microservice Application - Part 5, Testing</span>
+              <a href="../../../2024/06/29/the-quest-for-a-full-screen-raspberry-pi-application.html" class="md-post__related-link">
+                <span class="md-post__related-title">Delve 5: The Quest for a Full Screen Raspberry Pi Application</span>
                 <span class="md-post__related-date">
-                  <time datetime="2025-04-13 00:00:00+00:00">
-                    April 13, 2025
+                  <time datetime="2024-06-29 00:00:00+00:00">
+                    June 29, 2024
                   </time>
                   
-                  · 24 min read
+                  · 3 min read
                   
                 </span>
                 
-                <p class="md-post__related-excerpt">ML Microservices, Keep Calm and Run Your Tests Hello data delvers! In part four of this series we refactored our...</p>
+                <p class="md-post__related-excerpt">Full Screen Applications on the Raspberry Pi, Why so Hard? Hello data delvers! Apologies for the lack of updates,...</p>
                 
               </a>
             </div>
