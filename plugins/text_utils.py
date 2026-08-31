@@ -26,19 +26,39 @@ MD_ITALIC = re.compile(r"\*(.*?)\*")
 MD_CODE = re.compile(r"`(.*?)`")
 MD_LINK = re.compile(r"\[(.*?)\]\(.*?\)")
 MD_IMAGE = re.compile(r"!\[.*?\]\(.*?\)")
-MD_HEADER = re.compile(r"^#{1,6}\s+(.*)", re.MULTILINE)
+MD_HEADER = re.compile(r"^#{1,6}\s+.*$", re.MULTILINE)
 MD_HRULE = re.compile(r"^\s*(?:---|\*\*\*|___)\s*$", re.MULTILINE)
 MD_BLOCKQUOTE = re.compile(r"^>\s?(.*)", re.MULTILINE)
 MD_LIST = re.compile(r"^[\s]*[-*+]\s+(.*)", re.MULTILINE)
 MD_ORDERED_LIST = re.compile(r"^[\s]*\d+\.\s+(.*)", re.MULTILINE)
 
+# Material for MkDocs admonition blocks: a "!!! type" / "??? \"title\"" marker
+# line followed by indented content
+MD_ADMONITION = re.compile(
+    r"^[ \t]*[!?]{3}(?:[ \t]+[^\n]*)?\n((?:[ \t]+\S[^\n]*\n?)*)",
+    re.MULTILINE,
+)
+
+
+def _dedent_admonition(match: re.Match) -> str:
+    """Replace an admonition block with its dedented body text.
+
+    Drops the "!!!"/"???" marker line and removes the indentation from
+    each body line so the content reads as plain prose.
+    """
+    lines = [re.sub(r"^[ \t]+", "", line) for line in match.group(1).splitlines()]
+    return "\n".join(lines)
+
 
 def strip_markdown(text: str) -> str:
     """Strip markdown formatting from text and return plain text.
 
-    Handles images, links, bold, italic, code, headers, blockquotes,
-    lists, horizontal rules, HTML tags, and escape characters.
+    Handles admonition blocks (markers dropped, content dedented), images,
+    links, bold, italic, code, headers (removed), blockquotes, lists,
+    horizontal rules, HTML tags, and escape characters.
     """
+    # Convert admonition blocks to plain text (drop marker, dedent body)
+    text = MD_ADMONITION.sub(_dedent_admonition, text)
     # Remove images first (before links, since images contain brackets too)
     text = MD_IMAGE.sub("", text)
     # Replace links with their text
@@ -48,8 +68,9 @@ def strip_markdown(text: str) -> str:
     text = MD_ITALIC.sub(r"\1", text)
     # Remove inline code markers
     text = MD_CODE.sub(r"\1", text)
-    # Remove header markers (keep the text)
-    text = MD_HEADER.sub(r"\1", text)
+    # Remove heading lines entirely (marker and text) so section headings
+    # don't run together with the following paragraph in plain text
+    text = MD_HEADER.sub("", text)
     # Remove blockquote markers
     text = MD_BLOCKQUOTE.sub(r"\1", text)
     # Remove list markers
