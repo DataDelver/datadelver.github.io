@@ -6,6 +6,19 @@ on:
       - main
     paths:
       - "docs/posts/**/*.md"
+  # Manual trigger for regenerating a draft (e.g. after a formatting fix).
+  # Provide the commit range explicitly, since github.event.before is only
+  # available for push events.
+  workflow_dispatch:
+    inputs:
+      sha_prev:
+        description: "Previous commit SHA to diff against (default: HEAD~1)"
+        required: false
+        default: ""
+      sha_curr:
+        description: "Current commit SHA (default: HEAD)"
+        required: false
+        default: ""
 
 # Avoid concurrent runs on rapid pushes
 concurrency:
@@ -30,9 +43,13 @@ jobs:
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
         run: |
-          # ${{ github.event.before }} is the SHA of the tip of the previous ref
-          # This correctly handles multi-commit pushes by comparing against
-          # the state before this push started
+          # For pushes, ${{ github.event.before }} is the SHA of the tip of
+          # the previous ref. This correctly handles multi-commit pushes by
+          # comparing against the state before this push started.
+          # For manual dispatches, fall back to the provided inputs (or the
+          # script's own HEAD~1..HEAD defaults when left empty).
+          prev="${{ github.event.before || github.event.inputs.sha_prev }}"
+          curr="${{ github.event.inputs.sha_curr || 'HEAD' }}"
           python scripts/newsletter_email.py \
-            --sha-prev "${{ github.event.before }}" \
-            --sha-curr "HEAD"
+            --sha-prev "$prev" \
+            --sha-curr "$curr"
