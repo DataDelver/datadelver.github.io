@@ -27,6 +27,8 @@ Greetings data delvers! You may have noticed some changes to the site recently. 
 
     For this task I decided to give [Qwen3.6-27B](https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF) a try since it was a more coding oriented question. (At the time this work was completed Qwen3.8 was not yet released, I'll be experimenting with it in future delves!)
 
+    I am also using the Claude Code CLI as my harness, you can see a full setup guide as to how to do this in [Delve 22](2026-06-22-local-claude-redux.md)!
+
 You can find my complete model launch script below:
 
 ??? "Start-Qwen3.6.ps1"
