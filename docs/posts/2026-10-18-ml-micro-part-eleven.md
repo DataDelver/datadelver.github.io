@@ -193,6 +193,102 @@ def _build_payload(data: pd.DataFrame) -> dict:
 
 This allows us to run a synchronous, heavy workload, function outside the main event loop to prevent it from blocking. However, don't preemptively optimize, run benchmarks, observe bottlenecks, and only wrap functions if they become bottlenecks.
 
+Finally, wrapping up the provider a bug that existing in the sync version that we should fix:
+
+```python title="housing-price-orchestrator/src/provider/mlflow_model_provider.py" linenums="53"
+async def close(self) -> None:
+    """Closes the underlying async HTTP client."""
+    await self.client.aclose()
+```
+
+In order to gracefully handle application shutdown, we should have a way to close the underlying client. We can expose a method on the provider itself to do this.
+
+## Async Service
+
+Our pricing service must now be updated to call our async provider, fortunately it's a pretty easy conversion:
+
+```python title="housing-price-orchestrator/src/service/pricing_service.py" linenums="11"
+async def predict_price(
+    self, price_prediction_request: PricePredictionRequest
+) -> PricePrediction:
+    """Predicts the price using the MLFlow model provider.
+
+    Args:
+        price_prediction_request: The input data for the prediction.
+
+    Returns:
+        A PricePrediction containing the predicted price.
+    """
+
+    input_data = price_prediction_request.model_dump(by_alias=True)
+
+    input_df = pd.DataFrame([input_data])
+    predictions = await self.pricing_model_provider.predict(input_df)
+    predicted_price = predictions.predictions[0] if predictions.predictions else None
+
+    if predicted_price is None:
+        raise ValueError("No predictions returned from the model.")
+```
+
+The batch endpoint follows a similar conversion.
+
+## Async Main
+
+Our main script needs an async overhaul as well. This one is a bit more involved. Remember how I mentioned it was important to close the http client? We are going to do that here by taking advantage of the [FastAPI Lifespan](https://fastapi.tiangolo.com/advanced/events/#lifespan-events). Instead of initializing our clients, providers, and services globally we can instead create them within a lifespan:
+
+```python title="housing-price-orchestrator/src/main.py" linenums="14"
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: create the async HTTP client and inject services onto app.state
+    client = httpx.AsyncClient()
+    app.state.model_provider = MLFlowModelProvider(
+        app_settings.pricing_model_url, client
+    )
+    app.state.pricing_service = PricingService(app.state.model_provider)
+    yield
+    # Shutdown: close the async HTTP client
+    await client.aclose()
+```
+
+Let's break this down, the lifespan is an async context manager, FastAPI will invoke this function **once at application startup** and will execute everything **up until** the `yield` keyword. Afterwards the application will start receiving requests. Upon shutdown, once the application stops receiving requests everything **after** yield is executed. In practice this means we set everything up before `yield` and tear it down after, which is the pattern we see above.
+
+In addition, we'd like to access the `PricingService` in other parts of our application, in oder to do this we can store it on a special object called `app.state` which is global and re-used between invocations.
+
+In order to retrieve the pricing service from the app state we can create a helper function:
+
+```python title="housing-price-orchestrator/src/main.py" linenums="28"
+def get_pricing_service(request: Request) -> PricingService:
+    """Dependency that provides the PricingService from the application state."""
+    return request.app.state.pricing_service
+```
+
+Finally, we use the [Dependency Injection](https://fastapi.tiangolo.com/tutorial/dependencies/) pattern available in FastAPI to allow us to access the service in the context of an individual request:
+
+```python title="housing-price-orchestrator/src/main.py" linenums="33"
+@app.post("/api/v1/price/predict")
+async def predict(
+    price_prediction_request: PricePredictionRequest,
+    pricing_service: PricingService = Depends(get_pricing_service),
+) -> PricePredictionResponseView:
+    """Endpoint to predict the price of a housing unit.
+
+    Args:
+        price_prediction_request: The request containing the input data for the prediction.
+        pricing_service: The injected PricingService instance.
+
+    Returns:
+        A PricePredictionResponseView containing the predicted price.
+    """
+
+    try:
+        price_prediction = await pricing_service.predict_price(price_prediction_request)
+        return PricePredictionResponseView(
+            id=price_prediction.id, predicted_price=price_prediction.predicted_price
+        )
+    except ValueError:
+        raise HTTPException(status_code=404, detail="No results found.")
+```
+
 ## Delve Data
 
 - Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project
