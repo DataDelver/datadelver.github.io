@@ -289,11 +289,109 @@ async def predict(
         raise HTTPException(status_code=404, detail="No results found.")
 ```
 
+## Async Tests
+
+All that's left now is to update our tests, in general, not much changes other than marking tests with `@pytest.mark.asyncio`. However, now that we are using the dependency injection we can easily mock out the pricing service for a unit test. First we create a mock:
+
+```python title="housing-price-orchestrator/tests/unit/test_main.py" linenums="9"
+@pytest.fixture
+def mock_pricing_service() -> MagicMock:
+    """Mock the PricingService class with async methods."""
+    mock = MagicMock(spec=PricingService)
+    mock.predict_price = AsyncMock(
+        return_value=MagicMock(id=1, predicted_price=123456.78)
+    )
+    mock.predict_price_batch = AsyncMock(
+        return_value=[
+            MagicMock(id=1, predicted_price=123456.78),
+            MagicMock(id=2, predicted_price=234567.89),
+        ]
+    )
+    return mock
+```
+
+Then we use it in the test via `app.dependency_overrides`:
+
+```python title="housing-price-orchestrator/tests/unit/test_main.py" linenums="226"
+@pytest.mark.asyncio
+async def test_predict_price_success(
+    mock_pricing_service: MagicMock, payload_single: dict
+) -> None:
+    """Test the /api/v1/price/predict endpoint for a successful prediction."""
+    # GIVEN
+    app.dependency_overrides[get_pricing_service] = lambda: mock_pricing_service
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as client:
+        # WHEN
+        response = await client.post("/api/v1/price/predict", json=payload_single)
+
+        # THEN
+        assert response.status_code == 200
+        assert response.json() == {"id": 1, "predictedPrice": 123456.78}
+        mock_pricing_service.predict_price.assert_awaited_once()
+
+    app.dependency_overrides.clear()
+```
+
+All of the other tests that require async follow a similar conversion.
+
+## Was it worth it?
+
+Finally, whenever doing any kind of optimization it's always worth it to run a benchmark to see if it's worth it. Fortunately, this is something our LLM can whip up pretty quick for us:
+
+!!! claude
+
+    I'd like to compare the performance of the app pre and post async conversion, can you create a benmark script and execute it against both versions of the codebase and report back performance metrics?
+
+This created a benchmark suite where we mock out the MLFlow server with a simulated delay of 50ms for model inference time (to isolate any performance differences to the refactor itself), then checkout both the pre and post refactor commits and run the following scenarios against them:
+
+| Scenario   | Description                                                  |
+| ---------- | :----------------------------------------------------------- |
+| sequential | 50 single predictions, 1 at a time (raw latency)             |
+| concurrent | 300 single predictions at concurrency 10 / 50 / 100          |
+| batch      | 150 batch predictions (batch size 20) at concurrency 10 / 50 |
+
+Here are the results:
+
+**Throughput (RPS — higher is better)**
+
+| Scenario       |  sync | async |      Δ |
+| -------------- | ----: | ----: | -----: |
+| sequential     |  18.4 |  18.5 |  +0.5% |
+| concurrent-10  | 175.9 | 173.6 |  −1.3% |
+| concurrent-50  | 394.9 | 470.5 | +19.1% |
+| concurrent-100 | 282.4 | 425.4 | +50.6% |
+| batch-10       | 128.8 | 157.9 | +22.6% |
+| batch-50       | 210.3 | 298.5 | +41.9% |
+
+**Latency (ms — lower is better, Δ = % reduction)**
+
+| Scenario       | p95 sync | p95 async |  p95 Δ | p99 sync | p99 async |  p99 Δ |
+| -------------- | -------: | --------: | -----: | -------: | --------: | -----: |
+| sequential     |     54.9 |      54.6 |  +0.5% |     55.4 |      54.7 |  +1.3% |
+| concurrent-10  |     63.1 |      63.7 |  −1.0% |     73.1 |      74.6 |  −2.0% |
+| concurrent-50  |    164.0 |     126.3 | +23.0% |    176.4 |     144.9 | +17.9% |
+| concurrent-100 |    459.0 |     412.1 | +10.2% |    469.9 |     435.2 |  +7.4% |
+| batch-10       |     93.5 |      76.6 | +18.1% |     99.7 |      80.0 | +19.8% |
+| batch-50       |    364.9 |     239.3 | +34.4% |    392.2 |     243.8 | +37.8% |
+
+A few takeaways:
+
+- *Low concurrency is a wash.* There's a negligible difference in performance with 10 concurrent requests.
+- *Async has a clear advantage a high concurrency.* At 100 concurrent requests we have a massive 50% increase in requests per second through the service. Interestingly, we see the difference in latency is less dramatic than at 50 concurrent requests, but this is most likely due to the bottleneck moving off of the service and to the benchmark client itself struggling to serialize and deserialize all of the requests, as well as the single threaded mock server for the model.
+- *Batch requests benefit from async the most.* Since it takes longer to process a batch request, this leads to the exact "waiting" blocked thread scenario async is meant to avoid in the synchronous implementation.
+
+As we can see, as with most optimizations, the answer to whether it is worth doing or not is "It depends". However, in cases that are suited to async, the performance gains can be dramatic!
+
+Go forth and async!
+
 ## Delve Data
 
-- Developer Experience (DevX) is just as important as application functionality and should be considered from the start of a project
-- Command runner tools like `just` help standardize and simplify project workflows by aliasing complex commands
-- Pre-commit hooks automate code quality checks, ensuring consistent formatting and linting before every commit
-- Text-based diagramming tools like Mermaid integrate naturally with AI workflows and version control
-- AI-assisted refactoring benefits from clear project documentation and established tooling conventions
-- A `CLAUDE.md` file helps enforce project standards and improves AI-assisted development over time
+- Async programming shines when a service's execution time is dominated by waiting on I/O, not by local computation
+- Only mark a function `async` if it is actually I/O bound — making fast or CPU-bound functions async adds overhead without any benefit
+- `httpx.AsyncClient` is a major win over `requests` since async HTTP support is built in rather than requiring a separate library
+- FastAPI's lifespan events are the ideal place to create and cleanly tear down shared resources like HTTP clients
+- FastAPI's dependency injection pattern makes services trivial to mock, keeping unit tests fast and isolated from real providers
+- Heavy synchronous work like serializing large DataFrames can be offloaded with `run_in_threadpool` to avoid blocking the event loop — but only once benchmarks prove it's a bottleneck
+- Always benchmark before and after an optimization like an async refactor to confirm the gains are real and where they occur
