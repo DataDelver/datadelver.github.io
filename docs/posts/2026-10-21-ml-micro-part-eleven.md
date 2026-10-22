@@ -1,5 +1,5 @@
 ---
-date: 2026-10-18
+date: 2026-10-21
 categories:
   - ML Engineering
 tags:
@@ -378,9 +378,9 @@ Here are the results:
 
 A few takeaways:
 
-- *Low concurrency is a wash.* There's a negligible difference in performance with 10 concurrent requests.
-- *Async has a clear advantage at high concurrency.* At 100 concurrent requests we have a massive 50% increase in requests per second through the service. Interestingly, we see the difference in latency is less dramatic than at 50 concurrent requests, but this is most likely due to the bottleneck moving off the service and to the benchmark client itself struggling to serialize and deserialize all of the requests, as well as the single-threaded mock server for the model.
-- *Batch requests benefit from async the most.* Since it takes longer to process a batch request, this leads to the exact "waiting" blocked thread scenario async is meant to avoid in the synchronous implementation.
+- **Low concurrency is a wash.** There's a negligible difference in performance with 10 concurrent requests.
+- **Async has a clear advantage at high concurrency.** At 100 concurrent requests we have a massive 50% increase in requests per second through the service. Interestingly, we see the difference in latency is less dramatic than at 50 concurrent requests, but this is most likely due to the bottleneck moving off the service and to the benchmark client itself struggling to serialize and deserialize all of the requests, as well as the single-threaded mock server for the model.
+- **Batch requests benefit from async the most.** Since it takes longer to process a batch request, this leads to the exact "waiting" blocked thread scenario async is meant to avoid in the synchronous implementation.
 
 As we can see, as with most optimizations, the answer to whether it's worth doing is "It depends". However, in cases suited to async, the performance gains can be dramatic!
 
