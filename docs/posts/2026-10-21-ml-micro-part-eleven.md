@@ -12,9 +12,9 @@ social:
     title: Async
 ---
 
-# Delve 24: Let's Build a Modern ML Microservice Application - Part 11, Async
+# Delve 25: Let's Build a Modern ML Microservice Application - Part 11, Async
 
-![Banner](../assets/images/banners/delve24.webp)
+![Banner](../assets/images/banners/delve25.webp)
 
 > "Squint and pretend the async and await keywords are not there. If you do that, you'll realize that the code reads exactly like synchronous code" - Guido van Rossum
 
